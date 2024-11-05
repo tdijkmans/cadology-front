@@ -1,7 +1,8 @@
 import { Component, type OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { type Color, LegendPosition, NgxChartsModule } from '@swimlane/ngx-charts';
-import { type Data, DataService } from './services/data.service';
+import type { Data } from './services/data.interface';
+import { DataService } from './services/data.service';
 
 
 
