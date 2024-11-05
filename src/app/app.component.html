@@ -1,3 +1,23 @@
-<ngx-charts-gauge [view]="view" [scheme]="colorScheme" [results]="results" [legend]="legend"
-  [legendPosition]="legendPosition">
-</ngx-charts-gauge>
+<div class="px-1 py-1">
+  <div class="card px-1 py-1">
+    <form>
+      <label for="textInput" hidden>Transponder</label>
+      <input type="text" id="textInput" [(ngModel)]="textValue" name="textInput"
+        placeholder="Transponder, bijv. 'AB-12345'">
+    </form>
+    <button (click)="onClick(textValue)">Data ophalen</button>
+    <span class="text-error mx-1" *ngIf="errorMessage">
+      {{errorMessage}}
+    </span>
+  </div>
+</div>
+
+<div class="px-1 py-1">
+  <div *ngIf="laps?.length > 0" class="card">
+    <div style="display: flex; justify-content: center;" class="px-1 py-1">
+      <h2>{{title}}</h2>
+    </div>
+    <ngx-charts-line-chart [scheme]="colorScheme" [results]="laps" [xAxis]="true" [yAxis]="true" [showXAxisLabel]="true"
+      xAxisLabel="Ronde (#)" [showYAxisLabel]="true" yAxisLabel="Snelheid (km/u)" />
+  </div>
+</div>
