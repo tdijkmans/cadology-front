@@ -1,1 +1,211 @@
 /* You can add global styles to this file, and also import other style files */
+
+// Colors
+:root {
+    --primary-color: #ff4500;
+    /* Bright, sporty orange-red */
+    --secondary-color: #1e90ff;
+    /* Vivid blue for highlights */
+    --background-color: #f4f4f9;
+    /* Light gray background for contrast */
+    --accent-color: #00c853;
+    /* Bright green accent for success messages */
+    --dark-color: #333333;
+    /* Dark text color for readability */
+
+    --data-color-primary: #ff5722; // Warm, attention-grabbing orange
+    --data-color-secondary: #42a5f5; // Calm, medium blue for contrast
+    --data-color-tertiary: #66bb6a; // Fresh green for positive or growth-related data
+    --data-color-quaternary: #ab47bc; // Bold purple for standout data points
+    --data-color-quinary: #ffa726; // Bright orange-yellow for highlights or warnings
+    --data-color-senary: #ef5350; // Vivid red for emphasis or critical data
+}
+
+$primary-color: #ff4500; // Bright, sporty orange-red
+$secondary-color: #1e90ff; // Vivid blue for highlights
+$background-color: #f4f4f9; // Light gray background for contrast
+$accent-color: #00c853; // Bright green accent for success messages
+$dark-color: #333333; // Dark text color for readability
+
+// Typography
+$font-family: 'Roboto', sans-serif;
+$heading-font-size: 2rem;
+$body-font-size: 1rem;
+
+// General Reset
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: $font-family;
+    font-size: $body-font-size;
+    color: $dark-color;
+    background-color: $background-color;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: $primary-color;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+a {
+    color: $secondary-color;
+    text-decoration: none;
+    transition: color 0.3s ease;
+
+    &:hover {
+        color: darken($secondary-color, 10%);
+    }
+}
+
+// Buttons
+button,
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.25rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: $primary-color;
+    border: none;
+    border-radius: 0.25rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+
+    &:hover {
+        background-color: lighten($primary-color, 10%);
+        transform: translateY(-2px);
+    }
+
+    &:active {
+        background-color: darken($primary-color, 10%);
+        transform: translateY(1px);
+    }
+}
+
+.btn-secondary {
+    background-color: $secondary-color;
+
+    &:hover {
+        background-color: lighten($secondary-color, 10%);
+    }
+}
+
+// Card Style
+.card {
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.2s ease;
+
+    &:hover {
+        transform: translateY(-5px);
+    }
+
+    .card-header {
+        background-color: $primary-color;
+        color: #ffffff;
+        padding: 1rem;
+        font-size: $heading-font-size;
+        text-align: center;
+    }
+
+    .card-body {
+        padding: 1rem;
+        color: $dark-color;
+    }
+}
+
+// Form Inputs
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    transition: border-color 0.3s ease;
+
+    &:focus {
+        outline: none;
+        border-color: $primary-color;
+        box-shadow: 0 0 5px rgba(255, 69, 0, 0.2);
+    }
+}
+
+// Animations
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.pulse {
+    animation: pulse 1.5s infinite;
+}
+
+// Utility Classes
+.mt-1 {
+    margin-top: 1rem;
+}
+
+.mt-2 {
+    margin-top: 2rem;
+}
+
+.mb-1 {
+    margin-bottom: 1rem;
+}
+
+.mb-2 {
+    margin-bottom: 2rem;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-primary {
+    color: $primary-color;
+}
+
+.text-secondary {
+    color: $secondary-color;
+}
+
+.bg-primary {
+    background-color: $primary-color;
+    color: #ffffff;
+}
+
+.bg-secondary {
+    background-color: $secondary-color;
+    color: #ffffff;
+}
+
+.bg-accent {
+    background-color: $accent-color;
+    color: #ffffff;
+}
