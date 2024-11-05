@@ -19,6 +19,13 @@
     --data-color-quaternary: #ab47bc; // Bold purple for standout data points
     --data-color-quinary: #ffa726; // Bright orange-yellow for highlights or warnings
     --data-color-senary: #ef5350; // Vivid red for emphasis or critical data
+
+    --success-color: #00c853;
+    /* Bright green for success messages */
+    --warning-color: #ffab00;
+    /* Bright yellow for warnings */
+    --error-color: #d32f2f;
+    /* Dark red for error messages */
 }
 
 $primary-color: #ff4500; // Bright, sporty orange-red
@@ -26,6 +33,10 @@ $secondary-color: #1e90ff; // Vivid blue for highlights
 $background-color: #f4f4f9; // Light gray background for contrast
 $accent-color: #00c853; // Bright green accent for success messages
 $dark-color: #333333; // Dark text color for readability
+
+$success-color: #00c853; // Bright green for success messages
+$warning-color: #ffab00; // Bright yellow for warnings
+$error-color: #d32f2f; // Dark red for error messages
 
 // Typography
 $font-family: 'Roboto', sans-serif;
@@ -183,6 +194,29 @@ textarea {
     margin-bottom: 2rem;
 }
 
+.mx-1 {
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.my-1 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.py-1 {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+
+
+.px-1 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+
 .text-center {
     text-align: center;
 }
@@ -193,6 +227,18 @@ textarea {
 
 .text-secondary {
     color: $secondary-color;
+}
+
+.text-accent {
+    color: $accent-color;
+}
+
+.text-error {
+    color: $error-color;
+}
+
+.text-success {
+    color: $success-color;
 }
 
 .bg-primary {

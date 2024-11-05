@@ -1,44 +1,22 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { environment } from "../../environments/environment";
+import type { ActivitiesInfoExclLocationDto, SessionListDto } from "../models";
 
-const data = [
-  {
-    "name": "Germany",
-    "value": 8940000
-  },
-  {
-    "name": "USA",
-    "value": 5000000
-  },
-  {
-    "name": "France",
-    "value": 7200000
-  },
-  {
-    "name": "UK",
-    "value": 5200000
-  },
-  {
-    "name": "Italy",
-    "value": 7700000
-  },
-  {
-    "name": "Spain",
-    "value": 4300000
-  }
-]
-
-export type Data = typeof data
+export type SkaterData = {
+  currentYear: ActivitiesInfoExclLocationDto;
+  latestActivity: SessionListDto;
+};
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class DataService {
-
   constructor(private http: HttpClient) { }
 
-  getData() {
-    return of(data);
+  getData({ chipCode }: { chipCode: string }) {
+    const apiUrl = environment.apiUrl;
+    const url = `${apiUrl}/skater/${chipCode}`;
+    return this.http.get<SkaterData>(url);
   }
 }
