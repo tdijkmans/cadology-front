@@ -1,35 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, type OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { type Color, LegendPosition, NgxChartsModule } from '@swimlane/ngx-charts';
+import { type Data, DataService } from './services/data.service';
 
-const results = [
-  {
-    "name": "Germany",
-    "value": 8940000
-  },
-  {
-    "name": "USA",
-    "value": 5000000
-  },
-  {
-    "name": "France",
-    "value": 7200000
-  },
-  {
-    "name": "UK",
-    "value": 5200000
-  },
-  {
-    "name": "Italy",
-    "value": 7700000
-  },
-  {
-    "name": "Spain",
-    "value": 4300000
-  }
-]
 
-type Data = typeof results
 
 @Component({
   selector: 'app-root',
@@ -37,33 +11,35 @@ type Data = typeof results
   imports: [RouterOutlet, NgxChartsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
+  providers: [DataService]
 
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'cadology-front';
-
-  results = results;
+  results = [] as Data;
   view = [500, 400] as [number, number];
   legend = true;
   legendPosition = LegendPosition.Below;
+  colorScheme = {} as Color;
 
-  colorScheme = {
-    domain: ['#5AA454', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
-  } as Color
+  constructor(private dataService: DataService) { }
 
-  constructor() {
-    Object.assign(this, { results });
-  }
 
-  onSelect(data: Data): void {
-    console.log('Item clicked', JSON.parse(JSON.stringify(data)));
-  }
 
-  onActivate(data: Data): void {
-    console.log('Activate', JSON.parse(JSON.stringify(data)));
-  }
+  ngOnInit() {
+    const styles = getComputedStyle(document.documentElement);
+    this.colorScheme = {
+      domain:
+        [styles.getPropertyValue('--data-color-primary'),
+        styles.getPropertyValue('--data-color-secondary'),
+        styles.getPropertyValue('--data-color-tertiary'),
+        styles.getPropertyValue('--data-color-quaternary'),
+        styles.getPropertyValue('--data-color-quinary'),
+        styles.getPropertyValue('--data-color-senary')]
+    } as Color
 
-  onDeactivate(data: Data): void {
-    console.log('Deactivate', JSON.parse(JSON.stringify(data)));
+    this.dataService.getData().subscribe((data: Data) => {
+      this.results = data;
+    });
   }
 }
