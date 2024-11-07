@@ -13,13 +13,18 @@
 </div>
 
 
-
-<div class="px-1 py-1">
-  <div *ngIf="lapColumns.length > 0" class="card">
-    <div style="display: flex; justify-content: center" class="px-1 py-1">
-      <h2>{{title}} ({{lapColumns.length}} ronden)</h2>
+<ng-container *ngIf="chartOptions?.series?.length">
+  <div class="px-1 py-1">
+    <div id="chart" class="card">
+      <div style="display: flex; justify-content: center" class="px-1 py-1">
+        <h2>{{title}}</h2>
+      </div>
+      <div class="chart-container">
+        <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis"
+          [markers]="chartOptions.markers" [stroke]="chartOptions.stroke" [yaxis]="chartOptions.yaxis"
+          [dataLabels]="chartOptions.dataLabels" [title]="chartOptions.title" [fill]="chartOptions.fill"
+          [tooltip]="chartOptions.tooltip" [legend]="chartOptions.legend" [plotOptions]="chartOptions.plotOptions" />
+      </div>
     </div>
-    <ngx-charts-bar-vertical [scheme]="colorSchemeTwo" [results]="lapColumns" [xAxis]="true" [yAxis]="true"
-      [showXAxisLabel]="true" xAxisLabel="Ronde (#)" [showYAxisLabel]="true" yAxisLabel="Rondetijd (sec)" />
   </div>
-</div>
+</ng-container>
