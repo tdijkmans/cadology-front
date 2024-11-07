@@ -12,12 +12,14 @@
   </div>
 </div>
 
+
+
 <div class="px-1 py-1">
-  <div *ngIf="laps?.length > 0" class="card">
-    <div style="display: flex; justify-content: center;" class="px-1 py-1">
-      <h2>{{title}}</h2>
+  <div *ngIf="lapColumns.length > 0" class="card">
+    <div style="display: flex; justify-content: center" class="px-1 py-1">
+      <h2>{{title}} ({{lapColumns.length}} ronden)</h2>
     </div>
-    <ngx-charts-line-chart [scheme]="colorScheme" [results]="laps" [xAxis]="true" [yAxis]="true" [showXAxisLabel]="true"
-      xAxisLabel="Ronde (#)" [showYAxisLabel]="true" yAxisLabel="Snelheid (km/u)" />
+    <ngx-charts-bar-vertical [scheme]="colorSchemeTwo" [results]="lapColumns" [xAxis]="true" [yAxis]="true"
+      [showXAxisLabel]="true" xAxisLabel="Ronde (#)" [showYAxisLabel]="true" yAxisLabel="Rondetijd (sec)" />
   </div>
 </div>
