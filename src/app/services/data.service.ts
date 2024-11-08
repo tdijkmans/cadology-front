@@ -1,12 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { of, tap } from "rxjs";
 import { environment } from "../../environments/environment";
-import type { ActivitiesInfoExclLocationDto, SessionListDto } from "../models";
+import type { SkateActvitity } from "./data.interface";
 
-export type SkaterData = {
-  currentYear: ActivitiesInfoExclLocationDto;
-  latestActivity: SessionListDto;
-};
 
 @Injectable({
   providedIn: "root",
@@ -14,36 +11,51 @@ export type SkaterData = {
 export class DataService {
   constructor(private http: HttpClient) { }
 
-  getData({ chipCode }: { chipCode: string }) {
-    const apiUrl = environment.apiUrl;
-    const url = `${apiUrl}/skater/${chipCode}`;
-    return this.http.get<SkaterData>(url);
+
+  getAllActivities({ chipCode }: { chipCode: string }) {
+    const cacheKey = `SkateActvitity-${chipCode}`;
+    const cachedData = this.getItem<SkateActvitity>(cacheKey);
+
+    if (cachedData) {
+      return of(cachedData);
+    }
+
+    const url = `${environment.apiUrl}/skater/${chipCode}/all`;
+    return this.http.get<SkateActvitity>(url).pipe(
+      tap((res) => {
+        this.setItem(cacheKey, res);
+      })
+    );
   }
 
-  durationToSeconds(duration: string): number {
-    // Regular expression to match "minutes:seconds.milliseconds" or "seconds.milliseconds"
-    const regex = /^(\d+):(\d{1,2})\.(\d{1,3})$|^(\d+)\.(\d{1,3})$/;
-    const match = duration.match(regex);
-
-    if (!match) {
-      throw new Error("Invalid duration format");
+  setItem<T>(key: string, value: T): void {
+    try {
+      const serializedValue = JSON.stringify(value);
+      localStorage.setItem(key, serializedValue);
+    } catch (error) {
+      console.error(`Error setting localStorage item with key "${key}":`, error);
     }
+  }
 
-    if (match[1]) {
-      // Case with minutes and seconds (e.g., "1:10.360")
-      const minutes = Number.parseInt(match[1], 10);
-      const seconds = Number.parseInt(match[2], 10);
-      const milliseconds = Number.parseInt(match[3], 10);
-
-      return minutes * 60 + seconds + milliseconds / 1000;
+  getItem<T>(key: string): T | null {
+    try {
+      const serializedValue = localStorage.getItem(key);
+      if (serializedValue === null) {
+        return null;
+      }
+      return JSON.parse(serializedValue);
+    } catch (error) {
+      console.error(`Error getting localStorage item with key "${key}":`, error);
+      return null;
     }
-    if (match[4]) {
-      // Case with only seconds and milliseconds (e.g., "10.360")
-      const seconds = Number.parseInt(match[4], 10);
-      const milliseconds = Number.parseInt(match[5], 10);
+  }
 
-      return seconds + milliseconds / 1000;
+  removeItem(key: string): void {
+    try {
+      localStorage.removeItem(key);
+    } catch (error) {
+      console.error(`Error removing localStorage item with key "${key}":`, error);
+
     }
-    throw new Error("Unexpected error in parsing");
   }
 }

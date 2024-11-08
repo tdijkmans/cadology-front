@@ -1,3 +1,4 @@
+@import 'variables';
 /* You can add global styles to this file, and also import other style files */
 
 // Colors
@@ -28,20 +29,7 @@
     /* Dark red for error messages */
 }
 
-$primary-color: #ff4500; // Bright, sporty orange-red
-$secondary-color: #1e90ff; // Vivid blue for highlights
-$background-color: #f4f4f9; // Light gray background for contrast
-$accent-color: #00c853; // Bright green accent for success messages
-$dark-color: #333333; // Dark text color for readability
 
-$success-color: #00c853; // Bright green for success messages
-$warning-color: #ffab00; // Bright yellow for warnings
-$error-color: #d32f2f; // Dark red for error messages
-
-// Typography
-$font-family: 'Roboto', sans-serif;
-$heading-font-size: 2rem;
-$body-font-size: 1rem;
 
 // General Reset
 *,
@@ -128,18 +116,50 @@ button,
     }
 
     .card-header {
-        background-color: $primary-color;
-        color: #ffffff;
         padding: 1rem;
         font-size: $heading-font-size;
         text-align: center;
+
+        @media screen and (min-width: 768px) {
+            font-size: $heading-font-size-sm;
+        }
     }
 
     .card-body {
         padding: 1rem;
-        color: $dark-color;
+        font-size: $body-font-size;
+
+
+        @media screen and (min-width: 768px) {
+            font-size: $body-font-size-sm;
+        }
+
+
     }
 }
+
+.text-primary {
+    color: $primary-color;
+}
+
+.text-secondary {
+    color: $secondary-color;
+}
+
+.text-accent {
+    color: $accent-color;
+}
+
+.text-error {
+    color: $error-color;
+}
+
+.text-success {
+    color: $success-color;
+}
+
+
+
 
 // Form Inputs
 input,

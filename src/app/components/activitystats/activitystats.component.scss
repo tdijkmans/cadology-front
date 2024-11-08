@@ -1,0 +1,33 @@
+@import '../../../variables.scss';
+
+.data-badge {
+    color: $dark-color;
+    font-weight: bold;
+    padding: 1rem;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid $accent-color;
+}
+
+.data-badge-value {
+    font-size: 1.5rem;
+}
+
+.data-badge-label {
+    font-size: 1rem;
+    color: $accent-color;
+    font-variant: small-caps;
+    font-family: $font-family;
+    font-weight: lighter;
+}
+
+.activity-stats {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+}
