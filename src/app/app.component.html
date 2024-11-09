@@ -12,10 +12,25 @@
   </div>
 </div>
 
-<ng-container *ngIf="currentActivity.activityDetails">
 
 
-  <activitystats [currentActivity]="currentActivity" *ngIf="currentActivity?.activityDetails?.stats" />
+
+<ng-container *ngIf="(currentActivity$ |async ) as currentActivity">
+  <activitystats [currentActivity]="currentActivity" *ngIf="currentActivity?.activityDetails?.stats"
+    (nextActivity)="nextActivity()" (prevActivity)="prevActivity()" />
   <lapchart [sessions]="currentActivity.activityDetails.sessions ||[]" [yAxisMinMax]="[25, 120]" />
   <speedchart [sessions]="currentActivity.activityDetails.sessions ||[]" [yAxisMinMax]="[5, 40]" />
 </ng-container>
+
+<div class="px-1 py-1" *ngIf="(currentActivity$ | async) as currentActivity">
+  <div class="card px-1 py-1" *ngIf="(allActivities$ | async) as activities">
+    <div *ngFor="let activity of activities">
+      <div style="cursor: pointer" (click)="handleAct(activity)"> {{activity.location?.name}} {{activity.activityId}}
+        {{currentActivity.activityId === activity.activityId ? '_________________________' : ''}}
+      </div>
+
+      <div>{{activity.startTime| date: 'dd-MM-yyyy'}} {{activity.endTime| date: 'HH:mm'}} </div>
+    </div>
+
+  </div>
+</div>

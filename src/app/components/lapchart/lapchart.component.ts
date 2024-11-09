@@ -2,7 +2,6 @@ import { CommonModule } from "@angular/common";
 import { Component, Input, type OnChanges } from "@angular/core";
 import { type ApexOptions, NgApexchartsModule } from "ng-apexcharts";
 import type { LapDto, SessionDto } from "../../models";
-import { DataService } from "../../services/data.service";
 import { durationToSeconds } from "../utilities";
 
 const styles = getComputedStyle(document.documentElement);
@@ -16,7 +15,6 @@ const twoDecimal = (v: number) => Math.round(v * 100) / 100;
   imports: [NgApexchartsModule, CommonModule],
   templateUrl: "./lapchart.component.html",
   styleUrl: "./lapchart.component.scss",
-  providers: [DataService],
 })
 export class LapchartsComponent implements OnChanges {
   @Input({ required: true }) sessions: SessionDto[] = [];
@@ -24,7 +22,6 @@ export class LapchartsComponent implements OnChanges {
 
   lapChartOptions: Partial<ApexOptions> = {} as ApexOptions;
 
-  constructor(private dataService: DataService) { }
 
   ngOnChanges() {
     this.setChartOptions(this.sessions);

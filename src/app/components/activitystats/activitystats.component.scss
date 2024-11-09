@@ -31,3 +31,18 @@
     gap: 1rem;
 
 }
+
+.navigation-card {
+    display: flex;
+    justify-content: space-between;
+}
+
+.navigation-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    background-color: $accent-color;
+    font-weight: bold;
+    cursor: pointer;
+}

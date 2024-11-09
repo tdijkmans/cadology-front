@@ -2,7 +2,6 @@ import { CommonModule } from "@angular/common";
 import { Component, Input } from "@angular/core";
 import { type ApexOptions, NgApexchartsModule } from "ng-apexcharts";
 import type { LapDto, SessionDto } from "../../models";
-import { DataService } from "../../services/data.service";
 import { durationToSeconds } from "../utilities";
 
 const styles = getComputedStyle(document.documentElement);
@@ -23,7 +22,6 @@ export class SpeedchartComponent {
 
   speedChartOptions: Partial<ApexOptions> = {} as ApexOptions;
 
-  constructor(private dataService: DataService) { }
 
   ngOnChanges() {
     this.setChartOptions(this.sessions);
