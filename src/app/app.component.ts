@@ -87,5 +87,8 @@ export class AppComponent implements OnInit {
     this.dataService.navigateActivity('previous');
   }
 
+  clearCache() {
+    this.dataService.clearLocalStorage();
+  }
 
 }

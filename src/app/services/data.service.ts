@@ -14,6 +14,8 @@ export class DataService {
   private activity = new BehaviorSubject<SkateActvitity | null>(null);
   private activities = new BehaviorSubject<SkateActvitities | null>(null);
 
+  private defaultExpiration = 15 * 60 * 1000; // 15 minutes in milliseconds
+
   get currentActivity$() {
     return this.activity.asObservable()
   }
@@ -67,26 +69,41 @@ export class DataService {
     )
   }
 
-
-
   // LocalStorage methods
 
   setItem<T>(key: string, value: T): void {
-    try {
-      const serializedValue = JSON.stringify(value);
-      localStorage.setItem(key, serializedValue);
-    } catch (error) {
-      console.error(`Error setting localStorage item with key "${key}":`, error);
+    if (key === 'chipCode') {
+      // Store chipCode without expiration
+      localStorage.setItem(key, JSON.stringify(value));
+    } else {
+      const expirationDate = Date.now() + this.defaultExpiration;
+      const dataWithExpiration = { value, expiration: expirationDate };
+      try {
+        localStorage.setItem(key, JSON.stringify(dataWithExpiration));
+      } catch (error) {
+        console.error(`Error setting localStorage item with key "${key}":`, error);
+      }
     }
   }
 
   getItem<T>(key: string): T | null {
     try {
       const serializedValue = localStorage.getItem(key);
-      if (serializedValue === null) {
+      if (!serializedValue) return null;
+
+      if (key === 'chipCode') {
+        // Return chipCode without checking expiration
+        return JSON.parse(serializedValue);
+      }
+
+      const dataWithExpiration = JSON.parse(serializedValue);
+      if (dataWithExpiration.expiration && Date.now() > dataWithExpiration.expiration) {
+        // If expired, remove the item and return null
+        this.removeItem(key);
         return null;
       }
-      return JSON.parse(serializedValue);
+
+      return dataWithExpiration.value as T;
     } catch (error) {
       console.error(`Error getting localStorage item with key "${key}":`, error);
       return null;
@@ -99,6 +116,18 @@ export class DataService {
     } catch (error) {
       console.error(`Error removing localStorage item with key "${key}":`, error);
 
+    }
+  }
+
+  clearLocalStorage(): void {
+    try {
+      const chipCode = localStorage.getItem("chipCode");
+      localStorage.clear();
+      if (chipCode) {
+        localStorage.setItem("chipCode", chipCode);
+      }
+    } catch (error) {
+      console.error("Error clearing localStorage:", error);
     }
   }
 }
