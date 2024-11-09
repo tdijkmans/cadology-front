@@ -1,0 +1,17 @@
+<ng-container *ngIf="speedChartOptions?.series?.length">
+    <div class="px-1 py-1">
+        <div id="chart" class="card">
+            <div class="card-header">
+                <h2 class="text-secondary">Snelheid per ronde (km/u)</h2>
+            </div>
+            <div class="card-body">
+                <apx-chart #secondChart [series]="speedChartOptions.series" [chart]="speedChartOptions.chart"
+                    [xaxis]="speedChartOptions.xaxis" [markers]="speedChartOptions.markers"
+                    [stroke]="speedChartOptions.stroke" [yaxis]="speedChartOptions.yaxis"
+                    [dataLabels]="speedChartOptions.dataLabels" [title]="speedChartOptions.title"
+                    [fill]="speedChartOptions.fill" [tooltip]="speedChartOptions.tooltip"
+                    [legend]="speedChartOptions.legend" [plotOptions]="speedChartOptions.plotOptions" />
+            </div>
+        </div>
+    </div>
+</ng-container>

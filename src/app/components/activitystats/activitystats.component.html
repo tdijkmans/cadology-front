@@ -1,0 +1,54 @@
+<div class="px-1 py-1" *ngIf="currentActivity.activityDetails">
+    <div id="chart" class="card navigation-card">
+        <button class="navigation-button" (click)="onPrevious()">
+            <ng-icon name="letsArrowLeft" />
+        </button>
+        <div>
+            <div class="card-header">
+                <h2 class="text-accent">{{currentActivity.location?.name}}</h2>
+                <h3 class="text-accent">{{currentActivity.startTime | date:'EEEE d MMMM y' }}</h3>
+
+
+
+            </div>
+            <div class="card-body activity-stats">
+                <div class="data-badge">
+                    <div class="data-badge-value">
+                        {{currentActivity.activityDetails.bestLap?.duration | number:'1.0-2'}} s
+                    </div>
+                    <div class="data-badge-label">
+                        Snelste ronde
+                    </div>
+                </div>
+                <div class="data-badge">
+                    <div class="data-badge-value">
+                        {{currentActivity.activityDetails.stats?.fastestSpeed?.kph | number:'1.0-2'}} km/u
+                    </div>
+                    <div class="data-badge-label">
+                        Hoogste snelheid
+                    </div>
+                </div>
+                <div class="data-badge">
+                    <div class="data-badge-value">
+                        {{currentActivity.activityDetails.stats?.lapCount}}
+                    </div>
+                    <div class="data-badge-label">
+                        Aantal rondes
+                    </div>
+                </div>
+
+                <div class="data-badge">
+                    <div class="data-badge-value">
+                        {{(currentActivity.activityDetails.stats?.totalTrainingTime||'').split('.')[0] }}
+                    </div>
+                    <div class="data-badge-label">
+                        Totale tijd
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <button class="navigation-button" (click)="onNext()">
+            <ng-icon name="letsArrowRight" />
+        </button>
+    </div>

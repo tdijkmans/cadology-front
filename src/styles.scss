@@ -1,3 +1,4 @@
+@import 'variables';
 /* You can add global styles to this file, and also import other style files */
 
 // Colors
@@ -26,22 +27,9 @@
     /* Bright yellow for warnings */
     --error-color: #d32f2f;
     /* Dark red for error messages */
+
 }
 
-$primary-color: #ff4500; // Bright, sporty orange-red
-$secondary-color: #1e90ff; // Vivid blue for highlights
-$background-color: #f4f4f9; // Light gray background for contrast
-$accent-color: #00c853; // Bright green accent for success messages
-$dark-color: #333333; // Dark text color for readability
-
-$success-color: #00c853; // Bright green for success messages
-$warning-color: #ffab00; // Bright yellow for warnings
-$error-color: #d32f2f; // Dark red for error messages
-
-// Typography
-$font-family: 'Roboto', sans-serif;
-$heading-font-size: 2rem;
-$body-font-size: 1rem;
 
 // General Reset
 *,
@@ -69,7 +57,14 @@ h5,
 h6 {
     color: $primary-color;
     font-weight: bold;
-    margin-bottom: 1rem;
+    font-size: $heading-font-size-sm;
+
+
+    @media screen and (min-width: $breakpoint-mobile) {
+        margin-bottom: $spacing-md;
+        font-size: $heading-font-size;
+    }
+
 }
 
 a {
@@ -86,13 +81,13 @@ a {
 button,
 .btn {
     display: inline-block;
-    padding: 0.75rem 1.25rem;
-    font-size: 1rem;
+    padding: $spacing-sm $spacing-lg;
+    font-size: $body-font-size;
     font-weight: bold;
     color: #ffffff;
     background-color: $primary-color;
     border: none;
-    border-radius: 0.25rem;
+    border-radius: $spacing-xs;
     transition: background-color 0.3s ease, transform 0.2s ease;
     cursor: pointer;
 
@@ -118,7 +113,7 @@ button,
 // Card Style
 .card {
     background-color: #ffffff;
-    border-radius: 0.5rem;
+    border-radius: $spacing-xs;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     transition: transform 0.2s ease;
@@ -128,29 +123,64 @@ button,
     }
 
     .card-header {
-        background-color: $primary-color;
-        color: #ffffff;
-        padding: 1rem;
+        padding: $spacing-sm;
         font-size: $heading-font-size;
         text-align: center;
+
+        @media screen and (min-width: $breakpoint-mobile) {
+            font-size: $heading-font-size-sm;
+        }
     }
 
     .card-body {
-        padding: 1rem;
-        color: $dark-color;
+
+        font-size: $body-font-size-sm;
+        // background-color: red;
+
+
+        @media screen and (min-width: $breakpoint-mobile) {
+            padding: $spacing-md;
+            font-size: $body-font-size;
+            // background-color: #00c853;
+        }
+
+
     }
 }
+
+.text-primary {
+    color: $primary-color;
+}
+
+.text-secondary {
+    color: $secondary-color;
+}
+
+.text-accent {
+    color: $accent-color;
+}
+
+.text-error {
+    color: $error-color;
+}
+
+.text-success {
+    color: $success-color;
+}
+
+
+
 
 // Form Inputs
 input,
 select,
 textarea {
     width: 100%;
-    padding: 0.75rem;
+    padding: $spacing-sm;
     border: 1px solid #ddd;
-    border-radius: 0.25rem;
-    font-size: 1rem;
-    margin-bottom: 1rem;
+    border-radius: $spacing-xs;
+    font-size: $body-font-size;
+    margin-bottom: $spacing-md;
     transition: border-color 0.3s ease;
 
     &:focus {
@@ -179,41 +209,41 @@ textarea {
 
 // Utility Classes
 .mt-1 {
-    margin-top: 1rem;
+    margin-top: $spacing-sm;
 }
 
 .mt-2 {
-    margin-top: 2rem;
+    margin-top: $spacing-md;
 }
 
 .mb-1 {
-    margin-bottom: 1rem;
+    margin-bottom: $spacing-sm;
 }
 
 .mb-2 {
-    margin-bottom: 2rem;
+    margin-bottom: $spacing-md;
 }
 
 .mx-1 {
-    margin-left: 1rem;
-    margin-right: 1rem;
+    margin-left: $spacing-sm;
+    margin-right: $spacing-sm;
 }
 
 .my-1 {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin-top: $spacing-sm;
+    margin-bottom: $spacing-sm;
 }
 
 .py-1 {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding-top: $spacing-sm;
+    padding-bottom: $spacing-sm;
 }
 
 
 
 .px-1 {
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: $spacing-sm;
+    padding-right: $spacing-sm;
 }
 
 

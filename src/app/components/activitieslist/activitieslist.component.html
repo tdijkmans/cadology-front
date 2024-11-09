@@ -1,0 +1,37 @@
+<div class="px-1 py-1">
+    <div class="card">
+
+        <div *ngFor="let activity of allActivities" (click)="handleAct(activity)"
+            [ngClass]="{'activity': true,'current-activity': isCurrentActivity(activity),'px-1 py-1': true}">
+
+            <h4 [ngClass]="{ 'current-activity-title': isCurrentActivity(activity) }">{{ activity.location?.name }}</h4>
+
+            <div>
+                <p>{{ activity.startTime | date: 'dd MMMM yyyy' }}</p>
+                <p>{{ activity.startTime | date: 'HH:mm' }} - {{ activity.endTime | date: 'HH:mm' }}</p>
+            </div>
+
+            <div class="badges">
+                <div
+                    [ngClass]="{'badge': true,'badge--primary': !isCurrentActivity(activity), 'badge-best': isFastedLap(activity)}">
+                    <ng-icon *ngIf="isFastedLap(activity)" name="letsTrophy" size="24" />
+                    <p>{{ activity.activityDetails.stats?.fastestTime | number: '1.2-2' }} s</p>
+                </div>
+
+                <div
+                    [ngClass]="{'badge': true,'badge--secondary': !isCurrentActivity(activity), 'badge-best': isFastestSpeed(activity)}">
+                    <ng-icon *ngIf="isFastestSpeed(activity)" name="letsTrophy" size="24" />
+                    <p>{{ activity.activityDetails.stats?.fastestSpeed?.kph | number: '1.2-2' }} km/u</p>
+                </div>
+
+                <div
+                    [ngClass]="{'badge': true,'badge--tertiary': !isCurrentActivity(activity), 'badge-best': isMostLaps(activity)}">
+                    <ng-icon *ngIf="isMostLaps(activity)" name="letsTrophy" size="24" />
+                    <p>{{ activity.activityDetails.stats?.lapCount }} ronden</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
