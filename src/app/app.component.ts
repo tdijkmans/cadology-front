@@ -2,8 +2,9 @@ import { CommonModule } from "@angular/common";
 import { Component, type OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { NgIconComponent, provideIcons } from "@ng-icons/core";
-import { letsEye } from "@ng-icons/lets-icons/regular";
+import { letsEye, letsTrophy } from "@ng-icons/lets-icons/regular";
 import { NgApexchartsModule } from "ng-apexcharts";
+import { ActivitieslistComponent } from "./components/activitieslist/activitieslist.component";
 import { ActivitystatsComponent } from "./components/activitystats/activitystats.component";
 import { LapchartsComponent } from "./components/lapchart/lapchart.component";
 import { SpeedchartComponent } from "./components/speedchart/speedchart.component";
@@ -20,12 +21,13 @@ import { DataService } from "./services/data.service";
     LapchartsComponent,
     ActivitystatsComponent,
     SpeedchartComponent,
-    NgIconComponent
+    NgIconComponent,
+    ActivitieslistComponent
   ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
   providers: [DataService],
-  viewProviders: [provideIcons({ letsEye, })],
+  viewProviders: [provideIcons({ letsEye, letsTrophy })],
 })
 export class AppComponent implements OnInit {
   title = "";

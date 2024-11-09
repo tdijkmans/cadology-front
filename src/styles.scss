@@ -27,6 +27,7 @@
     /* Bright yellow for warnings */
     --error-color: #d32f2f;
     /* Dark red for error messages */
+
 }
 
 
@@ -59,7 +60,7 @@ h6 {
     font-size: $heading-font-size-sm;
 
 
-    @media screen and (min-width: $breakpoint-md) {
+    @media screen and (min-width: $breakpoint-mobile) {
         margin-bottom: $spacing-md;
         font-size: $heading-font-size;
     }
@@ -126,18 +127,21 @@ button,
         font-size: $heading-font-size;
         text-align: center;
 
-        @media screen and (min-width: 768px) {
+        @media screen and (min-width: $breakpoint-mobile) {
             font-size: $heading-font-size-sm;
         }
     }
 
     .card-body {
-        padding: $spacing-md;
-        font-size: $body-font-size;
+
+        font-size: $body-font-size-sm;
+        // background-color: red;
 
 
-        @media screen and (min-width: 768px) {
-            font-size: $body-font-size-sm;
+        @media screen and (min-width: $breakpoint-mobile) {
+            padding: $spacing-md;
+            font-size: $body-font-size;
+            // background-color: #00c853;
         }
 
 

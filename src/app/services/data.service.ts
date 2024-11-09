@@ -41,7 +41,7 @@ export class DataService {
 
       const currentIndex = activities.findIndex((activity) => activity.id === currentActivity.id);
       const newIndex =
-        direction === 'next'
+        direction === 'previous'
           ? (currentIndex + 1) % activities.length
           : (currentIndex - 1 + activities.length) % activities.length;
 

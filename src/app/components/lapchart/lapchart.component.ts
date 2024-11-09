@@ -53,6 +53,7 @@ export class LapchartsComponent implements OnChanges {
         bar: {
           borderRadius: 3,
           borderRadiusApplication: "end",
+          columnWidth: "90%",
         },
       },
       chart: {
@@ -84,6 +85,7 @@ export class LapchartsComponent implements OnChanges {
 
     this.lapChartOptions = {
       ...commonOptions,
+
       tooltip: {
         ...tooltip,
         y: {
@@ -108,16 +110,16 @@ export class LapchartsComponent implements OnChanges {
             style: { colors: primaryColor },
           },
           decimalsInFloat: 0,
-          title: {
-            text: "Rondetijd (sec)",
+          // title: {
+          //   text: "Rondetijd (sec)",
 
-            style: {
-              fontWeight: 400,
-              fontSize: "1rem",
-              fontFamily: "Roboto, sans-serif",
-              cssClass: "xx-apexcharts-yaxis-title",
-            },
-          },
+          //   style: {
+          //     fontWeight: 400,
+          //     fontSize: "1rem",
+          //     fontFamily: "Roboto, sans-serif",
+          //     cssClass: "xx-apexcharts-yaxis-title",
+          //   },
+          // },
         },
       ],
     };

@@ -13,34 +13,17 @@
 </div>
 
 
-
-
 <ng-container *ngIf="(currentActivity$ |async ) as currentActivity">
   <activitystats [currentActivity]="currentActivity" *ngIf="currentActivity?.activityDetails?.stats"
     (nextActivity)="selectNextActivity()" (prevActivity)="selectPrevActivity()" />
-  <lapchart [sessions]="currentActivity.activityDetails.sessions ||[]" [yAxisMinMax]="[25, 120]" />
+  <lapchart [sessions]="currentActivity.activityDetails.sessions ||[]" [yAxisMinMax]="[25, 100]" />
   <speedchart [sessions]="currentActivity.activityDetails.sessions ||[]" [yAxisMinMax]="[5, 40]" />
 </ng-container>
 
-<div class="px-1 py-1" *ngIf="(currentActivity$ | async) as currentActivity">
-  <div class="card" *ngIf="(allActivities$ | async) as activities">
-    <div *ngFor="let activity of activities" (click)="handleAct(activity)"
-      [ngClass]="{'activity': true, 'current-activity': currentActivity.activityId === activity.activityId,'px-1 py-1':true }">
 
-      <h4 [ngClass]="{'current-activity-title': currentActivity.activityId === activity.activityId}">
-        {{activity.location?.name}}</h4>
-
-      <div>
-        <p> {{activity.startTime | date: 'dd MMMM yyyy'}}</p>
-        <p> {{activity.startTime | date: 'HH:mm'}} - {{activity.endTime| date: 'HH:mm'}} </p>
-      </div>
-
-      <div>
-        <p> {{activity.activityDetails.stats?.lapCount}} ronden</p>
-
-      </div>
-
-    </div>
-
-  </div>
-</div>
+<ng-container *ngIf="(currentActivity$ |async ) as currentActivity">
+  <ng-container *ngIf="(allActivities$ | async ) as allActivities">
+    <activitieslist [allActivities]="allActivities" [currentActivity]="currentActivity"
+      (selectActivity)="handleAct($event)" />
+  </ng-container>
+</ng-container>

@@ -1,5 +1,6 @@
 $primary-color: #ff4500; // Bright, sporty orange-red
 $secondary-color: #1e90ff; // Vivid blue for highlights
+$tertiary-color: #ffab00; // Bright yellow for contrast
 $background-color: #f4f4f9; // Light gray background for contrast
 $accent-color: #00c853; // Bright green accent for success messages
 $dark-color: #333333; // Dark text color for readability
@@ -27,4 +28,4 @@ $spacing-lg: 1.5rem;
 $border-radius: 5px;
 
 // Breakpoints
-$breakpoint-md: 768px; // Medium devices (tablets, etc.)
+$breakpoint-mobile: 768px; // Medium devices (tablets, etc.)

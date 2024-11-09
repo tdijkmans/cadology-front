@@ -1,0 +1,64 @@
+@import '../../../variables';
+
+.activity {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    cursor: pointer;
+    border-bottom: 1px solid $subtle-color;
+
+    &:hover {
+        background-color: #f0f0f0;
+    }
+}
+
+.current-activity {
+    background-color: $accent-color;
+    color: white;
+
+    &-title {
+        color: white;
+    }
+
+    &:hover {
+        background-color: darken($accent-color, 10%);
+    }
+}
+
+.badges {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: $spacing-xs;
+    gap: $spacing-xs;
+
+    .badge {
+        padding: $spacing-xs $spacing-sm;
+        border-radius: $border-radius;
+        font-size: $body-font-size-sm;
+        border: 1px solid white;
+        display: flex;
+        align-items: center;
+        gap: $spacing-xs;
+
+        &--primary {
+            color: white;
+            background-color: $primary-color;
+        }
+
+        &--secondary {
+            color: white;
+            background-color: $secondary-color;
+        }
+
+        &--tertiary {
+            color: white;
+            background-color: $tertiary-color;
+        }
+
+        &-best {
+            color: white;
+            background-color: $accent-color;
+        }
+
+    }
+}

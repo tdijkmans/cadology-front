@@ -52,6 +52,7 @@ export class SpeedchartComponent {
         bar: {
           borderRadius: 3,
           borderRadiusApplication: "end",
+          columnWidth: "90%",
         },
       },
       chart: {
@@ -87,7 +88,7 @@ export class SpeedchartComponent {
       tooltip: {
         ...tooltip,
         y: {
-          formatter: (v: number) => `${v} km/h`,
+          formatter: (v: number) => `${v} km/u`,
         },
       },
       series: [
@@ -111,14 +112,14 @@ export class SpeedchartComponent {
             },
           },
           decimalsInFloat: 0,
-          title: {
-            text: "Sneldheid (km/h)",
-            style: {
-              fontWeight: 400,
-              fontSize: "1rem",
-              fontFamily: "Roboto, sans-serif",
-            },
-          },
+          // title: {
+          //   text: "Sneldheid (km/u)",
+          //   style: {
+          //     fontWeight: 400,
+          //     fontSize: "1rem",
+          //     fontFamily: "Roboto, sans-serif",
+          //   },
+          // },
         },
       ],
     };
