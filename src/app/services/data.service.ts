@@ -42,16 +42,18 @@ export class DataService {
         return;
       }
       const currentIndex = activities.findIndex((activity) => activity.id === currentActivity.id);
-      const nextIndex = currentIndex + 1;
-      const nextActivity = activities[nextIndex];
+
+      const prevIndex = currentIndex <= 0 ? activities.length - 1 : currentIndex - 1;
+      const nextActivity = activities[prevIndex];
+      console.log('nextActivity', { nextActivity, currentIndex, nextIndex: prevIndex });
       this.setCurrentActivity(nextActivity);
     });
+
 
   }
 
   goToPreviousActivity() {
     this.allActivities$.subscribe((activities) => {
-      console.log("Previous Activity", activities);
       if (!activities) {
         return;
       }
@@ -60,9 +62,11 @@ export class DataService {
         return;
       }
       const currentIndex = activities.findIndex((activity) => activity.id === currentActivity.id);
-      const prevIndex = currentIndex - 1;
-      const prevActivity = activities[prevIndex];
-      this.setCurrentActivity(prevActivity);
+
+      const nextIndex = currentIndex >= activities.length - 1 ? 0 : currentIndex + 1;
+      const nextActivity = activities[nextIndex];
+      console.log('nextActivity', { nextActivity, currentIndex, nextIndex });
+      this.setCurrentActivity(nextActivity);
     });
 
   }

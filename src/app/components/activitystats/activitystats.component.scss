@@ -3,8 +3,8 @@
 .data-badge {
     color: $dark-color;
     font-weight: bold;
-    padding: 1rem;
-    border-radius: 5px;
+    padding: $spacing-sm $spacing-md;
+    border-radius: $border-radius;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -13,11 +13,11 @@
 }
 
 .data-badge-value {
-    font-size: 1.5rem;
+    font-size: $heading-font-size;
 }
 
 .data-badge-label {
-    font-size: 1rem;
+    font-size: $body-font-size;
     color: $accent-color;
     font-variant: small-caps;
     font-family: $font-family;
@@ -28,7 +28,7 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: $spacing-md;
 
 }
 
@@ -41,7 +41,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 1rem;
+    padding: $spacing-sm $spacing-md;
     background-color: $accent-color;
     font-weight: bold;
     cursor: pointer;

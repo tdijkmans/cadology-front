@@ -1,7 +1,7 @@
 <div class="px-1 py-1" *ngIf="currentActivity.activityDetails">
     <div id="chart" class="card navigation-card">
-        <button class="navigation-button">
-            <ng-icon name="letsArrowLeft" (click)="onNext()"></ng-icon>
+        <button class="navigation-button" (click)="onPrevious()">
+            <ng-icon name="letsArrowLeft" />
         </button>
         <div>
             <div class="card-header">
@@ -48,7 +48,7 @@
                 </div>
             </div>
         </div>
-        <button class="navigation-button">
-            <ng-icon name="letsArrowRight" (click)="onPrevious()"></ng-icon>
+        <button class="navigation-button" (click)="onNext()">
+            <ng-icon name="letsArrowRight" />
         </button>
     </div>

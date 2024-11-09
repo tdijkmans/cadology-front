@@ -30,7 +30,6 @@
 }
 
 
-
 // General Reset
 *,
 *::before,
@@ -57,7 +56,14 @@ h5,
 h6 {
     color: $primary-color;
     font-weight: bold;
-    margin-bottom: 1rem;
+    font-size: $heading-font-size-sm;
+
+
+    @media screen and (min-width: $breakpoint-md) {
+        margin-bottom: $spacing-md;
+        font-size: $heading-font-size;
+    }
+
 }
 
 a {
@@ -74,13 +80,13 @@ a {
 button,
 .btn {
     display: inline-block;
-    padding: 0.75rem 1.25rem;
-    font-size: 1rem;
+    padding: $spacing-sm $spacing-lg;
+    font-size: $body-font-size;
     font-weight: bold;
     color: #ffffff;
     background-color: $primary-color;
     border: none;
-    border-radius: 0.25rem;
+    border-radius: $spacing-xs;
     transition: background-color 0.3s ease, transform 0.2s ease;
     cursor: pointer;
 
@@ -106,7 +112,7 @@ button,
 // Card Style
 .card {
     background-color: #ffffff;
-    border-radius: 0.5rem;
+    border-radius: $spacing-xs;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     transition: transform 0.2s ease;
@@ -116,7 +122,7 @@ button,
     }
 
     .card-header {
-        padding: 1rem;
+        padding: $spacing-sm;
         font-size: $heading-font-size;
         text-align: center;
 
@@ -126,7 +132,7 @@ button,
     }
 
     .card-body {
-        padding: 1rem;
+        padding: $spacing-md;
         font-size: $body-font-size;
 
 
@@ -166,11 +172,11 @@ input,
 select,
 textarea {
     width: 100%;
-    padding: 0.75rem;
+    padding: $spacing-sm;
     border: 1px solid #ddd;
-    border-radius: 0.25rem;
-    font-size: 1rem;
-    margin-bottom: 1rem;
+    border-radius: $spacing-xs;
+    font-size: $body-font-size;
+    margin-bottom: $spacing-md;
     transition: border-color 0.3s ease;
 
     &:focus {
@@ -199,41 +205,41 @@ textarea {
 
 // Utility Classes
 .mt-1 {
-    margin-top: 1rem;
+    margin-top: $spacing-sm;
 }
 
 .mt-2 {
-    margin-top: 2rem;
+    margin-top: $spacing-md;
 }
 
 .mb-1 {
-    margin-bottom: 1rem;
+    margin-bottom: $spacing-sm;
 }
 
 .mb-2 {
-    margin-bottom: 2rem;
+    margin-bottom: $spacing-md;
 }
 
 .mx-1 {
-    margin-left: 1rem;
-    margin-right: 1rem;
+    margin-left: $spacing-sm;
+    margin-right: $spacing-sm;
 }
 
 .my-1 {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin-top: $spacing-sm;
+    margin-bottom: $spacing-sm;
 }
 
 .py-1 {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding-top: $spacing-sm;
+    padding-bottom: $spacing-sm;
 }
 
 
 
 .px-1 {
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: $spacing-sm;
+    padding-right: $spacing-sm;
 }
 
 

@@ -1,8 +1,9 @@
 import { CommonModule } from "@angular/common";
 import { Component, type OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
+import { NgIconComponent, provideIcons } from "@ng-icons/core";
+import { letsEye } from "@ng-icons/lets-icons/regular";
 import { NgApexchartsModule } from "ng-apexcharts";
-import { tap } from "rxjs";
 import { ActivitystatsComponent } from "./components/activitystats/activitystats.component";
 import { LapchartsComponent } from "./components/lapchart/lapchart.component";
 import { SpeedchartComponent } from "./components/speedchart/speedchart.component";
@@ -19,10 +20,12 @@ import { DataService } from "./services/data.service";
     LapchartsComponent,
     ActivitystatsComponent,
     SpeedchartComponent,
+    NgIconComponent
   ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
   providers: [DataService],
+  viewProviders: [provideIcons({ letsEye, })],
 })
 export class AppComponent implements OnInit {
   title = "";
@@ -48,11 +51,8 @@ export class AppComponent implements OnInit {
   }
 
   get currentActivity$() {
-    return this.dataService.currentActivity$.pipe(
-      tap((res) => {
-        console.log("Current Activity", res);
-      })
-    );
+    return this.dataService.currentActivity$
+
   }
 
   fetchAllActivities(chipCode: string) {
@@ -77,13 +77,11 @@ export class AppComponent implements OnInit {
     this.dataService.setCurrentActivity(activity);
   }
 
-  nextActivity() {
-    console.log("Next Activity__");
+  selectNextActivity() {
     this.dataService.goToNextActivity();
   }
 
-  prevActivity() {
-    console.log("Previous Activity__");
+  selectPrevActivity() {
     this.dataService.goToPreviousActivity();
   }
 

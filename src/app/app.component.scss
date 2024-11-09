@@ -1,12 +1,25 @@
-.navigation-card {
+@import '../variables';
+
+.current-activity {
+    background-color: $accent-color;
+    color: white;
+
+    &-title {
+        color: white;
+    }
+
+    &:hover {
+        background-color: darken($accent-color, 10%);
+    }
+}
+
+.activity {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    border-radius: 10px;
-    background-color: #f5f5f5;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+    align-items: start;
     cursor: pointer;
+
+    &:hover {
+        background-color: #f0f0f0;
+    }
 }
