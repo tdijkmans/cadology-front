@@ -78,11 +78,11 @@ export class AppComponent implements OnInit {
   }
 
   selectNextActivity() {
-    this.dataService.goToNextActivity();
+    this.dataService.navigateActivity('next');
   }
 
   selectPrevActivity() {
-    this.dataService.goToPreviousActivity();
+    this.dataService.navigateActivity('previous');
   }
 
 

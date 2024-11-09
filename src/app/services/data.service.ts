@@ -32,45 +32,22 @@ export class DataService {
   }
 
 
-  goToNextActivity() {
+  navigateActivity(direction: 'next' | 'previous') {
     this.allActivities$.subscribe((activities) => {
-      if (!activities) {
-        return;
-      }
       const currentActivity = this.activity.value;
-      if (!currentActivity) {
-        return;
-      }
+
+      if (!activities || !currentActivity) return;
+
+
       const currentIndex = activities.findIndex((activity) => activity.id === currentActivity.id);
+      const newIndex =
+        direction === 'next'
+          ? (currentIndex + 1) % activities.length
+          : (currentIndex - 1 + activities.length) % activities.length;
 
-      const prevIndex = currentIndex <= 0 ? activities.length - 1 : currentIndex - 1;
-      const nextActivity = activities[prevIndex];
-      console.log('nextActivity', { nextActivity, currentIndex, nextIndex: prevIndex });
-      this.setCurrentActivity(nextActivity);
+      this.setCurrentActivity(activities[newIndex]);
     });
-
-
   }
-
-  goToPreviousActivity() {
-    this.allActivities$.subscribe((activities) => {
-      if (!activities) {
-        return;
-      }
-      const currentActivity = this.activity.value;
-      if (!currentActivity) {
-        return;
-      }
-      const currentIndex = activities.findIndex((activity) => activity.id === currentActivity.id);
-
-      const nextIndex = currentIndex >= activities.length - 1 ? 0 : currentIndex + 1;
-      const nextActivity = activities[nextIndex];
-      console.log('nextActivity', { nextActivity, currentIndex, nextIndex });
-      this.setCurrentActivity(nextActivity);
-    });
-
-  }
-
 
   getAllActivities({ chipCode }: { chipCode: string }) {
     const cacheKey = `SkateActvitity-${chipCode}`;
