@@ -5,7 +5,7 @@
                 <h2 class="text-secondary">Snelheid per ronde (km/u)</h2>
             </div>
             <div class="card-body">
-                <apx-chart #secondChart [series]="speedChartOptions.series" [chart]="speedChartOptions.chart"
+                <apx-chart [series]="speedChartOptions.series" [chart]="speedChartOptions.chart"
                     [xaxis]="speedChartOptions.xaxis" [markers]="speedChartOptions.markers"
                     [stroke]="speedChartOptions.stroke" [yaxis]="speedChartOptions.yaxis"
                     [dataLabels]="speedChartOptions.dataLabels" [title]="speedChartOptions.title"
