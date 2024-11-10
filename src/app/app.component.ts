@@ -1,9 +1,11 @@
 import { CommonModule } from "@angular/common";
-import { Component, type OnInit } from "@angular/core";
+import { Component, DestroyRef, type OnInit, inject } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { FormsModule } from "@angular/forms";
-import { NgIconComponent, provideIcons } from "@ng-icons/core";
+import { provideIcons } from "@ng-icons/core";
 import { letsEye, letsTrophy } from "@ng-icons/lets-icons/regular";
 import { NgApexchartsModule } from "ng-apexcharts";
+import { mergeMap, tap } from "rxjs";
 import { ActivitieslistComponent } from "./components/activitieslist/activitieslist.component";
 import { ActivitystatsComponent } from "./components/activitystats/activitystats.component";
 import { LapchartsComponent } from "./components/lapchart/lapchart.component";
@@ -21,8 +23,7 @@ import { DataService } from "./services/data.service";
     LapchartsComponent,
     ActivitystatsComponent,
     SpeedchartComponent,
-    NgIconComponent,
-    ActivitieslistComponent
+    ActivitieslistComponent,
   ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
@@ -30,6 +31,8 @@ import { DataService } from "./services/data.service";
   viewProviders: [provideIcons({ letsEye, letsTrophy })],
 })
 export class AppComponent implements OnInit {
+  private destroyRef = inject(DestroyRef);
+
   title = "";
   chipInput = "";
   errorMessage = "";
@@ -41,7 +44,7 @@ export class AppComponent implements OnInit {
 
     if (chipCode) {
       this.chipInput = chipCode;
-      this.fetchAllActivities(chipCode);
+      this.fetchCurrentActivities(chipCode);
     } else {
       this.errorMessage = "Vul een chipcode in";
       this.dataService.removeItem("chipCode");
@@ -53,15 +56,42 @@ export class AppComponent implements OnInit {
   }
 
   get currentActivity$() {
-    return this.dataService.currentActivity$
-
+    return this.dataService.currentActivity$;
   }
 
-  fetchAllActivities(chipCode: string) {
-    this.dataService.getAllActivities({ chipCode }).subscribe((res) => {
-      this.dataService.setCurrentActivity(res[0]);
-      this.dataService.setAllActivities(res);
-    });
+  fetchCurrentActivities(chipCode: string) {
+    this.dataService
+      .getCurrentSeasonActivities({ chipCode })
+      .pipe(
+        mergeMap((currentActivities) => {
+          this.dataService.setCurrentActivity(currentActivities[0]);
+          this.dataService.setAllActivities(currentActivities);
+
+          return this.dataService
+            .getPreviousSeasonActivities({ chipCode })
+            .pipe(
+              tap((previousActivities) => {
+                // Combine current and previous activities
+                const allActivities = [
+                  ...currentActivities,
+                  ...previousActivities,
+                ];
+                const sortedActivities = allActivities.sort(
+                  (a, b) => {
+                    if (a?.startTime && b?.startTime) {
+                      return new Date(b.startTime).getTime() - new Date(a.startTime).getTime();
+                    }
+                    return 0;
+
+                  }
+                );
+                this.dataService.setAllActivities(sortedActivities);
+              }),
+            );
+        }),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe();
   }
 
   onClick(chipCode: string) {
@@ -70,25 +100,29 @@ export class AppComponent implements OnInit {
       return;
     }
     this.errorMessage = "";
-    this.fetchAllActivities(chipCode);
+    this.fetchCurrentActivities(chipCode);
     this.dataService.setItem("chipCode", chipCode);
   }
-
 
   handleAct(activity: SkateActvitity) {
     this.dataService.setCurrentActivity(activity);
   }
 
   selectNextActivity() {
-    this.dataService.navigateActivity('next');
+    this.dataService
+      .navigateActivity("next")
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe();
   }
 
   selectPrevActivity() {
-    this.dataService.navigateActivity('previous');
+    this.dataService
+      .navigateActivity("previous")
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe();
   }
 
   clearCache() {
     this.dataService.clearLocalStorage();
   }
-
 }
