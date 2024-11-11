@@ -1,6 +1,6 @@
 @import '../../../variables.scss';
 
-.chart-container {
+.lb-chart-container {
     width: 100%;
     height: 60vh;
     display: flex;
@@ -8,17 +8,9 @@
     align-items: center;
 }
 
-.chart-navigation {
+.lb-chart-navigation {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: $spacing-sm;
-}
-
-.custom-tooltip {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
