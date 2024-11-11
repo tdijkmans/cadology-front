@@ -4,14 +4,11 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { FormsModule } from "@angular/forms";
 import { provideIcons } from "@ng-icons/core";
 import { letsEye, letsTrophy } from "@ng-icons/lets-icons/regular";
-import { NgApexchartsModule } from "ng-apexcharts";
 import { mergeMap, tap } from "rxjs";
 import { ActivitieslistComponent } from "./components/activitieslist/activitieslist.component";
 import { ActivitystatsComponent } from "./components/activitystats/activitystats.component";
 import { LapBarchartComponent } from "./components/lap-barchart/lap-barchart.component";
-import { LapchartsComponent } from "./components/lapchart/lapchart.component";
 import { SpeedBarchartComponent } from "./components/speed-barchart/speed-barchart.component";
-import { SpeedchartComponent } from "./components/speedchart/speedchart.component";
 import type { SkateActvitity } from "./services/data.interface";
 import { DataService } from "./services/data.service";
 
@@ -21,10 +18,7 @@ import { DataService } from "./services/data.service";
   imports: [
     FormsModule,
     CommonModule,
-    NgApexchartsModule,
-    LapchartsComponent,
     ActivitystatsComponent,
-    SpeedchartComponent,
     ActivitieslistComponent,
     LapBarchartComponent,
     SpeedBarchartComponent
