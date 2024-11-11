@@ -5,7 +5,7 @@
                 <h2>Rondetijden (s)</h2>
             </div>
             <div class="card-body">
-                <apx-chart [series]="lapChartOptions.series" [chart]="lapChartOptions.chart"
+                <apx-chart #lapChart [series]="lapChartOptions.series" [chart]="lapChartOptions.chart"
                     [xaxis]="lapChartOptions.xaxis" [markers]="lapChartOptions.markers"
                     [stroke]="lapChartOptions.stroke" [yaxis]="lapChartOptions.yaxis"
                     [dataLabels]="lapChartOptions.dataLabels" [title]="lapChartOptions.title"
