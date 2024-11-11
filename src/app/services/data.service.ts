@@ -14,7 +14,7 @@ export class DataService {
   private activity = new BehaviorSubject<SkateActvitity | null>(null);
   private activities = new BehaviorSubject<SkateActvitities | null>(null);
 
-  private defaultExpiration = 15 * 60 * 1000; // 15 minutes in milliseconds
+
 
   get currentActivity$() {
     return this.activity.asObservable()
@@ -35,7 +35,7 @@ export class DataService {
 
 
   navigateActivity(direction: 'next' | 'previous') {
-    this.allActivities$.subscribe((activities) => {
+    return this.allActivities$.pipe(tap((activities) => {
       const currentActivity = this.activity.value;
 
       if (!activities || !currentActivity) return;
@@ -48,35 +48,54 @@ export class DataService {
           : (currentIndex - 1 + activities.length) % activities.length;
 
       this.setCurrentActivity(activities[newIndex]);
-    });
+    }))
   }
 
-  getAllActivities({ chipCode }: { chipCode: string }) {
-    const cacheKey = `SkateActvitity-${chipCode}`;
+  getCurrentSeasonActivities({ chipCode }: { chipCode: string }) {
+    const cacheKey = `SkateActvitity-CurrentSeason-${chipCode}`;
     const cachedData = this.getItem<SkateActvitities>(cacheKey);
 
     if (cachedData) {
-      this.setAllActivities(cachedData);
       return of(cachedData);
     }
 
-    const url = `${environment.apiUrl}/skater/${chipCode}/all`;
+    const url = `${environment.apiUrl}/current/${chipCode}`;
     return this.http.get<SkateActvitities>(url).pipe(
       tap((res) => {
-        this.setAllActivities(res);
         this.setItem(cacheKey, res);
       })
     )
   }
 
+  getPreviousSeasonActivities({ chipCode }: { chipCode: string }) {
+    const cacheKey = `SkateActvitity-PreviousSeason-${chipCode}`;
+    const cachedData = this.getItem<SkateActvitities>(cacheKey);
+
+    if (cachedData) {
+      return of(cachedData);
+    }
+
+    const url = `${environment.apiUrl}/previous/${chipCode}`;
+    return this.http.get<SkateActvitities>(url).pipe(
+      tap((res) => {
+        this.setItem(cacheKey, res, 60 * 24 * 7 * 365); // 1 year
+      })
+
+    )
+  }
+
   // LocalStorage methods
 
-  setItem<T>(key: string, value: T): void {
+
+  setItem<T>(key: string, value: T, expirationMin = 15): void {
+    // Convert expiration time from minutes to milliseconds (default: 15 minutes)
+    const expiration = expirationMin * 60 * 1000;
+
     if (key === 'chipCode') {
       // Store chipCode without expiration
       localStorage.setItem(key, JSON.stringify(value));
     } else {
-      const expirationDate = Date.now() + this.defaultExpiration;
+      const expirationDate = Date.now() + expiration;
       const dataWithExpiration = { value, expiration: expirationDate };
       try {
         localStorage.setItem(key, JSON.stringify(dataWithExpiration));
