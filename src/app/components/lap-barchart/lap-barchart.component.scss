@@ -13,4 +13,9 @@
     justify-content: space-between;
     align-items: center;
     margin: $spacing-sm;
+
+    button {
+        background-color: $accent-color;
+    }
+
 }

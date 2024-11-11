@@ -9,7 +9,7 @@
     <button (click)="selectPrevBar()">
         <ng-icon name="letsArrowLeft" />
     </button>
-    <span class="text-secondary">
+    <span class="text-dark">
         {{selectedLap?.originalValue | number: '1.0-2'}} s
         {{selectedLap?.originalValue === fastestLap?.originalValue ? '(snelste ronde)' : ''}}
     </span>
