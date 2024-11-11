@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, Input, ViewChild } from "@angular/core";
+import { Component, Input, OnChanges, ViewChild } from "@angular/core";
 import { type ApexOptions, ChartComponent, NgApexchartsModule } from "ng-apexcharts";
 import type { LapDto, SessionDto } from "../../models";
 import { durationToSeconds } from "../utilities";
@@ -16,7 +16,7 @@ const twoDecimal = (v: number) => Math.round(v * 100) / 100;
   templateUrl: "./lapchart.component.html",
   styleUrl: "./lapchart.component.scss",
 })
-export class LapchartsComponent {
+export class LapchartsComponent implements OnChanges {
   @Input({ required: true }) sessions: SessionDto[] = [];
   @Input({ required: true }) yAxisMinMax: [number, number] = [20, 100];
 
@@ -26,7 +26,9 @@ export class LapchartsComponent {
   lapChartOptions: Partial<ApexOptions> = {} as ApexOptions;
 
 
-
+  ngOnChanges() {
+    this.setChartOptions(this.sessions);
+  }
 
   setChartOptions(sessions: SessionDto[]) {
     const laps = sessions.flatMap((session) => session.laps || []);

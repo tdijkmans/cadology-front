@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, Input } from "@angular/core";
+import { Component, Input, OnChanges } from "@angular/core";
 import { type ApexOptions, NgApexchartsModule } from "ng-apexcharts";
 import type { LapDto, SessionDto } from "../../models";
 import { durationToSeconds } from "../utilities";
@@ -16,7 +16,7 @@ const twoDecimal = (v: number) => Math.round(v * 100) / 100;
   templateUrl: './speedchart.component.html',
   styleUrl: './speedchart.component.scss'
 })
-export class SpeedchartComponent {
+export class SpeedchartComponent implements OnChanges {
   @Input({ required: true }) sessions: SessionDto[] = [];
   @Input({ required: true }) yAxisMinMax: [number, number] = [20, 100];
 

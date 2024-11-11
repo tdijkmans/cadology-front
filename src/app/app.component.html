@@ -16,17 +16,33 @@
 <ng-container *ngIf="(currentActivity$ |async ) as currentActivity">
   <activitystats [currentActivity]="currentActivity" *ngIf="currentActivity?.activityDetails?.stats"
     (nextActivity)="selectNextActivity()" (prevActivity)="selectPrevActivity()" />
-  <lapchart [sessions]="currentActivity.activityDetails.sessions ||[]" [yAxisMinMax]="[25, 100]" />
-  <speedchart [sessions]="currentActivity.activityDetails.sessions ||[]" [yAxisMinMax]="[5, 40]" />
-</ng-container>
 
+  <div class="px-1 py-1">
+    <div id="bar-chart" class="card">
+      <div class="card-header">
+        <h2>Rondetijden (s)</h2>
+      </div>
+      <lap-barchart [sessions]="currentActivity.activityDetails.sessions ||[]" />
+    </div>
+  </div>
 
-<ng-container *ngIf="(currentActivity$ |async ) as currentActivity">
+  <div class="px-1 py-1">
+    <div id="bar-chart" class="card">
+      <div class="card-header">
+        <h2 class="text-secondary">Snelheid (km/u) per ronde</h2>
+      </div>
+      <speed-barchart [sessions]="currentActivity.activityDetails.sessions ||[]" />
+    </div>
+  </div>
+
   <ng-container *ngIf="(allActivities$ | async ) as allActivities">
     <activitieslist [allActivities]="allActivities" [currentActivity]="currentActivity"
       (selectActivity)="handleAct($event)" />
   </ng-container>
+
 </ng-container>
+
+
 
 <div class="px-1 py-1">
   <button (click)="clearCache()" class="btn-secondary">Cache verwijderen</button>
