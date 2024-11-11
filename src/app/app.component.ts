@@ -4,7 +4,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { FormsModule } from "@angular/forms";
 import { provideIcons } from "@ng-icons/core";
 import { letsEye, letsTrophy } from "@ng-icons/lets-icons/regular";
-import { mergeMap, tap } from "rxjs";
+import { BehaviorSubject, mergeMap, tap } from "rxjs";
 import { ActivitieslistComponent } from "./components/activitieslist/activitieslist.component";
 import { ActivitystatsComponent } from "./components/activitystats/activitystats.component";
 import { LapBarchartComponent } from "./components/lap-barchart/lap-barchart.component";
@@ -34,6 +34,7 @@ export class AppComponent implements OnInit {
   title = "";
   chipInput = "";
   errorMessage = "";
+  isMenuOpen = new BehaviorSubject(false);
 
   constructor(private dataService: DataService) { }
 
@@ -123,4 +124,10 @@ export class AppComponent implements OnInit {
   clearCache() {
     this.dataService.clearLocalStorage();
   }
+
+  toggleMenu() {
+    this.isMenuOpen.next(!this.isMenuOpen.value);
+    console.log("toggleMenu", this.isMenuOpen.value);
+  }
+
 }

@@ -1,49 +1,57 @@
-<div class="px-1 py-1">
-  <div class="card px-1 py-1">
-    <form>
-      <label for="textInput" hidden>Transponder</label>
-      <input type="text" id="textInput" [(ngModel)]="chipInput" name="textInput"
-        placeholder="Transponder, bijv. 'AB-12345'">
-    </form>
-    <button (click)="onClick(chipInput)">Ophalen</button>
-    <span class="text-error mx-1" *ngIf="errorMessage">
-      {{errorMessage}}
-    </span>
-  </div>
+<div class="app-menu-bar">
+  <button class="app-menu-bar__logo" (click)="toggleMenu()">
+    🧊 IJsblokjes
+  </button>
 </div>
 
-
-<ng-container *ngIf="(currentActivity$ |async ) as currentActivity">
-  <activitystats [currentActivity]="currentActivity" *ngIf="currentActivity?.activityDetails?.stats"
-    (nextActivity)="selectNextActivity()" (prevActivity)="selectPrevActivity()" />
-
+<div class="app-content">
   <div class="px-1 py-1">
-    <div id="bar-chart" class="card">
-      <div class="card-header">
-        <h2>Rondetijden (s)</h2>
-      </div>
-      <lap-barchart [sessions]="currentActivity.activityDetails.sessions ||[]" />
+    <div class="card px-1 py-1">
+      <form>
+        <label for="textInput" hidden>Transponder</label>
+        <input type="text" id="textInput" [(ngModel)]="chipInput" name="textInput"
+          placeholder="Transponder, bijv. 'AB-12345'">
+      </form>
+      <button (click)="onClick(chipInput)">Ophalen</button>
+      <span class="text-error mx-1" *ngIf="errorMessage">
+        {{errorMessage}}
+      </span>
     </div>
   </div>
 
-  <div class="px-1 py-1">
-    <div id="bar-chart" class="card">
-      <div class="card-header">
-        <h2 class="text-secondary">Snelheid (km/u) per ronde</h2>
-      </div>
-      <speed-barchart [sessions]="currentActivity.activityDetails.sessions ||[]" />
-    </div>
-  </div>
 
-  <ng-container *ngIf="(allActivities$ | async ) as allActivities">
-    <activitieslist [allActivities]="allActivities" [currentActivity]="currentActivity"
-      (selectActivity)="handleAct($event)" />
+  <ng-container *ngIf="(currentActivity$ |async ) as currentActivity">
+    <activitystats [currentActivity]="currentActivity" *ngIf="currentActivity?.activityDetails?.stats"
+      (nextActivity)="selectNextActivity()" (prevActivity)="selectPrevActivity()" />
+
+    <div class="px-1 py-1">
+      <div id="bar-chart" class="card">
+        <div class="card-header">
+          <h2>Rondetijden (s)</h2>
+        </div>
+        <lap-barchart [sessions]="currentActivity.activityDetails.sessions ||[]" />
+      </div>
+    </div>
+
+    <div class="px-1 py-1">
+      <div id="bar-chart" class="card">
+        <div class="card-header">
+          <h2 class="text-secondary">Snelheid (km/u) per ronde</h2>
+        </div>
+        <speed-barchart [sessions]="currentActivity.activityDetails.sessions ||[]" />
+      </div>
+    </div>
+
+    <ng-container *ngIf="(allActivities$ | async ) as allActivities">
+      <activitieslist [allActivities]="allActivities" [currentActivity]="currentActivity"
+        (selectActivity)="handleAct($event)" />
+    </ng-container>
+
   </ng-container>
 
-</ng-container>
 
 
-
-<div class="px-1 py-1">
-  <button (click)="clearCache()" class="btn-secondary">Cache verwijderen</button>
+  <div class="px-1 py-1">
+    <button (click)="clearCache()" class="btn-secondary">Cache verwijderen</button>
+  </div>
 </div>

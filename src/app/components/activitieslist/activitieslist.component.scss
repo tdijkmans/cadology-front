@@ -1,6 +1,6 @@
 @import '../../../variables';
 
-.activity {
+.al-activity {
     display: flex;
     flex-direction: column;
     align-items: start;
@@ -12,7 +12,7 @@
     }
 }
 
-.current-activity {
+.al-current-activity {
     background-color: $accent-color;
     color: white;
 
@@ -25,39 +25,35 @@
     }
 }
 
-.badges {
+.al-badges {
     display: flex;
     flex-wrap: wrap;
     margin-top: $spacing-xs;
     gap: $spacing-xs;
 
-    .badge {
+    .al-badge {
         padding: $spacing-xs $spacing-sm;
         border-radius: $border-radius;
-        font-size: $body-font-size-sm;
+        font-size: $body-font-size-mob;
         border: 1px solid white;
         display: flex;
         align-items: center;
         gap: $spacing-xs;
+        color: white;
+        background-color: white;
+        color: $primary-color;
+        border-color: $primary-color;
 
-        &--primary {
+        &--current {
             color: white;
-            background-color: $primary-color;
-        }
-
-        &--secondary {
-            color: white;
-            background-color: $secondary-color;
-        }
-
-        &--tertiary {
-            color: white;
-            background-color: $tertiary-color;
+            background-color: $accent-color;
+            border-color: white;
         }
 
         &-best {
-            color: white;
-            background-color: $accent-color;
+
+            background-color: $primary-color ;
+            color: white
         }
 
     }

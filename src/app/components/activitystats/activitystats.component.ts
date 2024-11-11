@@ -5,6 +5,7 @@ import { letsArrowLeft, letsArrowRight } from "@ng-icons/lets-icons/regular";
 import type { SkateActvitity } from "../../services/data.interface";
 import { DataService } from "../../services/data.service";
 
+
 @Component({
   selector: "activitystats",
   standalone: true,
@@ -27,5 +28,10 @@ export class ActivitystatsComponent {
     this.prevActivity.emit();
   }
 
+  get totalTrainingTime() {
+    const time = this.currentActivity.activityDetails.stats?.totalTrainingTime?.split(".")[0];
+    const numberOfColons = time?.split(":").length;
 
+    return numberOfColons === 2 ? [time, 'minuten'] : [time, 'uur'];
+  }
 }

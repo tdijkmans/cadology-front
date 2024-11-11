@@ -1,19 +1,19 @@
-<div class="chart-container">
+<div class="lb-chart-container">
     <ngx-charts-bar-vertical [scheme]="scheme" [results]="lapData" [xAxis]="true" [yAxis]="true" [yScaleMax]="yScaleMax"
         [yScaleMin]="yScaleMin" [customColors]="colors" [barPadding]="1" (select)="onSelect($event)"
         [tooltipDisabled]="true" />
 </div>
 
 
-<div class="chart-navigation">
-    <button class="navigation-button" (click)="selectPrevBar()">
+<div class="lb-chart-navigation">
+    <button (click)="selectPrevBar()">
         <ng-icon name="letsArrowLeft" />
     </button>
-    <span class="text-secondary">
-        {{selectedLap?.originalValue}}
+    <span class="text-dark">
+        {{selectedLap?.originalValue | number: '1.0-2'}} s
         {{selectedLap?.originalValue === fastestLap?.originalValue ? '(snelste ronde)' : ''}}
     </span>
-    <button class="navigation-button" (click)="selectNextBar()">
+    <button (click)="selectNextBar()">
         <ng-icon name="letsArrowRight" />
     </button>
 </div>

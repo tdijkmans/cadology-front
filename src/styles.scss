@@ -57,7 +57,7 @@ h5,
 h6 {
     color: $primary-color;
     font-weight: bold;
-    font-size: $heading-font-size-sm;
+    font-size: $heading-font-size-mob;
 
 
     @media screen and (min-width: $breakpoint-mobile) {
@@ -76,6 +76,8 @@ a {
         color: darken($secondary-color, 10%);
     }
 }
+
+
 
 // Buttons
 button,
@@ -128,13 +130,13 @@ button,
         text-align: center;
 
         @media screen and (min-width: $breakpoint-mobile) {
-            font-size: $heading-font-size-sm;
+            font-size: $heading-font-size-mob;
         }
     }
 
     .card-body {
 
-        font-size: $body-font-size-sm;
+        font-size: $body-font-size-mob;
         // background-color: red;
 
 
@@ -154,6 +156,10 @@ button,
 
 .text-secondary {
     color: $secondary-color;
+}
+
+.text-dark {
+    color: $dark-color;
 }
 
 .text-accent {

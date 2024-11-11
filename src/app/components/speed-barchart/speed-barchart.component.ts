@@ -53,7 +53,7 @@ export class SpeedBarchartComponent {
 
   selectFastesLap() {
     const fastestLap = this.lapData.reduce((prev, current) =>
-      prev.value < current.value ? prev : current
+      prev.value > current.value ? prev : current
     );
     this.fastestLap = fastestLap;
     this.onSelect(fastestLap);
