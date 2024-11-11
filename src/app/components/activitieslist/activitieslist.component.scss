@@ -39,25 +39,21 @@
         display: flex;
         align-items: center;
         gap: $spacing-xs;
+        color: white;
+        background-color: white;
+        color: $primary-color;
+        border-color: $primary-color;
 
-        &--primary {
+        &--current {
             color: white;
-            background-color: $primary-color;
-        }
-
-        &--secondary {
-            color: white;
-            background-color: $secondary-color;
-        }
-
-        &--tertiary {
-            color: white;
-            background-color: $tertiary-color;
+            background-color: $accent-color;
+            border-color: white;
         }
 
         &-best {
-            color: white;
-            background-color: $accent-color;
+
+            background-color: $primary-color ;
+            color: white
         }
 
     }
