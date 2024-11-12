@@ -1,12 +1,24 @@
-<div class="app-menu-bar">
-  <button class="app-menu-bar__logo" (click)="toggleMenu()">
-    🧊 IJsblokjes
-  </button>
-</div>
+<div class="app-menu-bar px-1 py-1">
 
-<div class="app-content">
-  <div class="px-1 py-1">
-    <div class="card px-1 py-1">
+  <span class="app-menu-bar__item text-secondary mx-1" (click)="toggleMenu()">🧊 IJsblokjes</span>
+  <span class="app-menu-bar__item text-secondary mx-1" (click)="toggleRightMenu()">Instellingen</span>
+
+  <div *ngIf="isMenuOpen" class="app-overlay" (click)="toggleMenu()"></div>
+
+  <div class="app-drawer-menu" [ngClass]="{ 'app-drawer-menu--open': isMenuOpen }">
+    <button class="app-drawer-menu__item" (click)="toggleMenu()">
+      <ng-icon name="letsArrowLeft" size="24" color="--primay-color" /> Terug
+    </button>
+  </div>
+
+  <div *ngIf="rightMenuOpen" class="app-overlay" (click)="toggleRightMenu()"></div>
+
+  <div class="app-settings-menu app-settings-menu--right" [ngClass]="{ 'app-settings-menu--open': rightMenuOpen }">
+    <div>
+      <button class="app-drawer-menu__item" (click)="toggleRightMenu()">
+        Terug <ng-icon name="letsArrowRight" size="24" color="--primay-color" />
+      </button>
+
       <form>
         <label for="textInput" hidden>Transponder</label>
         <input type="text" id="textInput" [(ngModel)]="chipInput" name="textInput"
@@ -17,9 +29,12 @@
         {{errorMessage}}
       </span>
     </div>
+    <button (click)="clearCache()" class="btn-inverse">Cache verwijderen</button>
   </div>
 
+</div>
 
+<div class="app-content">
   <ng-container *ngIf="(currentActivity$ |async ) as currentActivity">
     <activitystats [currentActivity]="currentActivity" (nextActivity)="selectNextActivity()"
       (prevActivity)="selectPrevActivity()" />
@@ -46,12 +61,5 @@
       <activitieslist [allActivities]="allActivities" [currentActivity]="currentActivity"
         (selectActivity)="handleAct($event)" />
     </ng-container>
-
   </ng-container>
-
-
-
-  <div class="px-1 py-1">
-    <button (click)="clearCache()" class="btn-secondary">Cache verwijderen</button>
-  </div>
 </div>

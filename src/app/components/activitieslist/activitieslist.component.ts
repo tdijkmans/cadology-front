@@ -29,21 +29,18 @@ export class ActivitieslistComponent {
 
   isFastestSpeed(activity: Activity): boolean {
     const allSpeeds = this.allActivities.map((a) => a.bestLap.speed);
-    const speeds = allSpeeds.filter((speed) => speed !== undefined);
-    return activity.bestLap.duration === Math.max(...speeds);
+    return activity.bestLap.duration === Math.max(...allSpeeds);
   }
 
   isFastedLap(activity: Activity): boolean {
     const allLaps = this.allActivities.map((a) => a.bestLap.duration || 0);
-    const laps = allLaps.filter((lap) => lap !== undefined);
     const lap = activity.bestLap.speed || 0;
-    return lap === Math.min(...laps);
+    return lap === Math.min(...allLaps);
   }
 
   isMostLaps(activity: Activity): boolean {
     const allLaps = this.allActivities.map((a) => a.lapCount);
-    const laps = allLaps.filter((lap) => lap !== undefined);
-    return activity.lapCount === Math.max(...laps);
+    return activity.lapCount === Math.max(...allLaps);
   }
 
 }

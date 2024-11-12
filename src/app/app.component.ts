@@ -6,10 +6,10 @@ import { ActivitieslistComponent } from "@components/activitieslist/activitiesli
 import { ActivitystatsComponent } from "@components/activitystats/activitystats.component";
 import { LapBarchartComponent } from "@components/lap-barchart/lap-barchart.component";
 import { SpeedBarchartComponent } from "@components/speed-barchart/speed-barchart.component";
-import { provideIcons } from "@ng-icons/core";
-import { letsEye, letsTrophy } from "@ng-icons/lets-icons/regular";
+import { NgIconComponent, provideIcons } from "@ng-icons/core";
+import { letsArrowLeft, letsArrowRight } from "@ng-icons/lets-icons/regular";
 import { DataService } from "@services/data.service";
-import { BehaviorSubject, mergeMap, tap } from "rxjs";
+import { mergeMap, tap } from "rxjs";
 import type { Activity } from "./services/data.interface";
 
 @Component({
@@ -21,12 +21,13 @@ import type { Activity } from "./services/data.interface";
     ActivitystatsComponent,
     ActivitieslistComponent,
     LapBarchartComponent,
-    SpeedBarchartComponent
+    SpeedBarchartComponent,
+    NgIconComponent
   ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
   providers: [DataService],
-  viewProviders: [provideIcons({ letsEye, letsTrophy })],
+  viewProviders: [provideIcons({ letsArrowRight, letsArrowLeft })],
 })
 export class AppComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
@@ -34,7 +35,8 @@ export class AppComponent implements OnInit {
   title = "";
   chipInput = "";
   errorMessage = "";
-  isMenuOpen = new BehaviorSubject(false);
+  isMenuOpen = false;
+  rightMenuOpen = false;
 
   constructor(private dataService: DataService) { }
 
@@ -127,8 +129,11 @@ export class AppComponent implements OnInit {
   }
 
   toggleMenu() {
-    this.isMenuOpen.next(!this.isMenuOpen.value);
-    console.log("toggleMenu", this.isMenuOpen.value);
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  toggleRightMenu() {
+    this.rightMenuOpen = !this.rightMenuOpen;
   }
 
 }
