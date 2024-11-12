@@ -3,10 +3,10 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { letsArrowLeft, letsArrowRight } from '@ng-icons/lets-icons/regular';
 import { type Color, NgxChartsModule } from '@swimlane/ngx-charts';
 import { theme } from '../../../_variables';
-import type { SessionDto } from '../../models';
+import type { Lap } from '../../services/data.interface';
 
 
-type Lap = { name: string; value: number; originalValue: number; isCapped: boolean };
+type CappedLap = { name: string; value: number; originalValue: number; isCapped: boolean };
 
 @Component({
   selector: 'speed-barchart',
@@ -17,12 +17,12 @@ type Lap = { name: string; value: number; originalValue: number; isCapped: boole
   viewProviders: [provideIcons({ letsArrowRight, letsArrowLeft })],
 })
 export class SpeedBarchartComponent {
-  @Input({ required: true }) sessions: SessionDto[] = [];
+  @Input({ required: true }) laps: Lap[] = [];
 
   currentIndex = 0;  // Index of the selected bar
-  lapData: Lap[] = [];
+  lapData: CappedLap[] = [];
   selectedLap: typeof this.lapData[0] | null = null;
-  fastestLap: Lap | null = null;
+  fastestLap: CappedLap | null = null;
   colors = this.updateColors();
   yScaleMax = 40;
   yScaleMin = 5;
@@ -35,11 +35,11 @@ export class SpeedBarchartComponent {
   }
 
   initializeData() {
-    const laps = this.sessions.flatMap((session) => session.laps || []);
+    const laps = this.laps;
     const twoDecimal = (v: number) => Math.round(v * 100) / 100;
 
     const lapSpeeds = laps
-      .map((lap) => lap.speed?.kph || 0)
+      .map((lap) => lap.speed)
       .map((v) => twoDecimal(v));
 
     // Process data, storing both capped and original values
@@ -60,7 +60,7 @@ export class SpeedBarchartComponent {
   }
 
 
-  onSelect(event: Lap): void {
+  onSelect(event: CappedLap): void {
     this.currentIndex = this.lapData.findIndex((l) => l.name === event.name);
     this.colors = this.updateColors();
     this.selectedLap = this.lapData[this.currentIndex];

@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, of, tap } from "rxjs";
 import { environment } from "../../environments/environment";
-import type { SkateActvitities, SkateActvitity } from "./data.interface";
+import type { Activity, SeasonsResponse } from "./data.interface";
 
 
 @Injectable({
@@ -11,8 +11,8 @@ import type { SkateActvitities, SkateActvitity } from "./data.interface";
 export class DataService {
   constructor(private http: HttpClient) { }
 
-  private activity = new BehaviorSubject<SkateActvitity | null>(null);
-  private activities = new BehaviorSubject<SkateActvitities | null>(null);
+  private activity = new BehaviorSubject<Activity | null>(null);
+  private activities = new BehaviorSubject<Activity[] | null>(null);
 
 
 
@@ -24,12 +24,12 @@ export class DataService {
     return this.activities.asObservable()
   }
 
-  setCurrentActivity(activity: SkateActvitity) {
+  setCurrentActivity(activity: Activity) {
     this.activity.next(activity);
 
   }
 
-  setAllActivities(activities: SkateActvitity[]) {
+  setAllActivities(activities: Activity[]) {
     this.activities.next(activities);
   }
 
@@ -41,7 +41,7 @@ export class DataService {
       if (!activities || !currentActivity) return;
 
 
-      const currentIndex = activities.findIndex((activity) => activity.id === currentActivity.id);
+      const currentIndex = activities.findIndex((activity) => activity.activityId === currentActivity.activityId);
       const newIndex =
         direction === 'previous'
           ? (currentIndex + 1) % activities.length
@@ -53,14 +53,14 @@ export class DataService {
 
   getCurrentSeasonActivities({ chipCode }: { chipCode: string }) {
     const cacheKey = `SkateActvitity-CurrentSeason-${chipCode}`;
-    const cachedData = this.getItem<SkateActvitities>(cacheKey);
+    const cachedData = this.getItem<SeasonsResponse>(cacheKey);
 
     if (cachedData) {
       return of(cachedData);
     }
 
     const url = `${environment.apiUrl}/current/${chipCode}`;
-    return this.http.get<SkateActvitities>(url).pipe(
+    return this.http.get<SeasonsResponse>(url).pipe(
       tap((res) => {
         this.setItem(cacheKey, res);
       })
@@ -69,14 +69,14 @@ export class DataService {
 
   getPreviousSeasonActivities({ chipCode }: { chipCode: string }) {
     const cacheKey = `SkateActvitity-PreviousSeason-${chipCode}`;
-    const cachedData = this.getItem<SkateActvitities>(cacheKey);
+    const cachedData = this.getItem<SeasonsResponse>(cacheKey);
 
     if (cachedData) {
       return of(cachedData);
     }
 
     const url = `${environment.apiUrl}/previous/${chipCode}`;
-    return this.http.get<SkateActvitities>(url).pipe(
+    return this.http.get<SeasonsResponse>(url).pipe(
       tap((res) => {
         this.setItem(cacheKey, res, 60 * 24 * 7 * 365); // 1 year
       })

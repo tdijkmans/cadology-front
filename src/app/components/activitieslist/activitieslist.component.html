@@ -4,7 +4,7 @@
         <div *ngFor="let activity of allActivities" (click)="handleAct(activity)"
             [ngClass]="{'al-activity': true,'al-current-activity': isCurrentActivity(activity),'px-1 py-1': true}">
 
-            <h4 [ngClass]="{ 'al-current-activity-title': isCurrentActivity(activity) }">{{ activity.location?.name }}
+            <h4 [ngClass]="{ 'al-current-activity-title': isCurrentActivity(activity) }">{{ activity.location }}
             </h4>
 
             <div>
@@ -16,19 +16,19 @@
                 <div
                     [ngClass]="{'al-badge': true,'al-badge--current': isCurrentActivity(activity), 'al-badge-best': isFastedLap(activity)}">
                     <ng-icon *ngIf="isFastedLap(activity)" name="letsTrophy" size="24" />
-                    <p>{{ activity.activityDetails.stats?.fastestTime | number: '1.2-2' }} s</p>
+                    <p>{{ activity.bestLap.duration| number: '1.2-2' }} s</p>
                 </div>
 
                 <div
                     [ngClass]="{'al-badge': true,'al-badge--current': isCurrentActivity(activity), 'al-badge-best': isFastestSpeed(activity)}">
                     <ng-icon *ngIf="isFastestSpeed(activity)" name="letsTrophy" size="24" />
-                    <p>{{ activity.activityDetails.stats?.fastestSpeed?.kph | number: '1.2-2' }} km/u</p>
+                    <p>{{ activity.bestLap.speed| number: '1.2-2' }} km/u</p>
                 </div>
 
                 <div
                     [ngClass]="{'al-badge': true,'al-badge--current': isCurrentActivity(activity), 'al-badge-best': isMostLaps(activity)}">
                     <ng-icon *ngIf="isMostLaps(activity)" name="letsTrophy" size="24" />
-                    <p>{{ activity.activityDetails.stats?.lapCount }} ronden</p>
+                    <p>{{ activity.lapCount }} ronden</p>
                 </div>
             </div>
 

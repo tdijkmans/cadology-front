@@ -21,15 +21,15 @@
 
 
   <ng-container *ngIf="(currentActivity$ |async ) as currentActivity">
-    <activitystats [currentActivity]="currentActivity" *ngIf="currentActivity?.activityDetails?.stats"
-      (nextActivity)="selectNextActivity()" (prevActivity)="selectPrevActivity()" />
+    <activitystats [currentActivity]="currentActivity" (nextActivity)="selectNextActivity()"
+      (prevActivity)="selectPrevActivity()" />
 
     <div class="px-1 py-1">
       <div id="bar-chart" class="card">
         <div class="card-header">
           <h2>Rondetijden (s)</h2>
         </div>
-        <lap-barchart [sessions]="currentActivity.activityDetails.sessions ||[]" />
+        <lap-barchart [laps]="currentActivity.laps" />
       </div>
     </div>
 
@@ -38,7 +38,7 @@
         <div class="card-header">
           <h2 class="text-secondary">Snelheid (km/u) per ronde</h2>
         </div>
-        <speed-barchart [sessions]="currentActivity.activityDetails.sessions ||[]" />
+        <speed-barchart [laps]="currentActivity.laps ||[]" />
       </div>
     </div>
 

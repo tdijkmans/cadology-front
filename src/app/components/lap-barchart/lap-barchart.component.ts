@@ -3,12 +3,11 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { letsArrowLeft, letsArrowRight } from '@ng-icons/lets-icons/regular';
 import { type Color, NgxChartsModule } from '@swimlane/ngx-charts';
 import { theme } from '../../../_variables';
-import type { SessionDto } from '../../models';
-import { durationToSeconds } from '../utilities';
+import type { Lap } from '../../services/data.interface';
 
 
 
-type Lap = { name: string; value: number; originalValue: number; isCapped: boolean };
+type CappedLap = { name: string; value: number; originalValue: number; isCapped: boolean };
 
 @Component({
   selector: 'lap-barchart',
@@ -19,12 +18,12 @@ type Lap = { name: string; value: number; originalValue: number; isCapped: boole
   viewProviders: [provideIcons({ letsArrowRight, letsArrowLeft })],
 })
 export class LapBarchartComponent implements OnChanges {
-  @Input({ required: true }) sessions: SessionDto[] = [];
+  @Input({ required: true }) laps: Lap[] = [];
 
   currentIndex = 0;  // Index of the selected bar
-  lapData: Lap[] = [];
+  lapData: CappedLap[] = [];
   selectedLap: typeof this.lapData[0] | null = null;
-  fastestLap: Lap | null = null;
+  fastestLap: CappedLap | null = null;
   colors = this.updateColors();
   yScaleMax = 100;
   yScaleMin = 25;
@@ -37,12 +36,8 @@ export class LapBarchartComponent implements OnChanges {
   }
 
   initializeData() {
-    const laps = this.sessions.flatMap((session) => session.laps || []);
-    const twoDecimal = (v: number) => Math.round(v * 100) / 100;
 
-    const lapDurations = laps.map((lap) =>
-      twoDecimal(durationToSeconds(lap.duration || "0:00"))
-    );
+    const lapDurations = this.laps.map((lap) => lap.duration);
 
     // Process data, storing both capped and original values
     this.lapData = lapDurations.map((duration, index) => ({
@@ -62,7 +57,7 @@ export class LapBarchartComponent implements OnChanges {
   }
 
 
-  onSelect(event: Lap): void {
+  onSelect(event: CappedLap): void {
     this.currentIndex = this.lapData.findIndex((l) => l.name === event.name);
     this.colors = this.updateColors();
     this.selectedLap = this.lapData[this.currentIndex];

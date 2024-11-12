@@ -2,15 +2,15 @@ import { CommonModule } from "@angular/common";
 import { Component, DestroyRef, type OnInit, inject } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { FormsModule } from "@angular/forms";
+import { ActivitieslistComponent } from "@components/activitieslist/activitieslist.component";
+import { ActivitystatsComponent } from "@components/activitystats/activitystats.component";
+import { LapBarchartComponent } from "@components/lap-barchart/lap-barchart.component";
+import { SpeedBarchartComponent } from "@components/speed-barchart/speed-barchart.component";
 import { provideIcons } from "@ng-icons/core";
 import { letsEye, letsTrophy } from "@ng-icons/lets-icons/regular";
+import { DataService } from "@services/data.service";
 import { BehaviorSubject, mergeMap, tap } from "rxjs";
-import { ActivitieslistComponent } from "./components/activitieslist/activitieslist.component";
-import { ActivitystatsComponent } from "./components/activitystats/activitystats.component";
-import { LapBarchartComponent } from "./components/lap-barchart/lap-barchart.component";
-import { SpeedBarchartComponent } from "./components/speed-barchart/speed-barchart.component";
-import type { SkateActvitity } from "./services/data.interface";
-import { DataService } from "./services/data.service";
+import type { Activity } from "./services/data.interface";
 
 @Component({
   selector: "app-root",
@@ -63,8 +63,9 @@ export class AppComponent implements OnInit {
       .getCurrentSeasonActivities({ chipCode })
       .pipe(
         mergeMap((currentActivities) => {
-          this.dataService.setCurrentActivity(currentActivities[0]);
-          this.dataService.setAllActivities(currentActivities);
+
+          this.dataService.setCurrentActivity(currentActivities.data[0]);
+          this.dataService.setAllActivities(currentActivities.data);
 
           return this.dataService
             .getPreviousSeasonActivities({ chipCode })
@@ -72,8 +73,8 @@ export class AppComponent implements OnInit {
               tap((previousActivities) => {
                 // Combine current and previous activities
                 const allActivities = [
-                  ...currentActivities,
-                  ...previousActivities,
+                  ...currentActivities.data,
+                  ...previousActivities.data ?? [],
                 ];
                 const sortedActivities = allActivities.sort(
                   (a, b) => {
@@ -103,7 +104,7 @@ export class AppComponent implements OnInit {
     this.dataService.setItem("chipCode", chipCode);
   }
 
-  handleAct(activity: SkateActvitity) {
+  handleAct(activity: Activity) {
     this.dataService.setCurrentActivity(activity);
   }
 

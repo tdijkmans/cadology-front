@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { letsTrophy } from '@ng-icons/lets-icons/regular';
-import type { SkateActvitity } from '../../services/data.interface';
+import type { Activity } from '../../services/data.interface';
 
 @Component({
   selector: 'activitieslist',
@@ -13,37 +13,37 @@ import type { SkateActvitity } from '../../services/data.interface';
   viewProviders: [provideIcons({ letsTrophy })],
 })
 export class ActivitieslistComponent {
-  @Input({ required: true }) currentActivity = {} as SkateActvitity;
-  @Input({ required: true }) allActivities = [] as SkateActvitity[];
-  @Output() selectActivity = new EventEmitter<SkateActvitity>();
+  @Input({ required: true }) currentActivity = {} as Activity;
+  @Input({ required: true }) allActivities = [] as Activity[];
+  @Output() selectActivity = new EventEmitter<Activity>();
 
 
-  handleAct(activity: SkateActvitity) {
+  handleAct(activity: Activity) {
     this.selectActivity.emit(activity);
   }
 
   // In your component's .ts file
-  isCurrentActivity(activity: SkateActvitity): boolean {
+  isCurrentActivity(activity: Activity): boolean {
     return this.currentActivity?.activityId === activity.activityId;
   }
 
-  isFastestSpeed(activity: SkateActvitity): boolean {
-    const allSpeeds = this.allActivities.map((a) => a.activityDetails.stats?.fastestSpeed?.kph);
+  isFastestSpeed(activity: Activity): boolean {
+    const allSpeeds = this.allActivities.map((a) => a.bestLap.speed);
     const speeds = allSpeeds.filter((speed) => speed !== undefined);
-    return activity.activityDetails.stats?.fastestSpeed?.kph === Math.max(...speeds);
+    return activity.bestLap.duration === Math.max(...speeds);
   }
 
-  isFastedLap(activity: SkateActvitity): boolean {
-    const allLaps = this.allActivities.map((a) => Number.parseFloat(a.activityDetails.stats?.fastestTime || '0'));
+  isFastedLap(activity: Activity): boolean {
+    const allLaps = this.allActivities.map((a) => a.bestLap.duration || 0);
     const laps = allLaps.filter((lap) => lap !== undefined);
-    const lap = Number.parseFloat(activity.activityDetails.stats?.fastestTime || '0');
+    const lap = activity.bestLap.speed || 0;
     return lap === Math.min(...laps);
   }
 
-  isMostLaps(activity: SkateActvitity): boolean {
-    const allLaps = this.allActivities.map((a) => a.activityDetails.stats?.lapCount);
+  isMostLaps(activity: Activity): boolean {
+    const allLaps = this.allActivities.map((a) => a.lapCount);
     const laps = allLaps.filter((lap) => lap !== undefined);
-    return activity.activityDetails.stats?.lapCount === Math.max(...laps);
+    return activity.lapCount === Math.max(...laps);
   }
 
 }

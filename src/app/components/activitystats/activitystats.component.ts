@@ -2,7 +2,7 @@ import { CommonModule } from "@angular/common";
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { NgIconComponent, provideIcons } from "@ng-icons/core";
 import { letsArrowLeft, letsArrowRight } from "@ng-icons/lets-icons/regular";
-import type { SkateActvitity } from "../../services/data.interface";
+import type { Activity } from "../../services/data.interface";
 import { DataService } from "../../services/data.service";
 
 
@@ -16,7 +16,7 @@ import { DataService } from "../../services/data.service";
   viewProviders: [provideIcons({ letsArrowRight, letsArrowLeft })],
 })
 export class ActivitystatsComponent {
-  @Input({ required: true }) currentActivity = {} as SkateActvitity;
+  @Input({ required: true }) currentActivity = {} as Activity;
   @Output() nextActivity = new EventEmitter();
   @Output() prevActivity = new EventEmitter();
 
@@ -29,7 +29,7 @@ export class ActivitystatsComponent {
   }
 
   get totalTrainingTime() {
-    const time = this.currentActivity.activityDetails.stats?.totalTrainingTime?.split(".")[0];
+    const time = this.currentActivity.totalTrainingTime?.split(".")[0];
     const numberOfColons = time?.split(":").length;
 
     return numberOfColons === 2 ? [time, 'minuten'] : [time, 'uur'];
