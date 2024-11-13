@@ -1,11 +1,12 @@
-<div class="px-1 py-1" *ngIf="currentActivity.activityDetails">
+<div class="px-1 py-1" *ngIf="currentActivity">
     <div id="chart" class="card as-navigation-card">
-        <button class="as-navigation-button" (click)="onPrevious()">
+        <button [ngClass]="{'as-navigation-button': true, 'as-navigation-button-disabled': isOldest}"
+            [disabled]="isOldest" (click)="onPrevious()">
             <ng-icon name="letsArrowLeft" />
         </button>
         <div>
             <div class="card-header">
-                <h2 class="text-accent">{{currentActivity.location?.name}}</h2>
+                <h2 class="text-accent">{{currentActivity.location}}</h2>
                 <h3 class="text-accent">{{currentActivity.startTime | date:'EEEE d MMMM y' }}
                 </h3>
             </div>
@@ -13,11 +14,10 @@
             <div class="card-body as-stats">
                 <div class="as-data-badge">
                     <div class="as-data-badge-value">
-                        {{currentActivity.activityDetails.bestLap?.duration | number:'1.0-2'}} <span
-                            class="as-data-badge-unit">s</span>
+                        {{currentActivity.bestLap.duration | number:'1.0-2'}} <span class="as-data-badge-unit">s</span>
                     </div>
                     <div class="as-data-badge-value">
-                        {{currentActivity.activityDetails.stats?.fastestSpeed?.kph | number:'1.0-2'}}
+                        {{currentActivity.bestLap.speed | number:'1.0-2'}}
                         <span class="as-data-badge-unit">km/u</span>
                     </div>
                     <div class="as-data-badge-label">
@@ -27,7 +27,7 @@
 
                 <div class="as-data-badge">
                     <div class="as-data-badge-value">
-                        {{currentActivity.activityDetails.stats?.lapCount}}
+                        {{currentActivity.lapCount}}
                         <span class="as-data-badge-unit">rondes</span>
                     </div>
 
@@ -41,7 +41,8 @@
                 </div>
             </div>
         </div>
-        <button class="as-navigation-button" (click)="onNext()">
+        <button [ngClass]="{'as-navigation-button': true, 'as-navigation-button-disabled': isMostRecent}"
+            [disabled]="isMostRecent" (click)="onNext()">
             <ng-icon name="letsArrowRight" />
         </button>
     </div>

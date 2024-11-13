@@ -1,16 +1,21 @@
 @import '../variables.scss';
 
 .app-menu-bar {
-    background-color: #f8f9fa;
+    background-color: $subtle-color;
     border-bottom: 1px solid #e9ecef;
-    padding: 10px 0;
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 1000;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
+    &__item {
+        display: flex;
 
+    }
 }
 
 .app-menu-bar__logo {
@@ -21,5 +26,112 @@
 }
 
 .app-content {
-    margin-top: 60px;
+    margin-top: 50px;
+
+    &-void {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        width: 100%;
+        text-align: center;
+        background: #72C6EF;
+        background: linear-gradient(30deg,
+                #aedef6, #bee2ff);
+
+    }
 }
+
+.app-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.app-drawer-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 80%;
+    height: 100%;
+    background-color: $secondary-color;
+    padding: $spacing-lg;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    z-index: 20;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+
+    &--open {
+        transform: translateX(0);
+    }
+}
+
+.app-drawer-menu__item {
+    background: none;
+    padding: $spacing-md 0;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+}
+
+.app-drawer-menu__item:hover {
+    color: darken($secondary-color, 10%);
+}
+
+.app-settings-menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 80%;
+    height: 100%;
+    background-color: white;
+    padding: $spacing-lg;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 20;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+
+    &--open {
+        transform: translateX(0);
+    }
+
+    .app-drawer-menu__item {
+        color: $secondary-color;
+    }
+
+}
+
+.tab-container {
+    display: flex;
+    border-bottom: 1px solid $secondary-color;
+}
+
+.tab {
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 0;
+    color: $simple-gray;
+    font-weight: normal;
+}
+
+.tab.active {
+    border-bottom: 2px solid $secondary-color;
+    color: $secondary-color;
+    transition: color 0.3s ease-in-out;
+}
+
+.tab-content {}

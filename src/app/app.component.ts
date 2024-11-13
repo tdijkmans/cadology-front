@@ -2,15 +2,16 @@ import { CommonModule } from "@angular/common";
 import { Component, DestroyRef, type OnInit, inject } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { FormsModule } from "@angular/forms";
-import { provideIcons } from "@ng-icons/core";
-import { letsEye, letsTrophy } from "@ng-icons/lets-icons/regular";
-import { BehaviorSubject, mergeMap, tap } from "rxjs";
-import { ActivitieslistComponent } from "./components/activitieslist/activitieslist.component";
-import { ActivitystatsComponent } from "./components/activitystats/activitystats.component";
-import { LapBarchartComponent } from "./components/lap-barchart/lap-barchart.component";
-import { SpeedBarchartComponent } from "./components/speed-barchart/speed-barchart.component";
-import type { SkateActvitity } from "./services/data.interface";
-import { DataService } from "./services/data.service";
+import { ActivitieslistComponent } from "@components/activitieslist/activitieslist.component";
+import { ActivitystatsComponent } from "@components/activitystats/activitystats.component";
+import { CircleBadgeComponent } from "@components/circle-badge/circle-badge.component";
+import { LapBarchartComponent } from "@components/lap-barchart/lap-barchart.component";
+import { SpeedBarchartComponent } from "@components/speed-barchart/speed-barchart.component";
+import { NgIconComponent, provideIcons } from "@ng-icons/core";
+import { letsArrowLeft, letsArrowRight, letsSettingLine } from "@ng-icons/lets-icons/regular";
+import { DataService } from "@services/data.service";
+import { filter, mergeMap, of, tap } from "rxjs";
+import type { Activity } from "./services/data.interface";
 
 @Component({
   selector: "app-root",
@@ -21,12 +22,14 @@ import { DataService } from "./services/data.service";
     ActivitystatsComponent,
     ActivitieslistComponent,
     LapBarchartComponent,
-    SpeedBarchartComponent
+    SpeedBarchartComponent,
+    NgIconComponent,
+    CircleBadgeComponent
   ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
   providers: [DataService],
-  viewProviders: [provideIcons({ letsEye, letsTrophy })],
+  viewProviders: [provideIcons({ letsArrowRight, letsArrowLeft, letsSettingLine })],
 })
 export class AppComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
@@ -34,7 +37,10 @@ export class AppComponent implements OnInit {
   title = "";
   chipInput = "";
   errorMessage = "";
-  isMenuOpen = new BehaviorSubject(false);
+  leftMenuOpen = false;
+  rightMenuOpen = false;
+  chartTabVariant: 'speed' | 'lapTime' = 'lapTime';
+  seasonTabVariant: 'current' | 'previous' = 'current';
 
   constructor(private dataService: DataService) { }
 
@@ -58,13 +64,28 @@ export class AppComponent implements OnInit {
     return this.dataService.currentActivity$;
   }
 
+  get currentSeasonActivities$() {
+    return this.dataService.allActivities$.pipe(
+      filter(activities => !!activities),
+      mergeMap((activities) =>
+        of(activities.filter((a) => a.season === "currentSeasonActivities"))));
+  }
+
+  get previousSeasonActivities$() {
+    return this.dataService.allActivities$.pipe(
+      filter(activities => !!activities),
+      mergeMap((activities) =>
+        of(activities.filter((a) => a.season === "previousSeasonActivities"))));
+  }
+
   fetchCurrentActivities(chipCode: string) {
     this.dataService
       .getCurrentSeasonActivities({ chipCode })
       .pipe(
         mergeMap((currentActivities) => {
-          this.dataService.setCurrentActivity(currentActivities[0]);
-          this.dataService.setAllActivities(currentActivities);
+
+          this.dataService.setCurrentActivity(currentActivities.data[0]);
+          this.dataService.setAllActivities(currentActivities.data);
 
           return this.dataService
             .getPreviousSeasonActivities({ chipCode })
@@ -72,8 +93,8 @@ export class AppComponent implements OnInit {
               tap((previousActivities) => {
                 // Combine current and previous activities
                 const allActivities = [
-                  ...currentActivities,
-                  ...previousActivities,
+                  ...currentActivities.data,
+                  ...previousActivities.data ?? [],
                 ];
                 const sortedActivities = allActivities.sort(
                   (a, b) => {
@@ -103,7 +124,7 @@ export class AppComponent implements OnInit {
     this.dataService.setItem("chipCode", chipCode);
   }
 
-  handleAct(activity: SkateActvitity) {
+  handleAct(activity: Activity) {
     this.dataService.setCurrentActivity(activity);
   }
 
@@ -126,8 +147,19 @@ export class AppComponent implements OnInit {
   }
 
   toggleMenu() {
-    this.isMenuOpen.next(!this.isMenuOpen.value);
-    console.log("toggleMenu", this.isMenuOpen.value);
+    this.leftMenuOpen = !this.leftMenuOpen;
+  }
+
+  toggleRightMenu() {
+    this.rightMenuOpen = !this.rightMenuOpen;
+  }
+
+  setTab(tab: 'speed' | 'lapTime') {
+    this.chartTabVariant = tab;
+  }
+
+  setSeasonTab(tab: 'current' | 'previous') {
+    this.seasonTabVariant = tab;
   }
 
 }

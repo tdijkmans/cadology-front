@@ -7,7 +7,7 @@ const env = environment;
 bootstrapApplication(AppComponent, appConfig)
   .then(() =>
     console.log(
-      `🚀 Application is running in ${env.production ? "production" : "development"} mode`,
+      `🚀 Application is running ${env.production ? "" : "in development mode"}`
     ),
   )
   .catch((err) => console.error(err));
