@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { letsTrophy } from '@ng-icons/lets-icons/regular';
 import type { Activity } from '../../services/data.interface';
@@ -12,35 +12,52 @@ import type { Activity } from '../../services/data.interface';
   styleUrl: './activitieslist.component.scss',
   viewProviders: [provideIcons({ letsTrophy })],
 })
-export class ActivitieslistComponent {
+export class ActivitieslistComponent implements OnChanges {
   @Input({ required: true }) currentActivity = {} as Activity;
-  @Input({ required: true }) allActivities = [] as Activity[];
+  @Input({ required: true }) activities = [] as Activity[];
   @Output() selectActivity = new EventEmitter<Activity>();
 
+  fastestSpeedActivityId: number | null = null;
+  fastestLapActivityId: number | null = null;
+  mostLapsActivityId: number | null = null;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['activities']) {
+      this.calculateAchievements();
+    }
+  }
 
   handleAct(activity: Activity) {
     this.selectActivity.emit(activity);
   }
 
-  // In your component's .ts file
   isCurrentActivity(activity: Activity): boolean {
     return this.currentActivity?.activityId === activity.activityId;
   }
 
-  isFastestSpeed(activity: Activity): boolean {
-    const allSpeeds = this.allActivities.map((a) => a.bestLap.speed);
-    return activity.bestLap.duration === Math.max(...allSpeeds);
+  private calculateAchievements(): void {
+    if (this.activities.length === 0) return;
+
+    this.fastestSpeedActivityId = this.activities.reduce((prev, curr) =>
+      (curr.bestLap.speed > prev.bestLap.speed ? curr : prev)).activityId;
+
+    this.fastestLapActivityId = this.activities.reduce((prev, curr) =>
+      (curr.bestLap.duration < prev.bestLap.duration ? curr : prev)).activityId;
+
+    this.mostLapsActivityId = this.activities.reduce((prev, curr) =>
+      (curr.lapCount > prev.lapCount ? curr : prev)).activityId;
+
   }
 
-  isFastedLap(activity: Activity): boolean {
-    const allLaps = this.allActivities.map((a) => a.bestLap.duration || 0);
-    const lap = activity.bestLap.speed || 0;
-    return lap === Math.min(...allLaps);
+  isFastestSpeed(activity: Activity): boolean {
+    return activity.activityId === this.fastestSpeedActivityId;
+  }
+
+  isFastestLap(activity: Activity): boolean {
+    return activity.activityId === this.fastestLapActivityId;
   }
 
   isMostLaps(activity: Activity): boolean {
-    const allLaps = this.allActivities.map((a) => a.lapCount);
-    return activity.lapCount === Math.max(...allLaps);
+    return activity.activityId === this.mostLapsActivityId;
   }
-
 }

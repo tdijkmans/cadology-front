@@ -1,3 +1,16 @@
+type Lap = {
+    lapNr: number;
+    duration: number;
+    speed: number;
+};
+
+type BestLap = {
+    lapNr: number;
+    duration: number;
+    speed: number;
+};
+
+type Season = "previousSeasonActivities" | "currentSeasonActivities";
 type Activity = {
     activityId: number;
     location: string;
@@ -11,25 +24,13 @@ type Activity = {
     averageTime: number;
     medianTime: number;
     laps: Lap[];
-};
-
-type Lap = {
-    lapNr: number;
-    duration: number;
-    speed: number;
-};
-
-type BestLap = {
-    lapNr: number;
-    duration: number;
-    speed: number;
+    season: Season;
 };
 
 type SeasonsResponse = {
     data: Activity[];
-    meta: { total: number, chipCode: string };
-    type: 'previousSeasonActivities' | 'currentSeasonActivities';
-}
+    meta: { total: number; chipCode: string };
+    type: Season;
+};
 
-
-export type { Activity, BestLap, Lap, SeasonsResponse };
+export type { Activity, BestLap, Lap, Season, SeasonsResponse };

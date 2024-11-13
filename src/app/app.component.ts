@@ -4,12 +4,13 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { FormsModule } from "@angular/forms";
 import { ActivitieslistComponent } from "@components/activitieslist/activitieslist.component";
 import { ActivitystatsComponent } from "@components/activitystats/activitystats.component";
+import { CircleBadgeComponent } from "@components/circle-badge/circle-badge.component";
 import { LapBarchartComponent } from "@components/lap-barchart/lap-barchart.component";
 import { SpeedBarchartComponent } from "@components/speed-barchart/speed-barchart.component";
 import { NgIconComponent, provideIcons } from "@ng-icons/core";
-import { letsArrowLeft, letsArrowRight } from "@ng-icons/lets-icons/regular";
+import { letsArrowLeft, letsArrowRight, letsSettingLine } from "@ng-icons/lets-icons/regular";
 import { DataService } from "@services/data.service";
-import { mergeMap, tap } from "rxjs";
+import { filter, mergeMap, of, tap } from "rxjs";
 import type { Activity } from "./services/data.interface";
 
 @Component({
@@ -22,12 +23,13 @@ import type { Activity } from "./services/data.interface";
     ActivitieslistComponent,
     LapBarchartComponent,
     SpeedBarchartComponent,
-    NgIconComponent
+    NgIconComponent,
+    CircleBadgeComponent
   ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
   providers: [DataService],
-  viewProviders: [provideIcons({ letsArrowRight, letsArrowLeft })],
+  viewProviders: [provideIcons({ letsArrowRight, letsArrowLeft, letsSettingLine })],
 })
 export class AppComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
@@ -35,8 +37,10 @@ export class AppComponent implements OnInit {
   title = "";
   chipInput = "";
   errorMessage = "";
-  isMenuOpen = false;
+  leftMenuOpen = false;
   rightMenuOpen = false;
+  chartTabVariant: 'speed' | 'lapTime' = 'lapTime';
+  seasonTabVariant: 'current' | 'previous' = 'current';
 
   constructor(private dataService: DataService) { }
 
@@ -58,6 +62,20 @@ export class AppComponent implements OnInit {
 
   get currentActivity$() {
     return this.dataService.currentActivity$;
+  }
+
+  get currentSeasonActivities$() {
+    return this.dataService.allActivities$.pipe(
+      filter(activities => !!activities),
+      mergeMap((activities) =>
+        of(activities.filter((a) => a.season === "currentSeasonActivities"))));
+  }
+
+  get previousSeasonActivities$() {
+    return this.dataService.allActivities$.pipe(
+      filter(activities => !!activities),
+      mergeMap((activities) =>
+        of(activities.filter((a) => a.season === "previousSeasonActivities"))));
   }
 
   fetchCurrentActivities(chipCode: string) {
@@ -129,11 +147,19 @@ export class AppComponent implements OnInit {
   }
 
   toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
+    this.leftMenuOpen = !this.leftMenuOpen;
   }
 
   toggleRightMenu() {
     this.rightMenuOpen = !this.rightMenuOpen;
+  }
+
+  setTab(tab: 'speed' | 'lapTime') {
+    this.chartTabVariant = tab;
+  }
+
+  setSeasonTab(tab: 'current' | 'previous') {
+    this.seasonTabVariant = tab;
   }
 
 }

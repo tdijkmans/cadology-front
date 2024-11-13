@@ -4,16 +4,15 @@
         [tooltipDisabled]="true" />
 </div>
 
-
 <div class="lb-chart-navigation">
     <button (click)="selectPrevBar()">
-        <ng-icon name="letsArrowLeft" />
+        <ng-icon name="letsArrowLeft" size="24" />
     </button>
     <span class="text-dark">
         {{selectedLap?.originalValue | number: '1.0-2'}} s
         {{selectedLap?.originalValue === fastestLap?.originalValue ? '(snelste ronde)' : ''}}
     </span>
     <button (click)="selectNextBar()">
-        <ng-icon name="letsArrowRight" />
+        <ng-icon name="letsArrowRight" size="24" />
     </button>
 </div>

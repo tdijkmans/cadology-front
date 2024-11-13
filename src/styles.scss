@@ -11,6 +11,8 @@
     /* Light gray background for contrast */
     --accent-color: #00c853;
     /* Bright green accent for success messages */
+    --subtle-color: #f9f9f9;
+    /* Very light gray for subtle text or borders */
     --dark-color: #333333;
     /* Dark text color for readability */
 
@@ -130,7 +132,7 @@ button,
     transition: transform 0.2s ease;
 
     &:hover {
-        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
     }
 
     .card-header {
@@ -144,15 +146,11 @@ button,
     }
 
     .card-body {
-
         font-size: $body-font-size-mob;
-        // background-color: red;
-
 
         @media screen and (min-width: $breakpoint-mobile) {
             padding: $spacing-md;
             font-size: $body-font-size;
-            // background-color: #00c853;
         }
 
 
@@ -165,6 +163,14 @@ button,
 
 .text-secondary {
     color: $secondary-color;
+}
+
+.text-subtle {
+    color: $subtle-color;
+}
+
+.text-gray {
+    color: $simple-gray
 }
 
 .text-dark {

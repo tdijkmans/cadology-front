@@ -1,6 +1,7 @@
 <div class="px-1 py-1" *ngIf="currentActivity">
     <div id="chart" class="card as-navigation-card">
-        <button class="as-navigation-button" (click)="onPrevious()">
+        <button [ngClass]="{'as-navigation-button': true, 'as-navigation-button-disabled': isOldest}"
+            [disabled]="isOldest" (click)="onPrevious()">
             <ng-icon name="letsArrowLeft" />
         </button>
         <div>
@@ -40,7 +41,8 @@
                 </div>
             </div>
         </div>
-        <button class="as-navigation-button" (click)="onNext()">
+        <button [ngClass]="{'as-navigation-button': true, 'as-navigation-button-disabled': isMostRecent}"
+            [disabled]="isMostRecent" (click)="onNext()">
             <ng-icon name="letsArrowRight" />
         </button>
     </div>

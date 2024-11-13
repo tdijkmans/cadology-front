@@ -5,16 +5,27 @@
     flex-direction: column;
     align-items: start;
     cursor: pointer;
-    border-bottom: 1px solid $subtle-color;
+    padding-bottom: $spacing-md;
+    border-bottom: 1px solid $simple-gray;
 
     &:hover {
         background-color: #f0f0f0;
     }
+
+    .al-date {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: $spacing-xs;
+        color: $simple-gray;
+    }
+
 }
 
 .al-current-activity {
     background-color: $accent-color;
     color: white;
+    transition: background-color 0.3s;
 
     &-title {
         color: white;
@@ -22,6 +33,10 @@
 
     &:hover {
         background-color: darken($accent-color, 10%);
+    }
+
+    .al-date {
+        color: white;
     }
 }
 
@@ -41,8 +56,8 @@
         gap: $spacing-xs;
         color: white;
         background-color: white;
-        color: $primary-color;
-        border-color: $primary-color;
+        color: $secondary-color;
+        border-color: $secondary-color;
 
         &--current {
             color: white;
@@ -52,9 +67,11 @@
 
         &-best {
 
-            background-color: $primary-color ;
+            background-color: $secondary-color ;
             color: white
         }
 
     }
+
+
 }

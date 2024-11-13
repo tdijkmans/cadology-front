@@ -17,6 +17,8 @@ import { DataService } from "../../services/data.service";
 })
 export class ActivitystatsComponent {
   @Input({ required: true }) currentActivity = {} as Activity;
+  @Input({ required: true }) isMostRecent = false;
+  @Input({ required: true }) isOldest = false;
   @Output() nextActivity = new EventEmitter();
   @Output() prevActivity = new EventEmitter();
 

@@ -18,6 +18,7 @@
 
 .as-data-badge-value {
     font-size: $heading-font-size-mob;
+    color: $accent-color;
 
     @media (min-width: $breakpoint-mobile) {
         font-size: $heading-font-size;
@@ -38,7 +39,7 @@
 
 .as-data-badge-unit {
     font-size: $body-font-size-mob;
-    color: $subtle-color;
+    color: $simple-gray;
     font-variant: small-caps;
     font-family: $font-family;
     font-weight: lighter;
@@ -73,6 +74,11 @@
     align-items: center;
     padding: $spacing-sm $spacing-md;
     background-color: $accent-color;
-    font-weight: bold;
+    border-radius: 0;
     cursor: pointer;
+
+    &-disabled {
+        background-color: $simple-gray;
+        cursor: not-allowed;
+    }
 }

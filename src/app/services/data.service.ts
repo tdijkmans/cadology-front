@@ -1,9 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, of, tap } from "rxjs";
+import { BehaviorSubject, catchError, of, tap } from "rxjs";
 import { environment } from "../../environments/environment";
 import type { Activity, SeasonsResponse } from "./data.interface";
-
 
 @Injectable({
   providedIn: "root",
@@ -14,41 +13,43 @@ export class DataService {
   private activity = new BehaviorSubject<Activity | null>(null);
   private activities = new BehaviorSubject<Activity[] | null>(null);
 
-
-
   get currentActivity$() {
-    return this.activity.asObservable()
+    return this.activity.asObservable();
   }
 
   get allActivities$() {
-    return this.activities.asObservable()
+    return this.activities.asObservable();
   }
 
   setCurrentActivity(activity: Activity) {
     this.activity.next(activity);
-
   }
 
   setAllActivities(activities: Activity[]) {
     this.activities.next(activities);
   }
 
+  navigateActivity(direction: "next" | "previous") {
+    return this.allActivities$.pipe(
+      tap((activities) => {
+        const currentActivity = this.activity.value;
 
-  navigateActivity(direction: 'next' | 'previous') {
-    return this.allActivities$.pipe(tap((activities) => {
-      const currentActivity = this.activity.value;
+        if (!activities || !currentActivity) return;
 
-      if (!activities || !currentActivity) return;
+        const currentIndex = activities.findIndex(
+          (activity) => activity.activityId === currentActivity.activityId,
+        );
 
+        const newIndex =
+          direction === "previous"
+            ? (currentIndex + 1) % activities.length
+            : (currentIndex - 1 + activities.length) % activities.length;
 
-      const currentIndex = activities.findIndex((activity) => activity.activityId === currentActivity.activityId);
-      const newIndex =
-        direction === 'previous'
-          ? (currentIndex + 1) % activities.length
-          : (currentIndex - 1 + activities.length) % activities.length;
+        const newActivity = activities[newIndex];
 
-      this.setCurrentActivity(activities[newIndex]);
-    }))
+        this.setCurrentActivity(newActivity);
+      }),
+    );
   }
 
   getCurrentSeasonActivities({ chipCode }: { chipCode: string }) {
@@ -63,8 +64,9 @@ export class DataService {
     return this.http.get<SeasonsResponse>(url).pipe(
       tap((res) => {
         this.setItem(cacheKey, res);
-      })
-    )
+      }),
+      catchError(() => of({ data: [] })),
+    );
   }
 
   getPreviousSeasonActivities({ chipCode }: { chipCode: string }) {
@@ -79,19 +81,18 @@ export class DataService {
     return this.http.get<SeasonsResponse>(url).pipe(
       tap((res) => {
         this.setItem(cacheKey, res, 60 * 24 * 7 * 365); // 1 year
-      })
-
-    )
+      }),
+      catchError(() => of({ data: [] })),
+    );
   }
 
   // LocalStorage methods
-
 
   setItem<T>(key: string, value: T, expirationMin = 15): void {
     // Convert expiration time from minutes to milliseconds (default: 15 minutes)
     const expiration = expirationMin * 60 * 1000;
 
-    if (key === 'chipCode') {
+    if (key === "chipCode") {
       // Store chipCode without expiration
       localStorage.setItem(key, JSON.stringify(value));
     } else {
@@ -100,7 +101,10 @@ export class DataService {
       try {
         localStorage.setItem(key, JSON.stringify(dataWithExpiration));
       } catch (error) {
-        console.error(`Error setting localStorage item with key "${key}":`, error);
+        console.error(
+          `Error setting localStorage item with key "${key}":`,
+          error,
+        );
       }
     }
   }
@@ -110,13 +114,16 @@ export class DataService {
       const serializedValue = localStorage.getItem(key);
       if (!serializedValue) return null;
 
-      if (key === 'chipCode') {
+      if (key === "chipCode") {
         // Return chipCode without checking expiration
         return JSON.parse(serializedValue);
       }
 
       const dataWithExpiration = JSON.parse(serializedValue);
-      if (dataWithExpiration.expiration && Date.now() > dataWithExpiration.expiration) {
+      if (
+        dataWithExpiration.expiration &&
+        Date.now() > dataWithExpiration.expiration
+      ) {
         // If expired, remove the item and return null
         this.removeItem(key);
         return null;
@@ -124,7 +131,10 @@ export class DataService {
 
       return dataWithExpiration.value as T;
     } catch (error) {
-      console.error(`Error getting localStorage item with key "${key}":`, error);
+      console.error(
+        `Error getting localStorage item with key "${key}":`,
+        error,
+      );
       return null;
     }
   }
@@ -133,8 +143,10 @@ export class DataService {
     try {
       localStorage.removeItem(key);
     } catch (error) {
-      console.error(`Error removing localStorage item with key "${key}":`, error);
-
+      console.error(
+        `Error removing localStorage item with key "${key}":`,
+        error,
+      );
     }
   }
 
