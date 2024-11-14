@@ -22,7 +22,7 @@ import type { Activity } from "./services/data.interface";
     ActivitieslistComponent,
     NgIconComponent,
     CircleBadgeComponent,
-    BarchartComponent
+    BarchartComponent,
   ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
@@ -159,5 +159,7 @@ export class AppComponent implements OnInit {
   setSeasonTab(tab: 'current' | 'previous') {
     this.seasonTabVariant = tab;
   }
+
+
 
 }
