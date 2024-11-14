@@ -1,5 +1,6 @@
 @import '../../../variables.scss';
 
+
 .sb-chart-container {
     width: 100%;
     height: 60vh;
@@ -18,4 +19,18 @@
         background-color: $subtle-color;
         color: $secondary-color;
     }
+}
+
+.sb-chart-value {
+    display: flex;
+    gap: $spacing-sm;
+}
+
+.sb-chart-header {
+    display: flex;
+    gap: $spacing-xs;
+    align-items: center;
+    justify-content: center;
+    margin: $spacing-sm;
+
 }

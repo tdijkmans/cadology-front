@@ -9,7 +9,7 @@ import { DataService } from "../../services/data.service";
 @Component({
   selector: "activitystats",
   standalone: true,
-  imports: [CommonModule, NgIconComponent],
+  imports: [CommonModule, NgIconComponent,],
   providers: [DataService],
   templateUrl: "./activitystats.component.html",
   styleUrl: "./activitystats.component.scss",

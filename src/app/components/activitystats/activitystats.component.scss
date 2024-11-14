@@ -7,8 +7,7 @@
     border-radius: $border-radius;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     border: 1px solid $accent-color;
 
     @media (min-width: $breakpoint-mobile) {
@@ -16,21 +15,32 @@
     }
 }
 
-.as-data-badge-value {
+.as-date {
     font-size: $heading-font-size-mob;
-    color: $accent-color;
+    color: $dark-color;
+    font-weight: normal;
 
     @media (min-width: $breakpoint-mobile) {
         font-size: $heading-font-size;
     }
 }
 
+.as-data-badge-value {
+    font-size: $key-font-size-mob;
+    color: $dark-color;
+    font-weight: normal;
+
+    @media (min-width: $breakpoint-mobile) {
+        font-size: $key-font-size;
+    }
+}
+
 .as-data-badge-label {
+    margin-top: $spacing-xs;
     font-size: $body-font-size-mob;
     color: $accent-color;
-    font-variant: small-caps;
     font-family: $font-family;
-    font-weight: lighter;
+    font-weight: normal;
 
     @media (min-width: $breakpoint-mobile) {
         font-size: $body-font-size;
@@ -39,8 +49,7 @@
 
 .as-data-badge-unit {
     font-size: $body-font-size-mob;
-    color: $simple-gray;
-    font-variant: small-caps;
+    color: $dark-color;
     font-family: $font-family;
     font-weight: lighter;
 

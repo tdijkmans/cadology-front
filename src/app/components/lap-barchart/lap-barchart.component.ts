@@ -1,13 +1,11 @@
-import { Component, Input, type OnChanges } from '@angular/core';
+import { Component, Input, type OnChanges, ViewChild } from '@angular/core';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
-import { letsArrowLeft, letsArrowRight } from '@ng-icons/lets-icons/regular';
-import { type Color, NgxChartsModule } from '@swimlane/ngx-charts';
+import { letsArrowLeft, letsArrowRight, letsSortDown, letsSortUp, letsTrophy } from '@ng-icons/lets-icons/regular';
+import { type BarVerticalComponent, type Color, NgxChartsModule } from '@swimlane/ngx-charts';
 import { theme } from '../../../_variables';
 import type { Lap } from '../../services/data.interface';
 
-
-
-type CappedLap = { name: string; value: number; originalValue: number; isCapped: boolean };
+export type CappedLap = { name: string; value: number; originalValue: number; isCapped: boolean, seq: number };
 
 @Component({
   selector: 'lap-barchart',
@@ -15,10 +13,12 @@ type CappedLap = { name: string; value: number; originalValue: number; isCapped:
   imports: [NgxChartsModule, NgIconComponent],
   templateUrl: './lap-barchart.component.html',
   styleUrl: './lap-barchart.component.scss',
-  viewProviders: [provideIcons({ letsArrowRight, letsArrowLeft })],
+  viewProviders: [provideIcons({ letsArrowRight, letsArrowLeft, letsTrophy, letsSortUp, letsSortDown })],
 })
 export class LapBarchartComponent implements OnChanges {
   @Input({ required: true }) laps: Lap[] = [];
+
+  @ViewChild('barChart') barChart: BarVerticalComponent | null = null;
 
   currentIndex = 0;  // Index of the selected bar
   lapData: CappedLap[] = [];
@@ -27,6 +27,7 @@ export class LapBarchartComponent implements OnChanges {
   colors = this.updateColors();
   yScaleMax = 100;
   yScaleMin = 25;
+  sortBy: 'sequential' | 'duration' = 'sequential';
 
   scheme = { domain: [theme.primarycolor] } as Color;;
 
@@ -37,14 +38,13 @@ export class LapBarchartComponent implements OnChanges {
 
   initializeData() {
 
-    const lapDurations = this.laps.map((lap) => lap.duration);
-
     // Process data, storing both capped and original values
-    this.lapData = lapDurations.map((duration, index) => ({
+    this.lapData = this.laps.map((l, index) => ({
       name: `${index + 1}`,
-      value: Math.min(duration, this.yScaleMax),  // Capped value for display
-      originalValue: duration,                    // Uncapped value for tooltip
-      isCapped: duration > this.yScaleMax
+      value: Math.min(l.duration, this.yScaleMax),  // Capped value for display
+      originalValue: l.duration,                    // Uncapped value for tooltip
+      isCapped: l.duration > this.yScaleMax,
+      seq: index
     }));
   }
 
@@ -81,4 +81,23 @@ export class LapBarchartComponent implements OnChanges {
     this.colors = this.updateColors();
     this.selectedLap = this.lapData[this.currentIndex];
   }
+
+  toggleSort() {
+    if (this.lapData.length < 2 || !this.barChart) {
+      return;
+    }
+    this.sortBy = this.sortBy === 'sequential' ? 'duration' : 'sequential';
+    const { name } = this.selectedLap || this.lapData[0];
+
+    const results = this.sortBy === 'sequential'
+      ? [...this.lapData].sort((a, b) => a.seq - b.seq)
+      : [...this.lapData].sort((a, b) => a.value - b.value);
+
+    this.lapData = [...results];
+    this.barChart.results = results;
+    this.currentIndex = results.findIndex((l) => l.name === name);
+    this.barChart.update();
+  }
+
+
 }

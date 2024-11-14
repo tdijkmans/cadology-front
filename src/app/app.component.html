@@ -66,18 +66,12 @@
       <div class="tab-content">
         <div class="px-1 py-1" [ngStyle]="{ 'display': chartTabVariant === 'lapTime' ? 'block' : 'none' }">
           <div class="card">
-            <div class="card-header">
-              <h2>Rondetijden (s)</h2>
-            </div>
             <lap-barchart [laps]="currentActivity.laps"></lap-barchart>
           </div>
         </div>
 
         <div class="px-1 py-1" [ngStyle]="{ 'display': chartTabVariant === 'speed' ? 'block' : 'none' }">
           <div class="card">
-            <div class="card-header">
-              <h2 class="text-secondary">Snelheid (km/u) per ronde</h2>
-            </div>
             <speed-barchart [laps]="currentActivity.laps || []"></speed-barchart>
           </div>
         </div>

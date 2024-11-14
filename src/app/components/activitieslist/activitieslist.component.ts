@@ -41,8 +41,6 @@ export class ActivitieslistComponent implements OnChanges {
     this.fastestSpeedActivityId = this.activities.reduce((prev, curr) =>
       (curr.bestLap.speed > prev.bestLap.speed ? curr : prev)).activityId;
 
-    this.fastestLapActivityId = this.activities.reduce((prev, curr) =>
-      (curr.bestLap.duration < prev.bestLap.duration ? curr : prev)).activityId;
 
     this.mostLapsActivityId = this.activities.reduce((prev, curr) =>
       (curr.lapCount > prev.lapCount ? curr : prev)).activityId;
@@ -53,8 +51,9 @@ export class ActivitieslistComponent implements OnChanges {
     return activity.activityId === this.fastestSpeedActivityId;
   }
 
+  // Fastest lap equals the highest speed; if determined by time, we would need to consider the track length (i.e. 400 vs 250m)
   isFastestLap(activity: Activity): boolean {
-    return activity.activityId === this.fastestLapActivityId;
+    return activity.activityId === this.fastestSpeedActivityId;
   }
 
   isMostLaps(activity: Activity): boolean {

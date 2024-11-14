@@ -20,6 +20,10 @@
         color: $simple-gray;
     }
 
+
+    &:last-child {
+        border-bottom: none;
+    }
 }
 
 .al-current-activity {

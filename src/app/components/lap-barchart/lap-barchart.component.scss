@@ -18,5 +18,18 @@
         background-color: $subtle-color;
         color: $secondary-color;
     }
+}
+
+.lb-chart-value {
+    display: flex;
+    gap: $spacing-sm;
+}
+
+.lb-chart-header {
+    display: flex;
+    gap: $spacing-xs;
+    align-items: center;
+    justify-content: center;
+    margin: $spacing-sm;
 
 }
