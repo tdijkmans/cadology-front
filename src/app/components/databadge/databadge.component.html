@@ -1,0 +1,4 @@
+<div [ngClass]="{'badge': true, 'badge--current': isCurrent, 'badge--best': hasTrophy}">
+    <ng-icon *ngIf="hasTrophy" name="letsTrophy" size="24"></ng-icon>
+    <p>{{ value }} {{ unit }}</p>
+</div>

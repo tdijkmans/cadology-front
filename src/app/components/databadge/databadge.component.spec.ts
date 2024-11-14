@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LapBarchartComponent } from './lap-barchart.component';
+import { DatabadgeComponent } from './databadge.component';
 
-describe('LapBarchartComponent', () => {
-  let component: LapBarchartComponent;
-  let fixture: ComponentFixture<LapBarchartComponent>;
+describe('DatabadgeComponent', () => {
+  let component: DatabadgeComponent;
+  let fixture: ComponentFixture<DatabadgeComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LapBarchartComponent]
+      imports: [DatabadgeComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(LapBarchartComponent);
+    fixture = TestBed.createComponent(DatabadgeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

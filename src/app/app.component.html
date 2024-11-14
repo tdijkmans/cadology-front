@@ -54,6 +54,8 @@
           [isOldest]="currentActivity === allActivities[allActivities.length - 1]" />
       </ng-container>
 
+
+
       <div class="tab-container">
         <button class="tab" [class.active]="chartTabVariant === 'lapTime'" (click)="setTab('lapTime')">
           Rondetijden
@@ -66,13 +68,13 @@
       <div class="tab-content">
         <div class="px-1 py-1" [ngStyle]="{ 'display': chartTabVariant === 'lapTime' ? 'block' : 'none' }">
           <div class="card">
-            <lap-barchart [laps]="currentActivity.laps"></lap-barchart>
+            <cad-barchart [laps]="currentActivity.laps" [type]="'lapTime'" [yScaleMax]="100" [yScaleMin]="25" />
           </div>
         </div>
 
         <div class="px-1 py-1" [ngStyle]="{ 'display': chartTabVariant === 'speed' ? 'block' : 'none' }">
           <div class="card">
-            <speed-barchart [laps]="currentActivity.laps || []"></speed-barchart>
+            <cad-barchart [laps]="currentActivity.laps" [type]="'speed'" [yScaleMax]="40" [yScaleMin]="5" />
           </div>
         </div>
       </div>

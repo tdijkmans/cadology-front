@@ -4,9 +4,8 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { FormsModule } from "@angular/forms";
 import { ActivitieslistComponent } from "@components/activitieslist/activitieslist.component";
 import { ActivitystatsComponent } from "@components/activitystats/activitystats.component";
+import { BarchartComponent } from "@components/barchart/barchart.component";
 import { CircleBadgeComponent } from "@components/circle-badge/circle-badge.component";
-import { LapBarchartComponent } from "@components/lap-barchart/lap-barchart.component";
-import { SpeedBarchartComponent } from "@components/speed-barchart/speed-barchart.component";
 import { NgIconComponent, provideIcons } from "@ng-icons/core";
 import { letsArrowLeft, letsArrowRight, letsSettingLine } from "@ng-icons/lets-icons/regular";
 import { DataService } from "@services/data.service";
@@ -21,10 +20,9 @@ import type { Activity } from "./services/data.interface";
     CommonModule,
     ActivitystatsComponent,
     ActivitieslistComponent,
-    LapBarchartComponent,
-    SpeedBarchartComponent,
     NgIconComponent,
-    CircleBadgeComponent
+    CircleBadgeComponent,
+    BarchartComponent
   ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",

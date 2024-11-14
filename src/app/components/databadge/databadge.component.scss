@@ -1,0 +1,27 @@
+@import '../../../variables';
+
+.badge {
+    padding: $spacing-xs $spacing-sm;
+    border-radius: 3px;
+    font-size: $body-font-size-mob;
+    border: 1px solid white;
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    color: white;
+    background-color: white;
+    color: $secondary-color;
+    border-color: $secondary-color;
+
+    &--current {
+        color: white;
+        background-color: $accent-color;
+        border-color: white;
+    }
+
+    &--best {
+        background-color: $secondary-color ;
+        color: white
+    }
+
+}

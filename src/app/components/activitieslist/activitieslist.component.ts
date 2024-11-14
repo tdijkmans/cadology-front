@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { DatabadgeComponent } from '@components/databadge/databadge.component';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { letsTrophy } from '@ng-icons/lets-icons/regular';
 import type { Activity } from '../../services/data.interface';
@@ -7,7 +8,7 @@ import type { Activity } from '../../services/data.interface';
 @Component({
   selector: 'activitieslist',
   standalone: true,
-  imports: [CommonModule, NgIconComponent],
+  imports: [CommonModule, NgIconComponent, DatabadgeComponent],
   templateUrl: './activitieslist.component.html',
   styleUrl: './activitieslist.component.scss',
   viewProviders: [provideIcons({ letsTrophy })],
@@ -21,9 +22,12 @@ export class ActivitieslistComponent implements OnChanges {
   fastestLapActivityId: number | null = null;
   mostLapsActivityId: number | null = null;
 
+  activityStatuses: { [id: number]: { isCurrent: boolean; isFastestSpeed: boolean; isFastestLap: boolean; isMostLaps: boolean } } = {};
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['activities']) {
       this.calculateAchievements();
+      this.calculateStatuses();
     }
   }
 
@@ -47,16 +51,15 @@ export class ActivitieslistComponent implements OnChanges {
 
   }
 
-  isFastestSpeed(activity: Activity): boolean {
-    return activity.activityId === this.fastestSpeedActivityId;
-  }
-
-  // Fastest lap equals the highest speed; if determined by time, we would need to consider the track length (i.e. 400 vs 250m)
-  isFastestLap(activity: Activity): boolean {
-    return activity.activityId === this.fastestSpeedActivityId;
-  }
-
-  isMostLaps(activity: Activity): boolean {
-    return activity.activityId === this.mostLapsActivityId;
+  private calculateStatuses(): void {
+    this.activityStatuses = this.activities.reduce((acc, activity) => {
+      acc[activity.activityId] = {
+        isCurrent: this.currentActivity?.activityId === activity.activityId,
+        isFastestSpeed: activity.activityId === this.fastestSpeedActivityId,
+        isFastestLap: activity.activityId === this.fastestSpeedActivityId,
+        isMostLaps: activity.activityId === this.mostLapsActivityId
+      };
+      return acc;
+    }, {} as { [id: number]: { isCurrent: boolean; isFastestSpeed: boolean; isFastestLap: boolean; isMostLaps: boolean } });
   }
 }

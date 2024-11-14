@@ -1,9 +1,10 @@
 <div class="px-1 py-1">
     <div class="card">
         <div *ngFor="let activity of activities" (click)="handleAct(activity)"
-            [ngClass]="{'al-activity': true, 'al-current-activity': isCurrentActivity(activity), 'px-1 py-1': true}">
+            [ngClass]="{'al-activity': true, 'al-current-activity': activityStatuses[activity.activityId].isCurrent, 'px-1 py-1': true}">
 
-            <h4 [ngClass]="{ 'al-current-activity-title': isCurrentActivity(activity) }">{{ activity.location }}
+            <h4 [ngClass]="{ 'al-current-activity-title': activityStatuses[activity.activityId].isCurrent }">{{
+                activity.location }}
             </h4>
 
             <div class="al-date">
@@ -12,23 +13,15 @@
             </div>
 
             <div class="al-badges">
-                <div
-                    [ngClass]="{'al-badge': true, 'al-badge--current': isCurrentActivity(activity), 'al-badge-best': isFastestLap(activity)}">
-                    <ng-icon *ngIf="isFastestLap(activity)" name="letsTrophy" size="24"></ng-icon>
-                    <p>{{ activity.bestLap.duration | number: '1.2-2' }} s</p>
-                </div>
-
-                <div
-                    [ngClass]="{'al-badge': true, 'al-badge--current': isCurrentActivity(activity), 'al-badge-best': isFastestSpeed(activity)}">
-                    <ng-icon *ngIf="isFastestSpeed(activity)" name="letsTrophy" size="24"></ng-icon>
-                    <p>{{ activity.bestLap.speed | number: '1.2-2' }} km/u</p>
-                </div>
-
-                <div
-                    [ngClass]="{'al-badge': true, 'al-badge--current': isCurrentActivity(activity), 'al-badge-best': isMostLaps(activity)}">
-                    <ng-icon *ngIf="isMostLaps(activity)" name="letsTrophy" size="24"></ng-icon>
-                    <p>{{ activity.lapCount }} ronden</p>
-                </div>
+                <databadge [value]="(activity.bestLap.duration | number: '1.2-2')" unit="sec"
+                    [isCurrent]="activityStatuses[activity.activityId].isCurrent"
+                    [hasTrophy]="activityStatuses[activity.activityId].isFastestLap" />
+                <databadge [value]="(activity.bestLap.speed | number: '1.2-2')" unit="km/u"
+                    [isCurrent]="activityStatuses[activity.activityId].isCurrent"
+                    [hasTrophy]="activityStatuses[activity.activityId].isFastestSpeed" />
+                <databadge [value]="activity.lapCount" unit="ronden"
+                    [isCurrent]="activityStatuses[activity.activityId].isCurrent"
+                    [hasTrophy]="activityStatuses[activity.activityId].isMostLaps" />
             </div>
         </div>
     </div>

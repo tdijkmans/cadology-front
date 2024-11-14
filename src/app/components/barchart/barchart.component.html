@@ -1,17 +1,15 @@
-<div class="lb-chart-header">
-    {{selectedLap?.originalValue | number: '1.0-2'}} sec
+<div class="chart-header">
+    <p> {{selectedLap?.originalValue | number: '1.0-2'}} {{type === 'speed' ? 'km/u' : 'sec'}}</p>
     <ng-icon *ngIf="selectedLap?.originalValue === fastestLap?.originalValue" name="letsTrophy" size="24" />
 </div>
 
-
-<div class="lb-chart-container">
+<div class="chart-container">
     <ngx-charts-bar-vertical #barChart [scheme]="scheme" [results]="lapData" [xAxis]="true" [yAxis]="true"
         [yScaleMax]="yScaleMax" [yScaleMin]="yScaleMin" [customColors]="colors" [barPadding]="1"
-        (select)="onSelect($event)" [tooltipDisabled]="true" />
+        (select)="onSelect($event)" [tooltipDisabled]="true" [roundEdges]="false" />
 </div>
 
-
-<div class="lb-chart-navigation">
+<div class="chart-navigation">
     <button (click)="selectPrevBar()"> <ng-icon name="letsArrowLeft" size="24" /> </button>
     <button (click)="selectFastesLap()"> <ng-icon name="letsTrophy" size="24" /> </button>
     <button (click)="toggleSort()">
