@@ -12,9 +12,12 @@ $warning-color: #ffab00; // Bright yellow for warnings
 $error-color: #d32f2f; // Dark red for error messages
 
 // Typography
-$font-family: 'Roboto', sans-serif;
+$font-family: 'RobotoDraft', sans-serif;
 $heading-font-size: 1.25rem;
 $heading-font-size-mob: 1rem;
+
+$key-font-size: 1.3rem;
+$key-font-size-mob: 1.1rem;
 
 $body-font-size: 1rem;
 $body-font-size-mob: 0.875rem;
@@ -26,7 +29,7 @@ $spacing-md: 1rem;
 $spacing-lg: 1.5rem;
 
 // Border Radius
-$border-radius: 5px;
+$border-radius: 0px;
 
 // Breakpoints
 $breakpoint-mobile: 768px; // Medium devices (tablets, etc.)

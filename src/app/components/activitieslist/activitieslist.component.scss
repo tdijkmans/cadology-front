@@ -20,6 +20,10 @@
         color: $simple-gray;
     }
 
+
+    &:last-child {
+        border-bottom: none;
+    }
 }
 
 .al-current-activity {
@@ -45,33 +49,5 @@
     flex-wrap: wrap;
     margin-top: $spacing-xs;
     gap: $spacing-xs;
-
-    .al-badge {
-        padding: $spacing-xs $spacing-sm;
-        border-radius: $border-radius;
-        font-size: $body-font-size-mob;
-        border: 1px solid white;
-        display: flex;
-        align-items: center;
-        gap: $spacing-xs;
-        color: white;
-        background-color: white;
-        color: $secondary-color;
-        border-color: $secondary-color;
-
-        &--current {
-            color: white;
-            background-color: $accent-color;
-            border-color: white;
-        }
-
-        &-best {
-
-            background-color: $secondary-color ;
-            color: white
-        }
-
-    }
-
 
 }

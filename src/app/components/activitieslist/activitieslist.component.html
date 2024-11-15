@@ -1,34 +1,26 @@
 <div class="px-1 py-1">
     <div class="card">
-        <div *ngFor="let activity of activities" (click)="handleAct(activity)"
-            [ngClass]="{'al-activity': true, 'al-current-activity': isCurrentActivity(activity), 'px-1 py-1': true}">
+        <div *ngFor="let a of activities" (click)="handleAct(a)"
+            [ngClass]="{'al-activity': true, 'al-current-activity': currentActivity.activityId === a.activityId, 'px-1 py-1': true}">
 
-            <h4 [ngClass]="{ 'al-current-activity-title': isCurrentActivity(activity) }">{{ activity.location }}
+            <h4 [ngClass]="{ 'al-current-activity-title': currentActivity.activityId === a.activityId }">{{
+                a.location }}
             </h4>
 
             <div class="al-date">
-                <p>{{ activity.startTime | date: 'dd MMMM yyyy' }}</p>
-                <p>{{ activity.startTime | date: 'HH:mm' }} - {{ activity.endTime | date: 'HH:mm' }}</p>
+                <p>{{ a.startTime | date: 'dd MMMM yyyy' }}</p>
+                <p>{{ a.startTime | date: 'HH:mm' }} - {{ a.endTime | date: 'HH:mm' }}</p>
             </div>
 
             <div class="al-badges">
-                <div
-                    [ngClass]="{'al-badge': true, 'al-badge--current': isCurrentActivity(activity), 'al-badge-best': isFastestLap(activity)}">
-                    <ng-icon *ngIf="isFastestLap(activity)" name="letsTrophy" size="24"></ng-icon>
-                    <p>{{ activity.bestLap.duration | number: '1.2-2' }} s</p>
-                </div>
-
-                <div
-                    [ngClass]="{'al-badge': true, 'al-badge--current': isCurrentActivity(activity), 'al-badge-best': isFastestSpeed(activity)}">
-                    <ng-icon *ngIf="isFastestSpeed(activity)" name="letsTrophy" size="24"></ng-icon>
-                    <p>{{ activity.bestLap.speed | number: '1.2-2' }} km/u</p>
-                </div>
-
-                <div
-                    [ngClass]="{'al-badge': true, 'al-badge--current': isCurrentActivity(activity), 'al-badge-best': isMostLaps(activity)}">
-                    <ng-icon *ngIf="isMostLaps(activity)" name="letsTrophy" size="24"></ng-icon>
-                    <p>{{ activity.lapCount }} ronden</p>
-                </div>
+                <databadge [value]="(a.bestLap.duration | number: '1.2-2')" unit="sec"
+                    [isCurrent]="currentActivity.activityId === a.activityId"
+                    [hasTrophy]="fastestId === a.activityId" />
+                <databadge [value]="(a.bestLap.speed | number: '1.2-2')" unit="km/u"
+                    [isCurrent]="currentActivity.activityId === a.activityId"
+                    [hasTrophy]="fastestId === a.activityId" />
+                <databadge [value]="a.lapCount" unit="ronden" [isCurrent]="currentActivity.activityId === a.activityId"
+                    [hasTrophy]="mostLapsId === a.activityId" />
             </div>
         </div>
     </div>

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SpeedBarchartComponent } from './speed-barchart.component';
+import { BarchartComponent } from './barchart.component';
 
-describe('SpeedBarchartComponent', () => {
-  let component: SpeedBarchartComponent;
-  let fixture: ComponentFixture<SpeedBarchartComponent>;
+describe('BarchartComponent', () => {
+  let component: BarchartComponent;
+  let fixture: ComponentFixture<BarchartComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SpeedBarchartComponent]
+      imports: [BarchartComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SpeedBarchartComponent);
+    fixture = TestBed.createComponent(BarchartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

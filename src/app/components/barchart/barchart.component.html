@@ -1,0 +1,20 @@
+<div class="chart-header">
+    <p> {{selectedLap?.originalValue | number: '1.0-2'}} {{type === 'speed' ? 'km/u' : 'sec'}}</p>
+    <ng-icon *ngIf="selectedLap?.originalValue === fastestLap?.originalValue" name="letsTrophy" size="24" />
+</div>
+
+<div class="chart-container">
+    <ngx-charts-bar-vertical #barChart [scheme]="scheme" [results]="lapData" [xAxis]="true" [yAxis]="true"
+        [yScaleMax]="yScaleMax" [yScaleMin]="yScaleMin" [customColors]="colors" [barPadding]="1"
+        (select)="onSelect($event)" [tooltipDisabled]="true" [roundEdges]="false" />
+</div>
+
+<div class="chart-navigation">
+    <button (click)="selectPrevBar()"> <ng-icon name="letsArrowLeft" size="24" /> </button>
+    <button (click)="selectFastesLap()"> <ng-icon name="letsTrophy" size="24" /> </button>
+    <button (click)="toggleSort()">
+        <ng-icon *ngIf="sortBy === 'duration'" name="letsSortUp" size="24" />
+        <ng-icon *ngIf="sortBy === 'sequential'" name="letsSortDown" size="24" />
+    </button>
+    <button (click)="selectNextBar()"> <ng-icon name="letsArrowRight" size="24" /> </button>
+</div>

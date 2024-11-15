@@ -7,42 +7,71 @@
         <div>
             <div class="card-header">
                 <h2 class="text-accent">{{currentActivity.location}}</h2>
-                <h3 class="text-accent">{{currentActivity.startTime | date:'EEEE d MMMM y' }}
+                <h3 class="text-accent as-date">{{currentActivity.startTime | date:'EEEE d MMMM y' }}
                 </h3>
             </div>
 
             <div class="card-body as-stats">
+
                 <div class="as-data-badge">
+                    <div class="as-data-badge-label">
+                        Snelste ronde
+                    </div>
                     <div class="as-data-badge-value">
-                        {{currentActivity.bestLap.duration | number:'1.0-2'}} <span class="as-data-badge-unit">s</span>
+                        {{currentActivity.bestLap.duration | number:'1.0-2'}} <span
+                            class="as-data-badge-unit">sec</span>
                     </div>
                     <div class="as-data-badge-value">
                         {{currentActivity.bestLap.speed | number:'1.0-2'}}
                         <span class="as-data-badge-unit">km/u</span>
                     </div>
-                    <div class="as-data-badge-label">
-                        Snelste ronde
-                    </div>
                 </div>
 
                 <div class="as-data-badge">
+                    <div class="as-data-badge-label">
+                        Gemiddelde ronde
+                    </div>
                     <div class="as-data-badge-value">
-                        {{currentActivity.lapCount}}
-                        <span class="as-data-badge-unit">rondes</span>
+                        {{currentActivity.medianTime }} <span class="as-data-badge-unit">sec</span>
+                    </div>
+                    <div class="as-data-badge-value">
+                        {{currentActivity.averageSpeed | number:'1.0-2'}}
+                        <span class="as-data-badge-unit">km/u</span>
+                    </div>
+                </div>
+
+
+                <div class="as-data-badge">
+                    <div class="as-data-badge-label">
+                        Totaal
                     </div>
 
                     <div class="as-data-badge-value">
                         {{totalTrainingTime[0]}}
                         <span class="as-data-badge-unit">{{totalTrainingTime[1]}}</span>
                     </div>
-                    <div class="as-data-badge-label">
-                        Totaal
+                    <div class="as-data-badge-value"> {{currentActivity.lapCount}} <span
+                            class="as-data-badge-unit">rondes</span>
+                    </div>
+
+                    <div class="as-data-badge-value"> {{totalDistance | number:'1.0-2' }} <span
+                            class="as-data-badge-unit">km</span>
                     </div>
                 </div>
+
             </div>
         </div>
+
         <button [ngClass]="{'as-navigation-button': true, 'as-navigation-button-disabled': isMostRecent}"
             [disabled]="isMostRecent" (click)="onNext()">
             <ng-icon name="letsArrowRight" />
         </button>
     </div>
+</div>
+
+<ng-template #dataBadgeTemplate let-label let-value let-unit>
+    <div class="as-data-badge">
+        <div class="as-data-badge-label">{{ label }}</div>
+        <div class="as-data-badge-value">{{ value }} <span class="as-data-badge-unit">{{ unit }}</span></div>
+    </div>
+</ng-template>

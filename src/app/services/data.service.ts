@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, catchError, of, tap } from "rxjs";
+import { BehaviorSubject, catchError, mergeMap, of, tap } from "rxjs";
 import { environment } from "../../environments/environment";
 import type { Activity, SeasonsResponse } from "./data.interface";
 
@@ -25,7 +25,7 @@ export class DataService {
     this.activity.next(activity);
   }
 
-  setAllActivities(activities: Activity[]) {
+  private setAllActivities(activities: Activity[]) {
     this.activities.next(activities);
   }
 
@@ -52,7 +52,36 @@ export class DataService {
     );
   }
 
-  getCurrentSeasonActivities({ chipCode }: { chipCode: string }) {
+  init = (chipCode: string) => {
+    return this.fetchCurrentSeasonActivities({ chipCode }).pipe(
+      mergeMap((currentActivities) => {
+        this.setCurrentActivity(currentActivities.data[0]);
+        this.setAllActivities(currentActivities.data);
+        return this.fetchPreviousSeasonActivities({ chipCode }).pipe(
+          tap((previousActivities) => {
+            // Combine current and previous activities
+            const allActivities = [
+              ...currentActivities.data,
+              ...(previousActivities.data ?? []),
+            ];
+            const sortedActivities = allActivities.sort((a, b) => {
+              if (a?.startTime && b?.startTime) {
+                return (
+                  new Date(b.startTime).getTime() -
+                  new Date(a.startTime).getTime()
+                );
+              }
+              return 0;
+            });
+
+            this.setAllActivities(sortedActivities);
+          }),
+        );
+      }),
+    );
+  };
+
+  fetchCurrentSeasonActivities({ chipCode }: { chipCode: string }) {
     const cacheKey = `SkateActvitity-CurrentSeason-${chipCode}`;
     const cachedData = this.getItem<SeasonsResponse>(cacheKey);
 
@@ -69,7 +98,7 @@ export class DataService {
     );
   }
 
-  getPreviousSeasonActivities({ chipCode }: { chipCode: string }) {
+  fetchPreviousSeasonActivities({ chipCode }: { chipCode: string }) {
     const cacheKey = `SkateActvitity-PreviousSeason-${chipCode}`;
     const cachedData = this.getItem<SeasonsResponse>(cacheKey);
 

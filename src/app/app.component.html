@@ -54,6 +54,7 @@
           [isOldest]="currentActivity === allActivities[allActivities.length - 1]" />
       </ng-container>
 
+
       <div class="tab-container">
         <button class="tab" [class.active]="chartTabVariant === 'lapTime'" (click)="setTab('lapTime')">
           Rondetijden
@@ -61,26 +62,37 @@
         <button class="tab" [class.active]="chartTabVariant === 'speed'" (click)="setTab('speed')">
           Snelheid
         </button>
+
+        <!-- <button class="tab" [class.active]="chartTabVariant === 'distance'" (click)="setTab('distance')">
+          Afstand
+        </button> -->
       </div>
 
       <div class="tab-content">
         <div class="px-1 py-1" [ngStyle]="{ 'display': chartTabVariant === 'lapTime' ? 'block' : 'none' }">
           <div class="card">
-            <div class="card-header">
-              <h2>Rondetijden (s)</h2>
-            </div>
-            <lap-barchart [laps]="currentActivity.laps"></lap-barchart>
+            <barchart [laps]="currentActivity.laps" [type]="'lapTime'" [yScaleMax]="100" [yScaleMin]="25" />
           </div>
         </div>
 
         <div class="px-1 py-1" [ngStyle]="{ 'display': chartTabVariant === 'speed' ? 'block' : 'none' }">
           <div class="card">
-            <div class="card-header">
-              <h2 class="text-secondary">Snelheid (km/u) per ronde</h2>
-            </div>
-            <speed-barchart [laps]="currentActivity.laps || []"></speed-barchart>
+            <barchart [laps]="currentActivity.laps" [type]="'speed'" [yScaleMax]="40" [yScaleMin]="5" />
           </div>
         </div>
+
+        <!-- <div class="px-1 py-1" [ngStyle]="{ 'display': chartTabVariant === 'distance' ? 'block' : 'none' }">
+          <div class="card">
+
+
+            <ngx-charts-line-chart [scheme]="scheme" [showXAxisLabel]="true" [showYAxisLabel]="true" [xAxis]="true"
+              [yAxis]="true" [xAxisLabel]="'Ronde'" [yAxisLabel]=" '' " [timeline]="true"
+              [results]="results$ | async" />
+
+
+          </div>
+        </div> -->
+
       </div>
 
 

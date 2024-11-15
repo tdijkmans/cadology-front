@@ -1,0 +1,40 @@
+@import '../../../variables.scss';
+
+.chart {
+    &-container {
+        width: 100%;
+        height: 60vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+    &-navigation {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: $spacing-sm;
+
+        button {
+            background-color: $subtle-color;
+            color: $secondary-color;
+        }
+    }
+
+    &-value {
+        display: flex;
+        gap: $spacing-sm;
+    }
+
+    &-header {
+        display: flex;
+        gap: $spacing-xs;
+        align-items: center;
+        justify-content: center;
+        margin: $spacing-md;
+        background-color: $subtle-color;
+        color: $secondary-color;
+        padding: $spacing-sm;
+    }
+}
