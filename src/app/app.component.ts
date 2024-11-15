@@ -6,17 +6,17 @@ import { ActivitieslistComponent } from "@components/activitieslist/activitiesli
 import { ActivitystatsComponent } from "@components/activitystats/activitystats.component";
 import { BarchartComponent } from "@components/barchart/barchart.component";
 import { CircleBadgeComponent } from "@components/circle-badge/circle-badge.component";
+import { HistochartComponent } from "@components/histochart/histochart.component";
 import { NgIconComponent, provideIcons } from "@ng-icons/core";
 import {
   letsArrowLeft,
   letsArrowRight,
   letsSettingLine,
 } from "@ng-icons/lets-icons/regular";
-import { DataService } from "@services/data.service";
-import { Color, LineChartModule } from "@swimlane/ngx-charts";
+import { DataService } from "@services/dataservice/data.service";
+import { StatisticsService } from "@services/statistics/statistics.service";
 import { Observable, filter, map } from "rxjs";
-import { theme } from "../_variables";
-import type { Activity } from "./services/data.interface";
+import type { Activity } from "./services/dataservice/data.interface";
 
 @Component({
   selector: "app-root",
@@ -29,11 +29,11 @@ import type { Activity } from "./services/data.interface";
     NgIconComponent,
     CircleBadgeComponent,
     BarchartComponent,
-    LineChartModule,
+    HistochartComponent,
   ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
-  providers: [DataService],
+  providers: [DataService, StatisticsService],
   viewProviders: [
     provideIcons({ letsArrowRight, letsArrowLeft, letsSettingLine }),
   ],
@@ -49,15 +49,14 @@ export class AppComponent implements OnInit {
   chartTabVariant: "speed" | "lapTime" | "distance" = "lapTime";
   seasonTabVariant: "current" | "previous" = "current";
 
-  scheme = { domain: [theme.secondarycolor] } as Color;
-
   allActivities$: Observable<Activity[] | null>;
   currentActivity$: Observable<Activity | null>;
   currentSeasonActivities$: Observable<Activity[] | null>;
   previousSeasonActivities$: Observable<Activity[] | null>;
-  results$ = new Observable();
 
-  constructor(private d: DataService) {
+  constructor(
+    private d: DataService,
+  ) {
     this.allActivities$ = this.d.allActivities$;
 
     this.currentSeasonActivities$ = this.d.allActivities$.pipe(
@@ -72,34 +71,19 @@ export class AppComponent implements OnInit {
     );
 
     this.currentActivity$ = this.d.currentActivity$;
-    this.results$ = this.currentActivity$.pipe(
-      map((activity) => ([{
-        name: "Germany",
-        series: activity?.laps
-          .map((lap, i) => {
-            return {
-              name: `${i + 1}`,
-              value: i * 385
-            };
-          })
-      }])),
-
-    );
   }
 
   ngOnInit() {
     const chipCode = this.d.getItem<string>("chipCode");
 
-    if (chipCode) {
-      this.chipInput = chipCode;
-      this.d
-        .init(chipCode)
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe();
-    } else {
+    if (!chipCode) {
       this.errorMessage = "Vul een chipcode in";
       this.d.removeItem("chipCode");
+      return;
     }
+
+    this.chipInput = chipCode;
+    this.d.init(chipCode).pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
   }
 
   onClick(chipCode: string) {

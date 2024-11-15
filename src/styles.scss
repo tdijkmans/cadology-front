@@ -306,3 +306,18 @@ textarea {
     background-color: $accent-color;
     color: #ffffff;
 }
+
+.bg-subtle {
+    background-color: $subtle-color;
+    color: $dark-color;
+}
+
+.bg-dark {
+    background-color: $dark-color;
+    color: #ffffff;
+}
+
+.bg-simple-gray {
+    background-color: $simple-gray;
+    color: $dark-color;
+}

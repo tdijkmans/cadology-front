@@ -32,7 +32,7 @@
                         Gemiddelde ronde
                     </div>
                     <div class="as-data-badge-value">
-                        {{currentActivity.medianTime }} <span class="as-data-badge-unit">sec</span>
+                        {{currentActivity.medianTime | number:'1.0-2'}} <span class="as-data-badge-unit">sec</span>
                     </div>
                     <div class="as-data-badge-value">
                         {{currentActivity.averageSpeed | number:'1.0-2'}}
