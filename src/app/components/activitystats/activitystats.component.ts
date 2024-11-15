@@ -2,11 +2,8 @@ import { CommonModule } from "@angular/common";
 import { Component, EventEmitter, Input, OnChanges, Output } from "@angular/core";
 import { NgIconComponent, provideIcons } from "@ng-icons/core";
 import { letsArrowLeft, letsArrowRight } from "@ng-icons/lets-icons/regular";
-import type { Activity } from "../../services/data.interface";
-import { DataService } from "../../services/data.service";
-
-
-
+import type { Activity } from "../../services/dataservice/data.interface";
+import { DataService } from "../../services/dataservice/data.service";
 
 @Component({
   selector: "activitystats",

@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 import { DatabadgeComponent } from '@components/databadge/databadge.component';
 import { provideIcons } from '@ng-icons/core';
 import { letsTrophy } from '@ng-icons/lets-icons/regular';
-import type { Activity } from '../../services/data.interface';
+import type { Activity } from '../../services/dataservice/data.interface';
 
 @Component({
   selector: 'activitieslist',

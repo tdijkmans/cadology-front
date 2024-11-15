@@ -37,6 +37,7 @@
 </div>
 
 <div class="app-content">
+
   <ng-container *ngIf="!(currentActivity$ | async ) as currentActivity">
     <div class="app-content-void">
       <span class="text-secondary mx-1" (click)="toggleRightMenu()">
@@ -45,81 +46,75 @@
       </span>
     </div>
   </ng-container>
+
   <ng-container *ngIf="(currentActivity$ | async ) as currentActivity">
     <ng-container *ngIf="(currentSeasonActivities$ | async) as currentSeasonActivities">
-
       <ng-container *ngIf="(allActivities$ | async) as allActivities">
+
         <activitystats [currentActivity]="currentActivity" (nextActivity)="selectNextActivity()"
           (prevActivity)="selectPrevActivity()" [isMostRecent]="currentActivity === allActivities[0]"
           [isOldest]="currentActivity === allActivities[allActivities.length - 1]" />
-      </ng-container>
 
-
-      <div class="tab-container">
-        <button class="tab" [class.active]="chartTabVariant === 'lapTime'" (click)="setTab('lapTime')">
-          Rondetijden
-        </button>
-        <button class="tab" [class.active]="chartTabVariant === 'speed'" (click)="setTab('speed')">
-          Snelheid
-        </button>
-
-        <!-- <button class="tab" [class.active]="chartTabVariant === 'distance'" (click)="setTab('distance')">
-          Afstand
-        </button> -->
-      </div>
-
-      <div class="tab-content">
-        <div class="px-1 py-1" [ngStyle]="{ 'display': chartTabVariant === 'lapTime' ? 'block' : 'none' }">
-          <div class="card">
-            <barchart [laps]="currentActivity.laps" [type]="'lapTime'" [yScaleMax]="100" [yScaleMin]="25" />
-          </div>
-        </div>
-
-        <div class="px-1 py-1" [ngStyle]="{ 'display': chartTabVariant === 'speed' ? 'block' : 'none' }">
-          <div class="card">
-            <barchart [laps]="currentActivity.laps" [type]="'speed'" [yScaleMax]="40" [yScaleMin]="5" />
-          </div>
-        </div>
-
-        <!-- <div class="px-1 py-1" [ngStyle]="{ 'display': chartTabVariant === 'distance' ? 'block' : 'none' }">
-          <div class="card">
-
-
-            <ngx-charts-line-chart [scheme]="scheme" [showXAxisLabel]="true" [showYAxisLabel]="true" [xAxis]="true"
-              [yAxis]="true" [xAxisLabel]="'Ronde'" [yAxisLabel]=" '' " [timeline]="true"
-              [results]="results$ | async" />
-
-
-          </div>
-        </div> -->
-
-      </div>
-
-
-      <ng-container *ngIf="(previousSeasonActivities$ | async) as previousSeasonActivities">
         <div class="tab-container">
-          <button class="tab" [class.active]="seasonTabVariant === 'current'" (click)="setSeasonTab('current')">
-            Dit seizoen
-            <circle-badge [count]="currentSeasonActivities.length" [active]="seasonTabVariant === 'current'" />
+          <button class="tab" [class.active]="chartTabVariant === 'lapTime'" (click)="setTab('lapTime')">
+            Rondetijden
           </button>
-          <button class="tab" [class.active]="seasonTabVariant === 'previous'" (click)="setSeasonTab('previous')">
-            Vorig seizoen
-            <circle-badge [count]="previousSeasonActivities.length" [active]="seasonTabVariant === 'previous'" />
+          <button class="tab" [class.active]="chartTabVariant === 'speed'" (click)="setTab('speed')">
+            Snelheid
           </button>
-        </div>
 
-        <div class="tab-content">
-          <div class="px-1 py-1" [ngStyle]="{ 'display': seasonTabVariant === 'current' ? 'block' : 'none' }">
-            <activitieslist [activities]="currentSeasonActivities" [currentActivity]="currentActivity"
-              (selectActivity)="handleAct($event)" />
-          </div>
-          <div class="px-1 py-1" [ngStyle]="{ 'display': seasonTabVariant === 'previous' ? 'block' : 'none' }">
-            <activitieslist [activities]="previousSeasonActivities" [currentActivity]="currentActivity"
-              (selectActivity)="handleAct($event)" />
-          </div>
+          <button class="tab" [class.active]="chartTabVariant === 'distance'" (click)="setTab('distance')">
+            Rondetijden versus seizoenen
+          </button>
         </div>
+        <ng-container *ngIf="(previousSeasonActivities$ | async) as previousSeasonActivities">
+
+          <div class="tab-content">
+            <div class="px-1 py-1" [ngStyle]="{ 'display': chartTabVariant === 'lapTime' ? 'block' : 'none' }">
+              <div class="card">
+                <barchart [laps]="currentActivity.laps" [type]="'lapTime'" [yScaleMax]="100" [yScaleMin]="25" />
+              </div>
+            </div>
+
+            <div class="px-1 py-1" [ngStyle]="{ 'display': chartTabVariant === 'speed' ? 'block' : 'none' }">
+              <div class="card">
+                <barchart [laps]="currentActivity.laps" [type]="'speed'" [yScaleMax]="40" [yScaleMin]="5" />
+              </div>
+            </div>
+
+            <div class="px-1 py-1" [ngStyle]="{ 'display': chartTabVariant === 'distance' ? 'block' : 'none' }">
+              <div class="card">
+                <histochart [currentSeasonActivities]="currentSeasonActivities"
+                  [previousSeasonActivities]="previousSeasonActivities" [currentActivity]="currentActivity" />
+
+              </div>
+            </div>
+          </div>
+
+
+          <div class="tab-container">
+            <button class="tab" [class.active]="seasonTabVariant === 'current'" (click)="setSeasonTab('current')">
+              Dit seizoen
+              <circle-badge [count]="currentSeasonActivities.length" [active]="seasonTabVariant === 'current'" />
+            </button>
+            <button class="tab" [class.active]="seasonTabVariant === 'previous'" (click)="setSeasonTab('previous')">
+              Vorig seizoen
+              <circle-badge [count]="previousSeasonActivities.length" [active]="seasonTabVariant === 'previous'" />
+            </button>
+          </div>
+
+          <div class="tab-content">
+            <div class="px-1 py-1" [ngStyle]="{ 'display': seasonTabVariant === 'current' ? 'block' : 'none' }">
+              <activitieslist [activities]="currentSeasonActivities" [currentActivity]="currentActivity"
+                (selectActivity)="handleAct($event)" />
+            </div>
+            <div class="px-1 py-1" [ngStyle]="{ 'display': seasonTabVariant === 'previous' ? 'block' : 'none' }">
+              <activitieslist [activities]="previousSeasonActivities" [currentActivity]="currentActivity"
+                (selectActivity)="handleAct($event)" />
+            </div>
+          </div>
+        </ng-container>
       </ng-container>
-
     </ng-container>
   </ng-container>
 </div>

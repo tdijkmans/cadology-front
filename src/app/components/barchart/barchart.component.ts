@@ -13,7 +13,7 @@ import {
   NgxChartsModule,
 } from "@swimlane/ngx-charts";
 import { theme } from "../../../_variables";
-import type { Lap } from "../../services/data.interface";
+import type { Lap } from "../../services/dataservice/data.interface";
 import type { CappedLap } from "./barchart.interface";
 
 
