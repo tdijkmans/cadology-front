@@ -12,6 +12,7 @@
             </div>
 
             <div class="card-body as-stats">
+
                 <div class="as-data-badge">
                     <div class="as-data-badge-label">
                         Snelste ronde
@@ -28,6 +29,20 @@
 
                 <div class="as-data-badge">
                     <div class="as-data-badge-label">
+                        Gemiddelde ronde
+                    </div>
+                    <div class="as-data-badge-value">
+                        {{currentActivity.medianTime }} <span class="as-data-badge-unit">sec</span>
+                    </div>
+                    <div class="as-data-badge-value">
+                        {{currentActivity.averageSpeed | number:'1.0-2'}}
+                        <span class="as-data-badge-unit">km/u</span>
+                    </div>
+                </div>
+
+
+                <div class="as-data-badge">
+                    <div class="as-data-badge-label">
                         Totaal
                     </div>
 
@@ -38,8 +53,11 @@
                     <div class="as-data-badge-value"> {{currentActivity.lapCount}} <span
                             class="as-data-badge-unit">rondes</span>
                     </div>
-                </div>
 
+                    <div class="as-data-badge-value"> {{totalDistance | number:'1.0-2' }} <span
+                            class="as-data-badge-unit">km</span>
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -49,3 +67,11 @@
             <ng-icon name="letsArrowRight" />
         </button>
     </div>
+</div>
+
+<ng-template #dataBadgeTemplate let-label let-value let-unit>
+    <div class="as-data-badge">
+        <div class="as-data-badge-label">{{ label }}</div>
+        <div class="as-data-badge-value">{{ value }} <span class="as-data-badge-unit">{{ unit }}</span></div>
+    </div>
+</ng-template>

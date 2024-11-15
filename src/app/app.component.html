@@ -62,20 +62,37 @@
         <button class="tab" [class.active]="chartTabVariant === 'speed'" (click)="setTab('speed')">
           Snelheid
         </button>
+
+        <!-- <button class="tab" [class.active]="chartTabVariant === 'distance'" (click)="setTab('distance')">
+          Afstand
+        </button> -->
       </div>
 
       <div class="tab-content">
         <div class="px-1 py-1" [ngStyle]="{ 'display': chartTabVariant === 'lapTime' ? 'block' : 'none' }">
           <div class="card">
-            <cad-barchart [laps]="currentActivity.laps" [type]="'lapTime'" [yScaleMax]="100" [yScaleMin]="25" />
+            <barchart [laps]="currentActivity.laps" [type]="'lapTime'" [yScaleMax]="100" [yScaleMin]="25" />
           </div>
         </div>
 
         <div class="px-1 py-1" [ngStyle]="{ 'display': chartTabVariant === 'speed' ? 'block' : 'none' }">
           <div class="card">
-            <cad-barchart [laps]="currentActivity.laps" [type]="'speed'" [yScaleMax]="40" [yScaleMin]="5" />
+            <barchart [laps]="currentActivity.laps" [type]="'speed'" [yScaleMax]="40" [yScaleMin]="5" />
           </div>
         </div>
+
+        <!-- <div class="px-1 py-1" [ngStyle]="{ 'display': chartTabVariant === 'distance' ? 'block' : 'none' }">
+          <div class="card">
+
+
+            <ngx-charts-line-chart [scheme]="scheme" [showXAxisLabel]="true" [showYAxisLabel]="true" [xAxis]="true"
+              [yAxis]="true" [xAxisLabel]="'Ronde'" [yAxisLabel]=" '' " [timeline]="true"
+              [results]="results$ | async" />
+
+
+          </div>
+        </div> -->
+
       </div>
 
 

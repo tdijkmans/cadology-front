@@ -18,7 +18,7 @@ import type { CappedLap } from "./barchart.interface";
 
 
 @Component({
-  selector: "cad-barchart",
+  selector: "barchart",
   standalone: true,
   imports: [NgxChartsModule, NgIconComponent],
   templateUrl: "./barchart.component.html",
