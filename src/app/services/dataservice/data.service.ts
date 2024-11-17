@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, catchError, mergeMap, of, tap } from "rxjs";
+import { BehaviorSubject, catchError, filter, map, mergeMap, of, tap } from "rxjs";
 import { environment } from "../../../environments/environment";
 import type { Activity, SeasonsResponse } from "./data.interface";
 
@@ -19,6 +19,20 @@ export class DataService {
 
   get allActivities$() {
     return this.activities.asObservable();
+  }
+
+  get currentSeasonActivities$() {
+    return this.allActivities$.pipe(
+      filter((activities) => !!activities),
+      map((activities) => activities.filter((a) => a.season === "currentSeasonActivities")),
+    );
+  }
+
+  get previousSeasonActivities$() {
+    return this.allActivities$.pipe(
+      filter((activities) => !!activities),
+      map((activities) => activities.filter((a) => a.season === "previousSeasonActivities")),
+    );
   }
 
   setCurrentActivity(activity: Activity) {
