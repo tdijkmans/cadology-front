@@ -2,6 +2,7 @@ import { CommonModule } from "@angular/common";
 import { Component, DestroyRef, type OnInit, inject } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { FormsModule } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
 import { ActivitieslistComponent } from "@components/activitieslist/activitieslist.component";
 import { ActivitystatsComponent } from "@components/activitystats/activitystats.component";
 import { BarchartComponent } from "@components/barchart/barchart.component";
@@ -14,7 +15,7 @@ import {
   letsSettingLine,
 } from "@ng-icons/lets-icons/regular";
 import { DataService } from "@services/dataservice/data.service";
-import { BehaviorSubject, type Observable } from "rxjs";
+import { BehaviorSubject, type Observable, combineLatest, distinctUntilChanged, map, of } from "rxjs";
 import type { ChartTabVariant, SeasonTabVariant } from "./app.interface";
 import { DistchartComponent } from "./components/distchart/distchart.component";
 import type { Activity } from "./services/dataservice/data.interface";
@@ -55,23 +56,19 @@ export class AppComponent implements OnInit {
   currentSeasonActivities$: Observable<Activity[] | null>;
   previousSeasonActivities$: Observable<Activity[] | null>;
 
-  constructor(private d: DataService,) {
+  constructor(
+    private d: DataService,
+    private r: ActivatedRoute,
+    private url: Router,
+  ) {
     this.currentActivity$ = this.d.currentActivity$;
     this.currentSeasonActivities$ = this.d.currentSeasonActivities$;
     this.previousSeasonActivities$ = this.d.previousSeasonActivities$;
   }
 
   ngOnInit() {
-    const chipCode = this.d.getItem<string>("chipCode");
+    this.handleChipInput();
 
-    if (!chipCode) {
-      this.errorMessage = "Vul een chipcode in";
-      this.d.removeItem("chipCode");
-      return;
-    }
-
-    this.chipInput = chipCode;
-    this.d.init(chipCode).pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
   }
 
   onClick(chipCode: string) {
@@ -80,9 +77,41 @@ export class AppComponent implements OnInit {
       return;
     }
     this.errorMessage = "";
-    this.d.init(chipCode).pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
     this.d.setItem("chipCode", chipCode);
+    this.handleChipInput();
   }
+
+  handleChipInput() {
+    const localChipCode$ = of(this.d.getItem<string>("chipCode"));
+    const routeChipCode$ = this.r.queryParams.pipe<string>(map((params) => params["transponder"]));
+
+    combineLatest([routeChipCode$, localChipCode$])
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        map(([routeChipCode, localChipCode]) => routeChipCode || localChipCode),
+        distinctUntilChanged()
+      )
+      .subscribe((chipCode) => {
+        if (!chipCode) return;
+
+        // Initialize with the chipCode
+        this.d.init(chipCode).pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+
+        // Update local storage and chip input
+        this.d.setItem("chipCode", chipCode);
+        this.chipInput = chipCode;
+
+        // Update query params if necessary
+        if (!routeChipCode$) {
+          this.url.navigate([], {
+            relativeTo: this.r,
+            queryParams: { transponder: chipCode },
+            queryParamsHandling: "merge",
+          });
+        }
+      });
+  }
+
 
   handleAct(activity: Activity) {
     this.d.setCurrentActivity(activity);
