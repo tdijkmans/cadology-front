@@ -14,7 +14,7 @@ import {
   letsSettingLine,
 } from "@ng-icons/lets-icons/regular";
 import { DataService } from "@services/dataservice/data.service";
-import { BehaviorSubject, type Observable, filter, map } from "rxjs";
+import { BehaviorSubject, type Observable } from "rxjs";
 import type { ChartTabVariant, SeasonTabVariant } from "./app.interface";
 import { DistchartComponent } from "./components/distchart/distchart.component";
 import type { Activity } from "./services/dataservice/data.interface";
@@ -51,26 +51,14 @@ export class AppComponent implements OnInit {
   chartTabVariant = new BehaviorSubject<ChartTabVariant>("distance");
   seasonTabVariant = new BehaviorSubject<SeasonTabVariant>("current");
 
-  allActivities$: Observable<Activity[] | null>;
   currentActivity$: Observable<Activity | null>;
   currentSeasonActivities$: Observable<Activity[] | null>;
   previousSeasonActivities$: Observable<Activity[] | null>;
 
   constructor(private d: DataService,) {
-    this.allActivities$ = this.d.allActivities$;
     this.currentActivity$ = this.d.currentActivity$;
-
-    const seasonActivities$ = this.d.allActivities$.pipe(
-      filter((a) => a !== null),
-      map((a) => ({
-        currentSeasonActivities: a.filter((a) => a.season === "currentSeasonActivities"),
-        previousSeasonActivities: a.filter((a) => a.season === "previousSeasonActivities"),
-      }))
-    );
-
-    this.currentSeasonActivities$ = seasonActivities$.pipe(map((a) => a.currentSeasonActivities));
-    this.previousSeasonActivities$ = seasonActivities$.pipe(map((a) => a.previousSeasonActivities));
-
+    this.currentSeasonActivities$ = this.d.currentSeasonActivities$;
+    this.previousSeasonActivities$ = this.d.previousSeasonActivities$;
   }
 
   ngOnInit() {
