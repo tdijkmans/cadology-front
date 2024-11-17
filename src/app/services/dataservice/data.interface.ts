@@ -17,6 +17,7 @@ type Activity = {
     bestLap: Lap;
     lapCount: number;
     totalTrainingTime: string;
+    totalTrainingMinutes: number;
     averageSpeed: number;
     averageTime: number;
     medianTime: number;
