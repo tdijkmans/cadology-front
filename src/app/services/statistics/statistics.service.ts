@@ -47,17 +47,15 @@ export class StatisticsService {
       return { ...lap, startTime: new Date(lap.startTime).getTime() };
     });
 
-    quantifiedLaps.sort((a, b) => a.startTime - b.startTime);
-
-    const firstLap = quantifiedLaps[0];
-
-    return quantifiedLaps.map((lap, i) => {
-      cumulativeDistance += lapLength;
-      return {
-        time: lap.startTime,
-        cumulativeDistance: Math.round(cumulativeDistance * 100) / 100,
-      };
-    });
+    return quantifiedLaps
+      .sort((a, b) => a.startTime - b.startTime)
+      .map((lap, i) => {
+        cumulativeDistance += lapLength;
+        return {
+          time: lap.startTime,
+          cumulativeDistance: Math.round(cumulativeDistance * 100) / 100,
+        };
+      });
   }
 
   getTotalTrainingTime(totalTrainingTime: string | undefined) {

@@ -40,7 +40,6 @@ export class DistchartComponent implements OnChanges {
         })),
       },
     ];
-
     this.totalDistance = this.s.getDistance(this.currentActivity.laps.length);
     this.totalTrainingTime = this.s.getTotalTrainingTime(this.currentActivity.totalTrainingTime);
   }

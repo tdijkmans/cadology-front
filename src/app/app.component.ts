@@ -14,7 +14,7 @@ import {
   letsSettingLine,
 } from "@ng-icons/lets-icons/regular";
 import { DataService } from "@services/dataservice/data.service";
-import { type Observable, filter, map } from "rxjs";
+import { BehaviorSubject, type Observable, filter, map } from "rxjs";
 import type { ChartTabVariant, SeasonTabVariant } from "./app.interface";
 import { DistchartComponent } from "./components/distchart/distchart.component";
 import type { Activity } from "./services/dataservice/data.interface";
@@ -47,8 +47,9 @@ export class AppComponent implements OnInit {
   errorMessage = "";
   leftMenuOpen = false;
   rightMenuOpen = false;
-  chartTabVariant: ChartTabVariant = "lapTime";
-  seasonTabVariant: SeasonTabVariant = "current";
+
+  chartTabVariant = new BehaviorSubject<ChartTabVariant>("distance");
+  seasonTabVariant = new BehaviorSubject<SeasonTabVariant>("current");
 
   allActivities$: Observable<Activity[] | null>;
   currentActivity$: Observable<Activity | null>;
@@ -126,10 +127,10 @@ export class AppComponent implements OnInit {
   }
 
   setTab(tab: ChartTabVariant) {
-    this.chartTabVariant = tab;
+    this.chartTabVariant.next(tab);
   }
 
   setSeasonTab(tab: SeasonTabVariant) {
-    this.seasonTabVariant = tab;
+    this.seasonTabVariant.next(tab);
   }
 }

@@ -1,11 +1,12 @@
 import { CommonModule } from "@angular/common";
-import { Component, Input, OnChanges } from "@angular/core";
+import { Component, Input, type OnChanges, ViewChild } from "@angular/core";
 import type { Activity } from "@services/dataservice/data.interface";
 import { StatisticsService } from "@services/statistics/statistics.service";
-import { type Color, LineChartModule } from "@swimlane/ngx-charts";
+import { type Color, type LineChartComponent, LineChartModule } from "@swimlane/ngx-charts";
 import * as shape from "d3-shape";
 import { theme } from "../../../_variables";
-import { Result } from "./histochart.interface";
+import type { ChartTabVariant } from "../../app.interface";
+import type { Result } from "./histochart.interface";
 
 @Component({
   selector: "histochart",
@@ -18,6 +19,8 @@ export class HistochartComponent implements OnChanges {
   @Input({ required: true }) currentActivity: Activity | null = null;
   @Input({ required: true }) previousSeasonActivities: Activity[] = [];
   @Input({ required: true }) currentSeasonActivities: Activity[] = [];
+  @Input({ required: true }) chartTabVariant: ChartTabVariant = "distance";
+  @ViewChild("histoChart") chart: LineChartComponent | null = null;
 
   curve = shape.curveMonotoneX;
   results = [{ name: "", series: [{ name: "", value: 0 }] }] as Result;
@@ -27,7 +30,8 @@ export class HistochartComponent implements OnChanges {
 
   constructor(private s: StatisticsService) { }
 
-  ngOnChanges(): void {
+  ngOnChanges() {
+    this.chart?.update();
     this.initializeData();
   }
 

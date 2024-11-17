@@ -3,12 +3,13 @@
 .as-data-badge {
     color: $dark-color;
     font-weight: bold;
-    padding: $spacing-xs $spacing-sm;
+    padding: $spacing-xs $spacing-xs;
     border-radius: $border-radius;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     border: 1px solid $accent-color;
+    max-width: 30%;
 
     @media (min-width: $breakpoint-mobile) {
         padding: $spacing-sm $spacing-md;
@@ -41,6 +42,8 @@
     color: $accent-color;
     font-family: $font-family;
     font-weight: normal;
+    text-overflow: ellipsis;
+    overflow: hidden;
 
     @media (min-width: $breakpoint-mobile) {
         font-size: $body-font-size;
