@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from "@angular/core";
+import { Component, Input, type OnChanges, ViewChild } from "@angular/core";
 import { NgIconComponent, provideIcons } from "@ng-icons/core";
 import {
   letsArrowLeft,
@@ -13,6 +13,7 @@ import {
   NgxChartsModule,
 } from "@swimlane/ngx-charts";
 import { theme } from "../../../_variables";
+import type { ChartTabVariant } from "../../app.interface";
 import type { Lap } from "../../services/dataservice/data.interface";
 import type { CappedLap } from "./barchart.interface";
 
@@ -33,11 +34,14 @@ import type { CappedLap } from "./barchart.interface";
     }),
   ],
 })
-export class BarchartComponent {
+export class BarchartComponent implements OnChanges {
   @Input({ required: true }) laps: Lap[] = [];
   @Input({ required: true }) type: "speed" | "lapTime" = "lapTime";
   @Input({ required: true }) yScaleMax = 0;
   @Input({ required: true }) yScaleMin = 0;
+  @Input({ required: true }) chartTabVariant: ChartTabVariant = "distance";
+  @ViewChild("histoChart") chart: BarchartComponent | null = null;
+
 
   @ViewChild("barChart") barChart: BarVerticalComponent | null = null;
 
@@ -52,6 +56,8 @@ export class BarchartComponent {
   ngOnChanges(): void {
     this.initializeData();
     this.selectFastesLap();
+    this.barChart?.update();
+
   }
 
   initializeData() {

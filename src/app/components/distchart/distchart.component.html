@@ -1,0 +1,27 @@
+<div class="chart-header">
+    <p> {{totalDistance | number: '1.0-2'}} km in {{totalTrainingTime[0]}} {{totalTrainingTime[1]}} </p>
+</div>
+<div class="chart-container">
+    <ngx-charts-line-chart #distChart [scheme]="scheme" [showXAxisLabel]="true" [showYAxisLabel]="true" [xAxis]="true"
+        [yAxis]="true" [xAxisLabel]="''" [results]="results" [legend]="false" [legendTitle]="''"
+        [tooltipDisabled]="false" [gradient]="false" [xAxisTickFormatting]="xAxisTickFormatting"
+        [yAxisTickFormatting]="yAxisTickFormatting" [curve]="curve">
+
+        <ng-template #tooltipTemplate let-model="model">
+            <div class="tooltip-container">
+                <div class="tooltip-label">{{model.name |date:'shortTime'}}</div>
+                <div class="tooltip-label">{{model.value}} km</div>
+            </div>
+        </ng-template>
+
+        <ng-template #seriesTooltipTemplate let-model="model">
+            <div class="tooltip-container">
+                <div class="tooltip-label">{{model[0].name |date:'shortTime'}}</div>
+                <div class="tooltip-label">{{model[0].value}} km</div>
+                <div class="tooltip-label">{{model[0].customText}}</div>
+            </div>
+        </ng-template>
+    </ngx-charts-line-chart>
+
+
+</div>

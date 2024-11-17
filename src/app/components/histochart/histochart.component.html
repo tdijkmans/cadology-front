@@ -1,15 +1,15 @@
 <div class="chart-header">
-    <div class="chart-header-legend">
-        <div class="chart-header-legend-item ">
-            <div class="chart-header-legend-item-color bg-accent"></div>
+    <div class="histo-legend">
+        <div class="histo-legend-item">
+            <div class="histo-legend-item-color bg-accent"></div>
             <p>Deze sessie</p>
         </div>
-        <div class="chart-header-legend-item">
-            <div class="chart-header-legend-item-color bg-secondary"></div>
+        <div class="histo-legend-item">
+            <div class="histo-legend-item-color bg-secondary"></div>
             <p>Dit seizoen</p>
         </div>
-        <div class="chart-header-legend-item">
-            <div class="chart-header-legend-item-color bg-simple-gray"></div>
+        <div class="histo-legend-item">
+            <div class="histo-legend-item-color bg-simple-gray"></div>
             <p>Vorig seizoen</p>
         </div>
     </div>
@@ -17,7 +17,10 @@
 </div>
 
 <div class="chart-container">
-    <ngx-charts-line-chart #lineChart [scheme]="scheme" [showXAxisLabel]="true" [showYAxisLabel]="true" [xAxis]="true"
-        [yAxis]="true" [xAxisLabel]="'Rondetijd (sec)'" [results]="results" [curve]="curve"
-        [yAxisTickFormatting]="percentTickFormatting" [legend]="false" [legendTitle]="''" [tooltipDisabled]="true" />
+    <ngx-charts-line-chart #histoChart [scheme]="scheme" [showXAxisLabel]="true" [showYAxisLabel]="true" [xAxis]="true"
+        [yAxis]="true" [xAxisLabel]="''" [results]="results" [curve]="curve"
+        [yAxisTickFormatting]="percentTickFormatting" [legend]="false" [legendTitle]="''" [tooltipDisabled]="false">
+
+
+    </ngx-charts-line-chart>
 </div>

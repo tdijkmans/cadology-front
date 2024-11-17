@@ -14,8 +14,9 @@ import {
   letsSettingLine,
 } from "@ng-icons/lets-icons/regular";
 import { DataService } from "@services/dataservice/data.service";
-import { StatisticsService } from "@services/statistics/statistics.service";
-import { Observable, filter, map } from "rxjs";
+import { BehaviorSubject, type Observable, filter, map } from "rxjs";
+import type { ChartTabVariant, SeasonTabVariant } from "./app.interface";
+import { DistchartComponent } from "./components/distchart/distchart.component";
 import type { Activity } from "./services/dataservice/data.interface";
 
 @Component({
@@ -30,47 +31,46 @@ import type { Activity } from "./services/dataservice/data.interface";
     CircleBadgeComponent,
     BarchartComponent,
     HistochartComponent,
+    DistchartComponent,
   ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
-  providers: [DataService, StatisticsService],
+  providers: [DataService],
   viewProviders: [
     provideIcons({ letsArrowRight, letsArrowLeft, letsSettingLine }),
   ],
 })
 export class AppComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
-
   title = "";
   chipInput = "";
   errorMessage = "";
   leftMenuOpen = false;
   rightMenuOpen = false;
-  chartTabVariant: "speed" | "lapTime" | "distance" = "lapTime";
-  seasonTabVariant: "current" | "previous" = "current";
+
+  chartTabVariant = new BehaviorSubject<ChartTabVariant>("distance");
+  seasonTabVariant = new BehaviorSubject<SeasonTabVariant>("current");
 
   allActivities$: Observable<Activity[] | null>;
   currentActivity$: Observable<Activity | null>;
   currentSeasonActivities$: Observable<Activity[] | null>;
   previousSeasonActivities$: Observable<Activity[] | null>;
 
-  constructor(
-    private d: DataService,
-  ) {
+  constructor(private d: DataService,) {
     this.allActivities$ = this.d.allActivities$;
-
-    this.currentSeasonActivities$ = this.d.allActivities$.pipe(
-      filter((data) => data !== null),
-      map((data) => data.filter((a) => a.season === "currentSeasonActivities")),
-    );
-    this.previousSeasonActivities$ = this.d.allActivities$.pipe(
-      filter((data) => data !== null),
-      map((data) =>
-        data.filter((a) => a.season === "previousSeasonActivities"),
-      ),
-    );
-
     this.currentActivity$ = this.d.currentActivity$;
+
+    const seasonActivities$ = this.d.allActivities$.pipe(
+      filter((a) => a !== null),
+      map((a) => ({
+        currentSeasonActivities: a.filter((a) => a.season === "currentSeasonActivities"),
+        previousSeasonActivities: a.filter((a) => a.season === "previousSeasonActivities"),
+      }))
+    );
+
+    this.currentSeasonActivities$ = seasonActivities$.pipe(map((a) => a.currentSeasonActivities));
+    this.previousSeasonActivities$ = seasonActivities$.pipe(map((a) => a.previousSeasonActivities));
+
   }
 
   ngOnInit() {
@@ -126,11 +126,11 @@ export class AppComponent implements OnInit {
     this.rightMenuOpen = !this.rightMenuOpen;
   }
 
-  setTab(tab: "speed" | "lapTime" | "distance") {
-    this.chartTabVariant = tab;
+  setTab(tab: ChartTabVariant) {
+    this.chartTabVariant.next(tab);
   }
 
-  setSeasonTab(tab: "current" | "previous") {
-    this.seasonTabVariant = tab;
+  setSeasonTab(tab: SeasonTabVariant) {
+    this.seasonTabVariant.next(tab);
   }
 }

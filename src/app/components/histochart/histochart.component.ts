@@ -1,12 +1,12 @@
 import { CommonModule } from "@angular/common";
-import { Component, Input } from "@angular/core";
+import { Component, Input, type OnChanges, ViewChild } from "@angular/core";
 import type { Activity } from "@services/dataservice/data.interface";
 import { StatisticsService } from "@services/statistics/statistics.service";
-import { type Color, LineChartModule } from "@swimlane/ngx-charts";
+import { type Color, type LineChartComponent, LineChartModule } from "@swimlane/ngx-charts";
 import * as shape from "d3-shape";
 import { theme } from "../../../_variables";
-
-type Result = { name: string; series: { name: string; value: number }[] }[];
+import type { ChartTabVariant } from "../../app.interface";
+import type { Result } from "./histochart.interface";
 
 @Component({
   selector: "histochart",
@@ -15,12 +15,14 @@ type Result = { name: string; series: { name: string; value: number }[] }[];
   templateUrl: "./histochart.component.html",
   styleUrl: "./histochart.component.scss",
 })
-export class HistochartComponent {
+export class HistochartComponent implements OnChanges {
   @Input({ required: true }) currentActivity: Activity | null = null;
   @Input({ required: true }) previousSeasonActivities: Activity[] = [];
   @Input({ required: true }) currentSeasonActivities: Activity[] = [];
+  @Input({ required: true }) chartTabVariant: ChartTabVariant = "distance";
+  @ViewChild("histoChart") chart: LineChartComponent | null = null;
 
-  curve = shape.curveBasis;
+  curve = shape.curveMonotoneX;
   results = [{ name: "", series: [{ name: "", value: 0 }] }] as Result;
   scheme = {
     domain: [theme.accentcolor, theme.secondarycolor, theme.subtlecolor],
@@ -28,7 +30,8 @@ export class HistochartComponent {
 
   constructor(private s: StatisticsService) { }
 
-  ngOnChanges(): void {
+  ngOnChanges() {
+    this.chart?.update();
     this.initializeData();
   }
 
@@ -76,6 +79,6 @@ export class HistochartComponent {
   }
 
   percentTickFormatting(val: number) {
-    return `${Math.round(val * 100)}%`;
+    return `${Math.round(val)}%`;
   }
 }
