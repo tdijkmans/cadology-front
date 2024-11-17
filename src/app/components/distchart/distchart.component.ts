@@ -1,10 +1,11 @@
 import { CommonModule } from "@angular/common";
-import { Component, Input, type OnChanges } from "@angular/core";
+import { Component, Input, type OnChanges, ViewChild } from "@angular/core";
 import type { Activity } from "@services/dataservice/data.interface";
 import { StatisticsService } from "@services/statistics/statistics.service";
-import { type Color, LineChartModule } from "@swimlane/ngx-charts";
+import { type Color, LineChartComponent, LineChartModule } from "@swimlane/ngx-charts";
 import * as shape from "d3-shape";
 import { theme } from "../../../_variables";
+import type { ChartTabVariant } from "../../app.interface";
 
 @Component({
   selector: "distchart",
@@ -15,6 +16,11 @@ import { theme } from "../../../_variables";
 })
 export class DistchartComponent implements OnChanges {
   @Input({ required: true }) currentActivity = {} as Activity;
+  @Input({ required: true }) chartTabVariant: ChartTabVariant = "distance";
+  @ViewChild("distChart") chart: LineChartComponent | null = null;
+
+
+
   totalDistance = 0;
   totalTrainingTime = ['0', 'uur'];
 

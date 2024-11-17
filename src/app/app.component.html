@@ -94,7 +94,7 @@
 
               <div class="px-1 py-1" [ngStyle]="{ 'display': tab === 'distance' ? 'block' : 'none' }">
                 <div class="card">
-                  <distchart [currentActivity]="currentActivity" />
+                  <distchart [chartTabVariant]="tab" [currentActivity]="currentActivity" />
 
                 </div>
               </div>
