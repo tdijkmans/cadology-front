@@ -52,6 +52,7 @@
       <ng-container *ngIf="(previousSeasonActivities$ | async) as previousSeasonActivities">
 
 
+
         <activitystats [currentActivity]="currentActivity" (nextActivity)="selectNextActivity()"
           (prevActivity)="selectPrevActivity()" [isMostRecent]="currentActivity === currentSeasonActivities[0]"
           [isOldest]="currentActivity === previousSeasonActivities[previousSeasonActivities.length - 1]" />
@@ -59,10 +60,10 @@
         <ng-container *ngIf="(chartTabVariant | async) as tab">
           <div class="tab-container">
             <button class="tab" [class.active]="tab === 'lapTime'" (click)="setTab('lapTime')">
-              Tijd
+              Rondes (sec)
             </button>
             <button class="tab" [class.active]="tab === 'speed'" (click)="setTab('speed')">
-              Snelheid
+              Rondes (km/u)
             </button>
 
             <button class="tab" [class.active]="tab === 'distance'" (click)="setTab('distance')">
@@ -70,7 +71,7 @@
             </button>
 
             <button class="tab" [class.active]="tab === 'season'" (click)="setTab('season')">
-              Seizoen
+              Verdeling rondes (sec)
             </button>
 
 
@@ -119,6 +120,10 @@
                 Vorig seizoen
                 <circle-badge [count]="previousSeasonActivities.length" [active]="tabTwo === 'previous'" />
               </button>
+
+              <button class="tab" [class.active]="tabTwo === 'progress'" (click)="setSeasonTab('progress')">
+                Voortgang
+              </button>
             </div>
 
             <div class="tab-content">
@@ -130,6 +135,15 @@
                 <activitieslist [activities]="previousSeasonActivities" [currentActivity]="currentActivity"
                   (selectActivity)="handleAct($event)" />
               </div>
+
+              <div class="px-1 py-1" [ngStyle]="{ 'display': tabTwo === 'progress' ? 'block' : 'none' }">
+                <div class="card">
+                  <distchart-season [currentSeasonActivities]="currentSeasonActivities"
+                    [previousSeasonActivities]="previousSeasonActivities" [currentActivity]="currentActivity" />
+                </div>
+
+              </div>
+
             </div>
           </ng-container>
         </ng-container>

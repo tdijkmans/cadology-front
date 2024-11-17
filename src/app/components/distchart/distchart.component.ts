@@ -33,7 +33,7 @@ export class DistchartComponent implements OnChanges {
   ngOnChanges(): void { this.initializeData(); }
 
   initializeData() {
-    const cumulativeDistance = this.s.calculateCumulativeDistance(
+    const cumulativeDistance = this.s.getCumulatingDistance(
       this.currentActivity?.laps ?? [],
     );
     this.results = [
@@ -46,8 +46,8 @@ export class DistchartComponent implements OnChanges {
         })),
       },
     ];
-    this.totalDistance = this.s.getDistance(this.currentActivity.laps.length);
-    this.totalTrainingTime = this.s.getTotalTrainingTime(this.currentActivity.totalTrainingTime);
+    this.totalDistance = this.s.distanceFromLapCount(this.currentActivity.laps.length);
+    this.totalTrainingTime = this.s.formattedTime(this.currentActivity.totalTrainingTime);
   }
 
   xAxisTickFormatting = (date: number): string => {

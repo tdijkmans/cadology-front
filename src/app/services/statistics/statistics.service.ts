@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Lap } from "@services/dataservice/data.interface";
+import { Activity, Lap } from "@services/dataservice/data.interface";
 
 type Bin = { bin: number; count: number; normalizedCount: number };
 
@@ -7,7 +7,9 @@ type Bin = { bin: number; count: number; normalizedCount: number };
   providedIn: "root",
 })
 export class StatisticsService {
-  public calculateHistogram(
+  TRACK_LENGTH = 0.38418 as const;
+
+  public getBinnedData(
     data: number[],
     binStart = 24,
     binEnd = 60,
@@ -37,9 +39,8 @@ export class StatisticsService {
     return bins;
   }
 
-  public calculateCumulativeDistance(
+  public getCumulatingDistance(
     laps: Lap[],
-    lapLength = 0.38418,
   ): { time: number; cumulativeDistance: number }[] {
     let cumulativeDistance = 0;
 
@@ -50,7 +51,7 @@ export class StatisticsService {
     return quantifiedLaps
       .sort((a, b) => a.startTime - b.startTime)
       .map((lap, i) => {
-        cumulativeDistance += lapLength;
+        cumulativeDistance += this.TRACK_LENGTH;
         return {
           time: lap.startTime,
           cumulativeDistance: Math.round(cumulativeDistance * 100) / 100,
@@ -58,7 +59,35 @@ export class StatisticsService {
       });
   }
 
-  getTotalTrainingTime(totalTrainingTime: string | undefined) {
+  public getCumulatingSeasonDistance(season: Array<Activity>) {
+    let cumulativeDistance = 0;
+    let cumulativeLapCount = 0;
+    let cumulativeTrainingMinutes = 0;
+
+    const quantifiedSeason = season.map((activity) => {
+      return { ...activity, time: new Date(activity.startTime).getTime() };
+    });
+
+    return quantifiedSeason
+      .sort((a, b) => a.time - b.time)
+      .map((activity, i) => {
+        cumulativeDistance += this.TRACK_LENGTH * activity.lapCount;
+        cumulativeDistance = Math.round(cumulativeDistance * 100) / 100;
+        cumulativeLapCount += activity.lapCount;
+        cumulativeTrainingMinutes += activity.totalTrainingMinutes;
+
+        return {
+          time: activity.time,
+          cumulativeDistance,
+          cumulativeLapCount,
+          startTime: activity.startTime,
+          lapCount: activity.lapCount,
+          cumulativeTrainingMinutes,
+        };
+      });
+  }
+
+  public formattedTime(totalTrainingTime: string | undefined) {
     if (!totalTrainingTime) {
       return ["0", "uur"];
     }
@@ -67,7 +96,7 @@ export class StatisticsService {
     return numberOfColons === 2 ? [time, "minuten"] : [time, "uur"];
   }
 
-  getDistance(lapCount: number, TRACK_LENGTH = 0.38418) {
-    return TRACK_LENGTH * lapCount;
+  public distanceFromLapCount(lapCount: number) {
+    return this.TRACK_LENGTH * lapCount;
   }
 }

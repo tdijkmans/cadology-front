@@ -38,8 +38,8 @@ export class ActivitystatsComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    this.totalDistance = this.s.getDistance(this.currentActivity.laps.length);
-    this.totalTrainingTime = this.s.getTotalTrainingTime(this.currentActivity.totalTrainingTime);
+    this.totalDistance = this.s.distanceFromLapCount(this.currentActivity.laps.length);
+    this.totalTrainingTime = this.s.formattedTime(this.currentActivity.totalTrainingTime);
   }
 
 }

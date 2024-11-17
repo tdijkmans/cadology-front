@@ -2,7 +2,11 @@ import { CommonModule } from "@angular/common";
 import { Component, Input, type OnChanges, ViewChild } from "@angular/core";
 import type { Activity } from "@services/dataservice/data.interface";
 import { StatisticsService } from "@services/statistics/statistics.service";
-import { type Color, type LineChartComponent, LineChartModule } from "@swimlane/ngx-charts";
+import {
+  type Color,
+  type LineChartComponent,
+  LineChartModule,
+} from "@swimlane/ngx-charts";
 import * as shape from "d3-shape";
 import { theme } from "../../../_variables";
 import type { ChartTabVariant } from "../../app.interface";
@@ -41,16 +45,15 @@ export class HistochartComponent implements OnChanges {
     const currentActivity = this.currentActivity;
 
     const currentHisto = this.s
-      .calculateHistogram(
-        currentActivity?.laps.map((lap) => lap.duration) ?? [],
-      )
+      .getBinnedData(currentActivity?.laps.map((lap) => lap.duration) ?? [])
       .map((lap) => ({
         name: `${lap.bin}`,
         value: lap.normalizedCount,
+        customText: `${lap.bin} - ${lap.bin + 1} sec`,
       }));
 
     const currentSeasonHisto = this.s
-      .calculateHistogram(
+      .getBinnedData(
         currentSeasonActivities?.flatMap((a) =>
           a.laps.map((lap) => lap.duration),
         ) ?? [],
@@ -58,10 +61,11 @@ export class HistochartComponent implements OnChanges {
       .map((lap) => ({
         name: `${lap.bin}`,
         value: lap.normalizedCount,
+        customText: `${lap.bin} - ${lap.bin + 1} sec`,
       }));
 
     const previousSeasonHisto = this.s
-      .calculateHistogram(
+      .getBinnedData(
         previousSeasonActivities?.flatMap((a) =>
           a.laps.map((lap) => lap.duration),
         ) ?? [],
@@ -69,6 +73,7 @@ export class HistochartComponent implements OnChanges {
       .map((lap) => ({
         name: `${lap.bin}`,
         value: lap.normalizedCount,
+        customText: `${lap.bin} - ${lap.bin + 1} sec`,
       }));
 
     this.results = [

@@ -18,6 +18,7 @@ import { DataService } from "@services/dataservice/data.service";
 import { BehaviorSubject, type Observable, combineLatest, distinctUntilChanged, map, of } from "rxjs";
 import type { ChartTabVariant, SeasonTabVariant } from "./app.interface";
 import { DistchartComponent } from "./components/distchart/distchart.component";
+import { DistchartSeasonComponent } from "./distchart-season/distchart-season.component";
 import type { Activity } from "./services/dataservice/data.interface";
 
 @Component({
@@ -33,6 +34,7 @@ import type { Activity } from "./services/dataservice/data.interface";
     BarchartComponent,
     HistochartComponent,
     DistchartComponent,
+    DistchartSeasonComponent
   ],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
