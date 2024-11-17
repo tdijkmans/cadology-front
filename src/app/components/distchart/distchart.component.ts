@@ -58,6 +58,6 @@ export class DistchartComponent implements OnChanges {
   };
 
   yAxisTickFormatting = (distance: number): string => {
-    return distance + " km";
+    return distance.toFixed(0)
   };
 }
