@@ -2,6 +2,7 @@ import { CommonModule } from "@angular/common";
 import { Component, EventEmitter, Input, OnChanges, Output } from "@angular/core";
 import { NgIconComponent, provideIcons } from "@ng-icons/core";
 import { letsArrowLeft, letsArrowRight } from "@ng-icons/lets-icons/regular";
+import { StatisticsService } from "@services/statistics/statistics.service";
 import type { Activity } from "../../services/dataservice/data.interface";
 import { DataService } from "../../services/dataservice/data.service";
 
@@ -9,7 +10,7 @@ import { DataService } from "../../services/dataservice/data.service";
   selector: "activitystats",
   standalone: true,
   imports: [CommonModule, NgIconComponent,],
-  providers: [DataService],
+  providers: [DataService, StatisticsService],
   templateUrl: "./activitystats.component.html",
   styleUrl: "./activitystats.component.scss",
   viewProviders: [provideIcons({ letsArrowRight, letsArrowLeft })],
@@ -23,7 +24,10 @@ export class ActivitystatsComponent implements OnChanges {
 
   totalDistance = 0;
   totalTrainingTime = ['0', 'uur'];
-  TRACK_LENGTH = 0.38418 as const; // in km
+
+  constructor(private s: StatisticsService) {
+
+  }
 
   onNext() {
     this.nextActivity.emit();
@@ -34,13 +38,8 @@ export class ActivitystatsComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    this.totalDistance = this.TRACK_LENGTH * this.currentActivity.lapCount;
-    this.totalTrainingTime = this.getTotalTrainingTime();
+    this.totalDistance = this.s.getDistance(this.currentActivity.laps.length);
+    this.totalTrainingTime = this.s.getTotalTrainingTime(this.currentActivity.totalTrainingTime);
   }
 
-  getTotalTrainingTime() {
-    const time = this.currentActivity.totalTrainingTime?.split(".")[0];
-    const numberOfColons = time?.split(":").length;
-    return numberOfColons === 2 ? [time, 'minuten'] : [time, 'uur'];
-  }
 }

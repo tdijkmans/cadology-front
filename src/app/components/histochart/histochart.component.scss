@@ -1,46 +1,22 @@
 @import '../../../variables.scss';
 
-.chart {
+.histo-legend {
+    display: flex;
+    gap: $spacing-md;
+    align-items: center;
+    justify-content: center;
 
-
-
-    &-container {
-        width: 100%;
-        height: 60vh;
+    &-item {
         display: flex;
-        justify-content: center;
-        align-items: center;
-
-    }
-
-    &-header {
-        display: flex;
-        gap: $spacing-md;
+        gap: $spacing-sm;
         align-items: center;
         justify-content: center;
-        margin: $spacing-md;
-        background-color: $subtle-color;
-        color: $secondary-color;
-        padding: $spacing-sm;
 
-        &-legend {
-            display: flex;
-            gap: $spacing-md;
-            align-items: center;
-            justify-content: center;
-
-            &-item {
-                display: flex;
-                gap: $spacing-sm;
-                align-items: center;
-                justify-content: center;
-
-                &-color {
-                    width: 1rem;
-                    height: 1rem;
-                    border-radius: 50%;
-                }
-            }
+        &-color {
+            width: 1rem;
+            height: 1rem;
+            border-radius: 50%;
+            aspect-ratio: 1;
         }
     }
 }

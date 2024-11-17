@@ -1,6 +1,6 @@
 <div class="app-menu-bar px-1 py-1">
 
-  <span class="app-menu-bar__item text-secondary mx-1">🧊🧊 IJsblokjes</span>
+  <span class="app-menu-bar__item text-secondary mx-1">🧊🧊 Mijn IJstijden</span>
   <span class="app-menu-bar__item text-secondary mx-1" (click)="toggleRightMenu()">
     <ng-icon name="letsSettingLine" size="24" />
   </span>
@@ -38,6 +38,8 @@
 
 <div class="app-content">
 
+
+
   <ng-container *ngIf="!(currentActivity$ | async ) as currentActivity">
     <div class="app-content-void">
       <span class="text-secondary mx-1" (click)="toggleRightMenu()">
@@ -64,8 +66,14 @@
           </button>
 
           <button class="tab" [class.active]="chartTabVariant === 'distance'" (click)="setTab('distance')">
-            Rondetijden versus seizoenen
+            Afstand
           </button>
+
+          <button class="tab" [class.active]="chartTabVariant === 'season'" (click)="setTab('season')">
+            In seizoen
+          </button>
+
+
         </div>
         <ng-container *ngIf="(previousSeasonActivities$ | async) as previousSeasonActivities">
 
@@ -83,6 +91,13 @@
             </div>
 
             <div class="px-1 py-1" [ngStyle]="{ 'display': chartTabVariant === 'distance' ? 'block' : 'none' }">
+              <div class="card">
+                <distchart [currentActivity]="currentActivity" />
+
+              </div>
+            </div>
+
+            <div class="px-1 py-1" [ngStyle]="{ 'display': chartTabVariant === 'season' ? 'block' : 'none' }">
               <div class="card">
                 <histochart [currentSeasonActivities]="currentSeasonActivities"
                   [previousSeasonActivities]="previousSeasonActivities" [currentActivity]="currentActivity" />

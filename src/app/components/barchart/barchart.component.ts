@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from "@angular/core";
+import { Component, Input, OnChanges, ViewChild } from "@angular/core";
 import { NgIconComponent, provideIcons } from "@ng-icons/core";
 import {
   letsArrowLeft,
@@ -33,7 +33,7 @@ import type { CappedLap } from "./barchart.interface";
     }),
   ],
 })
-export class BarchartComponent {
+export class BarchartComponent implements OnChanges {
   @Input({ required: true }) laps: Lap[] = [];
   @Input({ required: true }) type: "speed" | "lapTime" = "lapTime";
   @Input({ required: true }) yScaleMax = 0;

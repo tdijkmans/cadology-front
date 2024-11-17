@@ -2,13 +2,10 @@ type Lap = {
     lapNr: number;
     duration: number;
     speed: number;
+    startTime: string; //ISO 8601 format
 };
 
-type BestLap = {
-    lapNr: number;
-    duration: number;
-    speed: number;
-};
+
 
 type Season = "previousSeasonActivities" | "currentSeasonActivities";
 type Activity = {
@@ -17,7 +14,7 @@ type Activity = {
     startTime: Date; //ISO 8601 format
     endTime: Date; //ISO 8601 format
     trackLength: number;
-    bestLap: BestLap;
+    bestLap: Lap;
     lapCount: number;
     totalTrainingTime: string;
     averageSpeed: number;
@@ -33,4 +30,4 @@ type SeasonsResponse = {
     type: Season;
 };
 
-export type { Activity, BestLap, Lap, Season, SeasonsResponse };
+export type { Activity, Lap, Season, SeasonsResponse };
