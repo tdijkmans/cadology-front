@@ -2,7 +2,7 @@ import { CommonModule } from "@angular/common";
 import { Component, DestroyRef, inject } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { FormsModule } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import { NgIconComponent, provideIcons } from "@ng-icons/core";
 import {
   letsArrowLeft,
@@ -32,7 +32,6 @@ export class AppMenuComponent {
   constructor(
     private d: DataService,
     private r: ActivatedRoute,
-    private url: Router,
   ) { }
 
   ngOnInit() {
@@ -80,15 +79,6 @@ export class AppMenuComponent {
         // Update local storage and chip input
         this.d.setItem("chipCode", chipCode);
         this.chipInput = chipCode;
-
-        // Update query params if necessary
-        if (!routeChipCode) {
-          this.url.navigate([], {
-            relativeTo: this.r,
-            queryParams: { transponder: chipCode },
-            queryParamsHandling: "merge",
-          });
-        }
       });
   }
 }

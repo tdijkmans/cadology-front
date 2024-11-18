@@ -8,7 +8,7 @@ import {
   LineChartModule,
 } from "@swimlane/ngx-charts";
 import * as shape from "d3-shape";
-import { theme } from "../../_variables";
+import { theme } from "../../../_variables";
 
 @Component({
   selector: "distchart-season",

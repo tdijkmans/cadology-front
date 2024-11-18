@@ -21,6 +21,12 @@
             <span class="text-error mx-1" *ngIf="errorMessage">
                 {{errorMessage}}
             </span>
+
+            <nav>
+                <a href="/">Home</a>
+                |
+                <a href="/canvas">Canvas</a>
+            </nav>
         </div>
         <button (click)="clearCache()" class="btn-inverse">Cache verwijderen</button>
     </div>
