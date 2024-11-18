@@ -90,11 +90,11 @@ export class AppComponent implements OnInit {
     combineLatest([routeChipCode$, localChipCode$])
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        map(([routeChipCode, localChipCode]) => routeChipCode || localChipCode),
         distinctUntilChanged()
       )
-      .subscribe((chipCode) => {
-        if (!chipCode) return;
+      .subscribe(([routeChipCode, localChipCode]) => {
+        const chipCode = routeChipCode || localChipCode;
+        if (!chipCode) { return; }
 
         // Initialize with the chipCode
         this.d.init(chipCode).pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
@@ -104,7 +104,8 @@ export class AppComponent implements OnInit {
         this.chipInput = chipCode;
 
         // Update query params if necessary
-        if (!routeChipCode$) {
+        if (!routeChipCode) {
+          console.log("Navigating to", chipCode);
           this.url.navigate([], {
             relativeTo: this.r,
             queryParams: { transponder: chipCode },
