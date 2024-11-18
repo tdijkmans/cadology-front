@@ -51,8 +51,6 @@
     <ng-container *ngIf="(currentSeasonActivities$ | async) as currentSeasonActivities">
       <ng-container *ngIf="(previousSeasonActivities$ | async) as previousSeasonActivities">
 
-
-
         <activitystats [currentActivity]="currentActivity" (nextActivity)="selectNextActivity()"
           (prevActivity)="selectPrevActivity()" [isMostRecent]="currentActivity === currentSeasonActivities[0]"
           [isOldest]="currentActivity === previousSeasonActivities[previousSeasonActivities.length - 1]" />
@@ -65,11 +63,9 @@
             <button class="tab" [class.active]="tab === 'speed'" (click)="setTab('speed')">
               Rondes (km/u)
             </button>
-
             <button class="tab" [class.active]="tab === 'distance'" (click)="setTab('distance')">
               Afstand
             </button>
-
             <button class="tab" [class.active]="tab === 'season'" (click)="setTab('season')">
               Verdeling rondes (sec)
             </button>
@@ -77,36 +73,36 @@
 
           </div>
 
-          <div class="tab-content">
-            <div class="px-1 py-1" [ngStyle]="{ 'display': tab === 'lapTime' ? 'block' : 'none' }">
+          <div>
+
+            <div class="tab-item" [class.active]="tab === 'lapTime'">
               <div class="card">
                 <barchart [chartTabVariant]="tab" [laps]="currentActivity.laps" [type]="'lapTime'" [yScaleMax]="100"
                   [yScaleMin]="25" />
               </div>
             </div>
 
-            <div class="px-1 py-1" [ngStyle]="{ 'display': tab === 'speed' ? 'block' : 'none' }">
+            <div class="tab-item" [class.active]="tab === 'speed'">
               <div class="card">
                 <barchart [chartTabVariant]="tab" [laps]="currentActivity.laps" [type]="'speed'" [yScaleMax]="40"
                   [yScaleMin]="5" />
               </div>
             </div>
 
-            <div class="px-1 py-1" [ngStyle]="{ 'display': tab === 'distance' ? 'block' : 'none' }">
+            <div class="tab-item" [class.active]="tab === 'distance'">
               <div class="card">
                 <distchart [chartTabVariant]="tab" [currentActivity]="currentActivity" />
-
               </div>
             </div>
 
-            <div class="px-1 py-1" [ngStyle]="{ 'display': tab === 'season' ? 'block' : 'none' }">
+            <div class="tab-item" [class.active]="tab === 'season'">
               <div class="card">
                 <histochart [currentSeasonActivities]="currentSeasonActivities"
                   [previousSeasonActivities]="previousSeasonActivities" [currentActivity]="currentActivity"
                   [chartTabVariant]="tab" />
-
               </div>
             </div>
+
           </div>
 
 
@@ -126,25 +122,24 @@
               </button>
             </div>
 
-            <div class="tab-content">
-              <div class="px-1 py-1" [ngStyle]="{ 'display': tabTwo === 'current' ? 'block' : 'none' }">
+            <div>
+              <div class="tab-item" [class.active]="tabTwo === 'current'">
                 <activitieslist [activities]="currentSeasonActivities" [currentActivity]="currentActivity"
                   (selectActivity)="handleAct($event)" />
               </div>
-              <div class="px-1 py-1" [ngStyle]="{ 'display': tabTwo === 'previous' ? 'block' : 'none' }">
+              <div class="tab-item" [class.active]="tabTwo === 'previous'">
                 <activitieslist [activities]="previousSeasonActivities" [currentActivity]="currentActivity"
                   (selectActivity)="handleAct($event)" />
               </div>
-
-              <div class="px-1 py-1" [ngStyle]="{ 'display': tabTwo === 'progress' ? 'block' : 'none' }">
+              <div class="tab-item" [class.active]="tabTwo === 'progress'">
                 <div class="card">
                   <distchart-season [currentSeasonActivities]="currentSeasonActivities"
                     [previousSeasonActivities]="previousSeasonActivities" [currentActivity]="currentActivity" />
                 </div>
-
               </div>
 
             </div>
+
           </ng-container>
         </ng-container>
       </ng-container>
