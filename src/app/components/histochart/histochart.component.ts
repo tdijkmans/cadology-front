@@ -21,9 +21,9 @@ import type { Result } from "./histochart.interface";
 })
 export class HistochartComponent implements OnChanges {
   @Input({ required: true }) currentActivity: Activity | null = null;
-  @Input({ required: true }) previousSeasonActivities: Activity[] = [];
-  @Input({ required: true }) currentSeasonActivities: Activity[] = [];
-  @Input({ required: true }) chartTabVariant: ChartTabVariant = "distance";
+  @Input({ required: true }) prevActivities: Activity[] = [];
+  @Input({ required: true }) curActivities: Activity[] = [];
+  @Input({ required: true }) chartTab: ChartTabVariant = "distance";
   @ViewChild("histoChart") chart: LineChartComponent | null = null;
 
   curve = shape.curveMonotoneX;
@@ -40,8 +40,8 @@ export class HistochartComponent implements OnChanges {
   }
 
   initializeData() {
-    const currentSeasonActivities = this.currentSeasonActivities;
-    const previousSeasonActivities = this.previousSeasonActivities;
+    const curActivities = this.curActivities;
+    const prevActivities = this.prevActivities;
     const currentActivity = this.currentActivity;
 
     const currentHisto = this.s
@@ -54,7 +54,7 @@ export class HistochartComponent implements OnChanges {
 
     const currentSeasonHisto = this.s
       .getBinnedData(
-        currentSeasonActivities?.flatMap((a) =>
+        curActivities?.flatMap((a) =>
           a.laps.map((lap) => lap.duration),
         ) ?? [],
       )
@@ -66,7 +66,7 @@ export class HistochartComponent implements OnChanges {
 
     const previousSeasonHisto = this.s
       .getBinnedData(
-        previousSeasonActivities?.flatMap((a) =>
+        prevActivities?.flatMap((a) =>
           a.laps.map((lap) => lap.duration),
         ) ?? [],
       )

@@ -19,8 +19,8 @@ import { theme } from "../../_variables";
 })
 export class DistchartSeasonComponent {
   @Input({ required: true }) currentActivity = {} as Activity;
-  @Input({ required: true }) previousSeasonActivities: Activity[] = [];
-  @Input({ required: true }) currentSeasonActivities: Activity[] = [];
+  @Input({ required: true }) prevActivities: Activity[] = [];
+  @Input({ required: true }) curActivities: Activity[] = [];
   @ViewChild("histoChart") chart: LineChartComponent | null = null;
 
   totalDistanceCur = 0;
@@ -39,8 +39,8 @@ export class DistchartSeasonComponent {
   }
 
   initializeData() {
-    const cur = this.s.getCumulatingSeasonDistance(this.currentSeasonActivities,);
-    const prev = this.s.getCumulatingSeasonDistance(this.previousSeasonActivities,);
+    const cur = this.s.getCumulatingSeasonDistance(this.curActivities,);
+    const prev = this.s.getCumulatingSeasonDistance(this.prevActivities,);
 
     this.totalDistanceCur = cur[cur.length - 1].cumulativeDistance;
     this.totalTrainingHrCur =

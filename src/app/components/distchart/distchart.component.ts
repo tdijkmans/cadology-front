@@ -16,7 +16,7 @@ import type { ChartTabVariant } from "../../app.interface";
 })
 export class DistchartComponent implements OnChanges {
   @Input({ required: true }) currentActivity = {} as Activity;
-  @Input({ required: true }) chartTabVariant: ChartTabVariant = "distance";
+  @Input({ required: true }) chartTab: ChartTabVariant = "distance";
   @ViewChild("distChart") chart: LineChartComponent | null = null;
 
 
