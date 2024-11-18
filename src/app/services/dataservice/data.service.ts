@@ -14,11 +14,11 @@ export class DataService {
   private activities = new BehaviorSubject<Activity[] | null>(null);
 
   get currentActivity$() {
-    return this.activity.asObservable();
+    return this.activity.asObservable().pipe(filter((activity) => !!activity));
   }
 
   get allActivities$() {
-    return this.activities.asObservable();
+    return this.activities.asObservable().pipe(filter((activities) => !!activities));
   }
 
   get currentSeasonActivities$() {

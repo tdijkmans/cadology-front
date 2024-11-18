@@ -48,24 +48,34 @@ export class AppComponent implements OnInit {
   title = "";
   chipInput = "";
   errorMessage = "";
-  leftMenuOpen = false;
   rightMenuOpen = false;
 
   chartTabVariant = new BehaviorSubject<ChartTabVariant>("distance");
   seasonTabVariant = new BehaviorSubject<SeasonTabVariant>("current");
 
-  currentActivity$: Observable<Activity | null>;
-  currentSeasonActivities$: Observable<Activity[] | null>;
-  previousSeasonActivities$: Observable<Activity[] | null>;
+  currentData$: Observable<{
+    currentActivity: Activity; currentSeasonActivities: Activity[]; previousSeasonActivities: Activity[];
+  }>
 
   constructor(
     private d: DataService,
     private r: ActivatedRoute,
     private url: Router,
   ) {
-    this.currentActivity$ = this.d.currentActivity$;
-    this.currentSeasonActivities$ = this.d.currentSeasonActivities$;
-    this.previousSeasonActivities$ = this.d.previousSeasonActivities$;
+
+
+    this.currentData$ = combineLatest([
+      this.d.currentActivity$,
+      this.d.currentSeasonActivities$,
+      this.d.previousSeasonActivities$
+    ]).pipe(
+      map(([currentActivity, currentSeasonActivities, previousSeasonActivities]) => ({
+        currentActivity,
+        currentSeasonActivities,
+        previousSeasonActivities
+      }))
+    );
+
   }
 
   ngOnInit() {
@@ -138,9 +148,7 @@ export class AppComponent implements OnInit {
     this.d.clearLocalStorage();
   }
 
-  toggleMenu() {
-    this.leftMenuOpen = !this.leftMenuOpen;
-  }
+
 
   toggleRightMenu() {
     this.rightMenuOpen = !this.rightMenuOpen;
