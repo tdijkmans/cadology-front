@@ -48,10 +48,10 @@ export class AppComponent implements OnInit {
   title = "";
   chipInput = "";
   errorMessage = "";
-  rightMenuOpen = false;
+  menuOpen = false;
 
-  chartTabVariant = new BehaviorSubject<ChartTabVariant>("distance");
-  seasonTabVariant = new BehaviorSubject<SeasonTabVariant>("current");
+  chartTab = new BehaviorSubject<ChartTabVariant>("distance");
+  seasonTab = new BehaviorSubject<SeasonTabVariant>("current");
 
   currentData$: Observable<{
     currentActivity: Activity; currentSeasonActivities: Activity[]; previousSeasonActivities: Activity[];
@@ -151,14 +151,14 @@ export class AppComponent implements OnInit {
 
 
   toggleRightMenu() {
-    this.rightMenuOpen = !this.rightMenuOpen;
+    this.menuOpen = !this.menuOpen;
   }
 
   setTab(tab: ChartTabVariant) {
-    this.chartTabVariant.next(tab);
+    this.chartTab.next(tab);
   }
 
   setSeasonTab(tab: SeasonTabVariant) {
-    this.seasonTabVariant.next(tab);
+    this.seasonTab.next(tab);
   }
 }

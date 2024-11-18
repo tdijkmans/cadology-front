@@ -23,7 +23,7 @@ export class HistochartComponent implements OnChanges {
   @Input({ required: true }) currentActivity: Activity | null = null;
   @Input({ required: true }) previousSeasonActivities: Activity[] = [];
   @Input({ required: true }) currentSeasonActivities: Activity[] = [];
-  @Input({ required: true }) chartTabVariant: ChartTabVariant = "distance";
+  @Input({ required: true }) chartTab: ChartTabVariant = "distance";
   @ViewChild("histoChart") chart: LineChartComponent | null = null;
 
   curve = shape.curveMonotoneX;

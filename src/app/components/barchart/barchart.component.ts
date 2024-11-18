@@ -39,7 +39,7 @@ export class BarchartComponent implements OnChanges {
   @Input({ required: true }) type: "speed" | "lapTime" = "lapTime";
   @Input({ required: true }) yScaleMax = 0;
   @Input({ required: true }) yScaleMin = 0;
-  @Input({ required: true }) chartTabVariant: ChartTabVariant = "distance";
+  @Input({ required: true }) chartTab: ChartTabVariant = "distance";
   @ViewChild("histoChart") chart: BarchartComponent | null = null;
 
 
