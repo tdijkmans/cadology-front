@@ -21,14 +21,14 @@ export class DataService {
     return this.activities.asObservable().pipe(filter((activities) => !!activities));
   }
 
-  get currentSeasonActivities$() {
+  get curActivities$() {
     return this.allActivities$.pipe(
       filter((activities) => !!activities),
       map((activities) => activities.filter((a) => a.season === "currentSeasonActivities")),
     );
   }
 
-  get previousSeasonActivities$() {
+  get prevActivities$() {
     return this.allActivities$.pipe(
       filter((activities) => !!activities),
       map((activities) => activities.filter((a) => a.season === "previousSeasonActivities")),

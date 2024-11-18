@@ -39,8 +39,8 @@
   <div class="app-content">
 
     <activitystats [currentActivity]="d.currentActivity" (nextActivity)="selectNextActivity()"
-      (prevActivity)="selectPrevActivity()" [isMostRecent]="d.currentActivity === d.currentSeasonActivities[0]"
-      [isOldest]="d.currentActivity === d.previousSeasonActivities[d.previousSeasonActivities.length - 1]" />
+      (prevActivity)="selectPrevActivity()" [isMostRecent]="d.currentActivity === d.curActivities[0]"
+      [isOldest]="d.currentActivity === d.prevActivities[d.prevActivities.length - 1]" />
 
     <ng-container *ngIf="(chartTab | async) as tab">
       <div class="tab-container">
@@ -82,9 +82,8 @@
 
         <div class="tab-item" [class.active]="tab === 'season'">
           <div class="card">
-            <histochart [currentSeasonActivities]="d.currentSeasonActivities"
-              [previousSeasonActivities]="d.previousSeasonActivities" [currentActivity]="d.currentActivity"
-              [chartTab]="tab" />
+            <histochart [curActivities]="d.curActivities" [prevActivities]="d.prevActivities"
+              [currentActivity]="d.currentActivity" [chartTab]="tab" />
           </div>
         </div>
 
@@ -95,11 +94,11 @@
         <div class="tab-container">
           <button class="tab" [class.active]="tab === 'current'" (click)="setSeasonTab('current')">
             Dit seizoen
-            <circle-badge [count]="d.currentSeasonActivities.length" [active]="tab === 'current'" />
+            <circle-badge [count]="d.curActivities.length" [active]="tab === 'current'" />
           </button>
           <button class="tab" [class.active]="tab === 'previous'" (click)="setSeasonTab('previous')">
             Vorig seizoen
-            <circle-badge [count]="d.previousSeasonActivities.length" [active]="tab === 'previous'" />
+            <circle-badge [count]="d.prevActivities.length" [active]="tab === 'previous'" />
           </button>
 
           <button class="tab" [class.active]="tab === 'progress'" (click)="setSeasonTab('progress')">
@@ -109,17 +108,17 @@
 
         <div>
           <div class="tab-item" [class.active]="tab === 'current'">
-            <activitieslist [activities]="d.currentSeasonActivities" [currentActivity]="d.currentActivity"
+            <activitieslist [activities]="d.curActivities" [currentActivity]="d.currentActivity"
               (selectActivity)="handleAct($event)" />
           </div>
           <div class="tab-item" [class.active]="tab === 'previous'">
-            <activitieslist [activities]="d.previousSeasonActivities" [currentActivity]="d.currentActivity"
+            <activitieslist [activities]="d.prevActivities" [currentActivity]="d.currentActivity"
               (selectActivity)="handleAct($event)" />
           </div>
           <div class="tab-item" [class.active]="tab === 'progress'">
             <div class="card">
-              <distchart-season [currentSeasonActivities]="d.currentSeasonActivities"
-                [previousSeasonActivities]="d.previousSeasonActivities" [currentActivity]="d.currentActivity" />
+              <distchart-season [curActivities]="d.curActivities" [prevActivities]="d.prevActivities"
+                [currentActivity]="d.currentActivity" />
             </div>
           </div>
         </div>

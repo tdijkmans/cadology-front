@@ -54,7 +54,7 @@ export class AppComponent implements OnInit {
   seasonTab = new BehaviorSubject<SeasonTabVariant>("current");
 
   currentData$: Observable<{
-    currentActivity: Activity; currentSeasonActivities: Activity[]; previousSeasonActivities: Activity[];
+    currentActivity: Activity; curActivities: Activity[]; prevActivities: Activity[];
   }>
 
   constructor(
@@ -66,13 +66,13 @@ export class AppComponent implements OnInit {
 
     this.currentData$ = combineLatest([
       this.d.currentActivity$,
-      this.d.currentSeasonActivities$,
-      this.d.previousSeasonActivities$
+      this.d.curActivities$,
+      this.d.prevActivities$
     ]).pipe(
-      map(([currentActivity, currentSeasonActivities, previousSeasonActivities]) => ({
+      map(([currentActivity, curActivities, prevActivities]) => ({
         currentActivity,
-        currentSeasonActivities,
-        previousSeasonActivities
+        curActivities,
+        prevActivities
       }))
     );
 
