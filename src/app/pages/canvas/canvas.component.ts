@@ -46,6 +46,7 @@ export class CanvasComponent {
     const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
     this.cube = new THREE.Mesh(geometry, material);
     this.scene.add(this.cube);
+
   }
 
   private animate = (): void => {
