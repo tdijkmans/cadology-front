@@ -9,7 +9,7 @@ import { DistchartComponent } from "@components/distchart/distchart.component";
 import { HistochartComponent } from "@components/histochart/histochart.component";
 import type { Activity } from "@services/dataservice/data.interface";
 import { DataService } from "@services/dataservice/data.service";
-import { BehaviorSubject, type Observable, combineLatest, map, tap } from "rxjs";
+import { BehaviorSubject, type Observable, combineLatest, map } from "rxjs";
 import { DistchartSeasonComponent } from "../../components/distchart-season/distchart-season.component";
 import type { ChartTabVariant, SeasonTabVariant } from "./home.interface";
 
@@ -51,9 +51,6 @@ export class HomeComponent {
       this.d.curActivities$,
       this.d.prevActivities$,
     ]).pipe(
-      tap((data) => {
-        console.log("combineLatest", data);
-      }),
       map(([currentActivity, curActivities, prevActivities]) => ({
         currentActivity,
         curActivities,
@@ -62,9 +59,7 @@ export class HomeComponent {
     );
   }
 
-  ngOnChanges(c: any) {
-    console.log("ngOnChanges", c);
-  }
+
 
   handleAct(activity: Activity) {
     this.d.setCurrentActivity(activity);

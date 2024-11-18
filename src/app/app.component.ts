@@ -4,7 +4,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { ActivatedRoute, RouterOutlet } from "@angular/router";
 import { AppMenuComponent } from "@components/app-menu/app-menu.component";
 import { DataService } from "@services/dataservice/data.service";
-import { combineLatest, distinctUntilChanged, map, of } from "rxjs";
+import { Observable, combineLatest, distinctUntilChanged, map, of } from "rxjs";
 
 @Component({
   selector: "app-root",
@@ -13,12 +13,10 @@ import { combineLatest, distinctUntilChanged, map, of } from "rxjs";
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
   providers: [DataService],
-
 })
 export class AppComponent {
   private destroyRef = inject(DestroyRef);
-
-  chipInput = "";
+  chipCode$: Observable<string | null> = of(null);
 
   constructor(
     private d: DataService,
@@ -26,10 +24,10 @@ export class AppComponent {
   ) { }
 
   ngOnInit() {
-    this.handleChipInput();
+    this.initApp();
   }
 
-  handleChipInput() {
+  initApp() {
     const localChipCode$ = of(this.d.getItem<string>("chipCode"));
     const routeChipCode$ = this.r.queryParams.pipe<string>(
       map((params) => params["transponder"]),
@@ -43,17 +41,13 @@ export class AppComponent {
           return;
         }
 
+        this.chipCode$ = of(chipCode);
+
         // Initialize with the chipCode
         this.d
           .init(chipCode)
           .pipe(takeUntilDestroyed(this.destroyRef))
           .subscribe();
-
-        // Update local storage and chip input
-        this.d.setItem("chipCode", chipCode);
-        this.chipInput = chipCode;
-
       });
   }
-
 }
