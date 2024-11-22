@@ -18,6 +18,7 @@ export class CanvasComponent {
   private renderer!: THREE.WebGLRenderer;
   private cube!: THREE.Mesh;
 
+
   ngAfterViewInit(): void {
     this.initThreeJS();
     this.animate();
@@ -79,13 +80,14 @@ export class CanvasComponent {
     requestAnimationFrame(this.animate);
 
     // Rotate Cube
-    this.cube.rotation.x += 0.01;
-    this.cube.rotation.y += 0.01;
+    if (this.cube?.rotation) {
+      this.cube.rotation.x += 0.01;
+      this.cube.rotation.y += 0.01;
+    }
 
     // Render Scene
     this.renderer.render(this.scene, this.camera);
   };
-
 
 
 }
