@@ -1,5 +1,6 @@
 import { Component, type ElementRef, ViewChild } from '@angular/core';
 import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/Addons.js';
 
 @Component({
   selector: 'cad-canvas',
@@ -47,6 +48,31 @@ export class CanvasComponent {
     this.cube = new THREE.Mesh(geometry, material);
     this.scene.add(this.cube);
 
+
+    // Add Light to Scene
+    const light = new THREE.DirectionalLight(0xffffff, 1);
+    light.position.set(0, 0, 5);
+    this.scene.add(light);
+
+    // Add Ambient Light to Scene
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    this.scene.add(ambientLight);
+
+    // Add Axes Helper
+    const axesHelper = new THREE.AxesHelper(5);
+    this.scene.add(axesHelper);
+
+    // Add Grid Helper
+    const gridHelper = new THREE.GridHelper(10, 10);
+    this.scene.add(gridHelper);
+
+    // Add Controls
+    const controls = new OrbitControls(this.camera, this.renderer.domElement);
+    controls.update();
+
+    // Make background transparent
+    this.renderer.setClearColor(0x000000, 0);
+
   }
 
   private animate = (): void => {
@@ -59,5 +85,7 @@ export class CanvasComponent {
     // Render Scene
     this.renderer.render(this.scene, this.camera);
   };
+
+
 
 }
