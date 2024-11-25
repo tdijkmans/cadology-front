@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
 import * as THREE from "three";
 import { GLTFLoader, OrbitControls } from "three/examples/jsm/Addons.js";
 
@@ -10,6 +11,7 @@ export class SceneService {
   private camera!: THREE.PerspectiveCamera;
   private renderer!: THREE.WebGLRenderer;
   private controls!: OrbitControls;
+  private loader = new GLTFLoader();
 
   constructor() {
     this.scene = new THREE.Scene();
@@ -49,14 +51,13 @@ export class SceneService {
   addLights(): void {
     const light = new THREE.DirectionalLight(0xffffff, 1);
     light.castShadow = true;
-    light.position.set(0, 0, 5);
+    light.position.set(1, 1, 1);
     this.scene.add(light);
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    this.scene.add(ambientLight);
-
-    const hemiLight = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
-    hemiLight.position.set(0, 20, 0);
+    const orangeHemiHex = 0xf9d71c;
+    const blueHemiHex = 0x1e90ff;
+    const hemiLight = new THREE.HemisphereLight(orangeHemiHex, blueHemiHex, 0.5);
+    hemiLight.position.set(10, 20, 10);
     this.scene.add(hemiLight);
   }
 
@@ -76,18 +77,16 @@ export class SceneService {
     this.scene.add(ground);
   }
 
-  loadModel(path: string): void {
-    const loader = new GLTFLoader();
-    loader.load(
-      path,
-      (gltf) => {
-        const model = gltf.scene;
-        this.scene.add(model);
-      },
-      (xhr) =>
-        console.log(`${Math.round((xhr.loaded / xhr.total) * 100)}% loaded`),
-      (error) => console.error("An error occurred:", error),
-    );
+  loadModel(path: string): Observable<THREE.Group<THREE.Object3DEventMap>> {
+
+    return new Observable<THREE.Group<THREE.Object3DEventMap>>((observer) => {
+      this.loader.load(path, (gltf) => {
+        this.scene.add(gltf.scene);
+        observer.next(gltf.scene);
+        observer.complete();
+      });
+    });
+
   }
 
   renderScene(): void {
