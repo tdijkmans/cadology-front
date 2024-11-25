@@ -43,11 +43,9 @@ export class SceneService {
 
   public changeAnimation(name: string): void {
     const gltf = this.model;
-    console.log(gltf);
     if (!this.mixer) return;
     this.mixer.stopAllAction();
     const action = gltf.animations.find((animation) => animation.name === name) as THREE.AnimationClip;
-    console.log(action);
     this.mixer.clipAction(action).play();
   }
 
