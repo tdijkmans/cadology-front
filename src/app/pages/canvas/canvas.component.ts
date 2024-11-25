@@ -1,7 +1,5 @@
 import { Component, type ElementRef, ViewChild } from "@angular/core";
 import { SceneService } from "@services/scene/scene.service";
-import { tap } from "rxjs";
-import type { BoneName } from "./body";
 
 @Component({
   selector: "cad-canvas",
@@ -15,35 +13,15 @@ export class CanvasComponent {
   @ViewChild("threeCanvas", { static: true })
   canvasRef!: ElementRef<HTMLCanvasElement>;
 
+  isRunning = false;
+
   constructor(private sceneService: SceneService) { }
 
   ngAfterViewInit(): void {
-    const { scene, camera, renderer } = this.sceneService.initializeScene(
-      this.canvasRef.nativeElement,
-    );
-    this.sceneService.addControls(camera, renderer);
-
-    this.sceneService.addLights();
-    this.sceneService.addHelpers();
-    this.sceneService.addGround();
-    // https://github.com/code4fukui/three.js_examples/blob/main/webgl_animation_skinning_additive_blending.html#L195
-    this.sceneService.loadModel("./Xbot.glb").pipe(tap(
-      (model) => {
-        console.log(model);
-        model.position.set(1, 0, 0);
-        const bones = model.traverse((object) => {
-          const boneName: BoneName = object.name as BoneName;
-          console.log(boneName);
-        });
-
-
-      }
-    )).subscribe();
-
-    // Register resize event
-    window.addEventListener("resize", () => this.sceneService.handleResize());
-
+    const canvas = this.canvasRef.nativeElement;
+    this.sceneService.loadGltfModel("./Xbot.glb", canvas).subscribe();
     this.animate();
+
   }
 
   ngOnDestroy(): void {
@@ -51,7 +29,13 @@ export class CanvasComponent {
   }
 
   private animate = (): void => {
-    requestAnimationFrame(this.animate);
     this.sceneService.renderScene();
+    requestAnimationFrame(this.animate);
   };
+
+  public changeAnimation(): void {
+    this.sceneService.changeAnimation(this.isRunning ? "run" : "walk");
+    this.isRunning = !this.isRunning;
+  }
+
 }

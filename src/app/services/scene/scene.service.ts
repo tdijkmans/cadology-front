@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import * as THREE from "three";
-import { GLTFLoader, OrbitControls } from "three/examples/jsm/Addons.js";
+import { type GLTF, GLTFLoader, OrbitControls } from "three/examples/jsm/Addons.js";
 
 @Injectable({
   providedIn: "root",
@@ -11,16 +11,51 @@ export class SceneService {
   private camera!: THREE.PerspectiveCamera;
   private renderer!: THREE.WebGLRenderer;
   private controls!: OrbitControls;
-  private loader = new GLTFLoader();
+  private gltfLoader = new GLTFLoader();
+  private mixer!: THREE.AnimationMixer;
+  private clock = new THREE.Clock();
+  private model!: GLTF;
 
   constructor() {
     this.scene = new THREE.Scene();
   }
 
-  initializeScene(canvas: HTMLCanvasElement): {
+  // https://github.com/code4fukui/three.js_examples/blob/main/webgl_animation_skinning_additive_blending.html#L195
+  public loadGltfModel(path: string, canvas: HTMLCanvasElement): Observable<THREE.Group<THREE.Object3DEventMap>> {
+    this.initializeScene(canvas);
+
+    window.addEventListener("resize", () => this.handleResize());
+
+    return new Observable<THREE.Group<THREE.Object3DEventMap>>((observer) => {
+      this.gltfLoader.load(path, (gltf) => {
+        this.model = gltf;
+        this.scene.add(gltf.scene);
+        observer.next(gltf.scene);
+        observer.complete();
+
+        // Add animations
+        if (gltf.animations.length) {
+          this.mixer.clipAction(gltf.animations[3], gltf.scene).play();
+        }
+      });
+    });
+  }
+
+  public changeAnimation(name: string): void {
+    const gltf = this.model;
+    console.log(gltf);
+    if (!this.mixer) return;
+    this.mixer.stopAllAction();
+    const action = gltf.animations.find((animation) => animation.name === name) as THREE.AnimationClip;
+    console.log(action);
+    this.mixer.clipAction(action).play();
+  }
+
+  private initializeScene(canvas: HTMLCanvasElement): {
     scene: THREE.Scene;
     camera: THREE.PerspectiveCamera;
     renderer: THREE.WebGLRenderer;
+    mixer: THREE.AnimationMixer;
   } {
     const { clientWidth, clientHeight } = canvas;
 
@@ -34,12 +69,28 @@ export class SceneService {
     this.renderer.shadowMap.enabled = true;
     this.renderer.setClearColor(0x1e90ff, 0.2);
 
+    // Animation mixer
+    this.mixer = new THREE.AnimationMixer(this.scene);
+
+    // Add controls
+    this.addControls(this.camera, this.renderer);
+
+    // Add lights
+    this.addLights();
+
+    // Add helpers
+    this.addHelpers();
+
+    // Add ground
+    this.addGround();
+
+    // Append to DOM
     canvas.appendChild(this.renderer.domElement);
 
-    return { scene: this.scene, camera: this.camera, renderer: this.renderer };
+    return { scene: this.scene, camera: this.camera, renderer: this.renderer, mixer: this.mixer };
   }
 
-  addControls(
+  private addControls(
     camera: THREE.PerspectiveCamera,
     renderer: THREE.WebGLRenderer,
   ): OrbitControls {
@@ -48,7 +99,7 @@ export class SceneService {
     return this.controls;
   }
 
-  addLights(): void {
+  private addLights(): void {
     const light = new THREE.DirectionalLight(0xffffff, 1);
     light.castShadow = true;
     light.position.set(1, 1, 1);
@@ -61,14 +112,14 @@ export class SceneService {
     this.scene.add(hemiLight);
   }
 
-  addHelpers(): void {
+  private addHelpers(): void {
     const axesHelper = new THREE.AxesHelper(5);
     const gridHelper = new THREE.GridHelper(10, 10);
     this.scene.add(axesHelper);
     this.scene.add(gridHelper);
   }
 
-  addGround(): void {
+  private addGround(): void {
     const geometry = new THREE.PlaneGeometry(100, 100);
     const material = new THREE.ShadowMaterial({ opacity: 0.5 });
     const ground = new THREE.Mesh(geometry, material);
@@ -77,24 +128,16 @@ export class SceneService {
     this.scene.add(ground);
   }
 
-  loadModel(path: string): Observable<THREE.Group<THREE.Object3DEventMap>> {
 
-    return new Observable<THREE.Group<THREE.Object3DEventMap>>((observer) => {
-      this.loader.load(path, (gltf) => {
-        this.scene.add(gltf.scene);
-        observer.next(gltf.scene);
-        observer.complete();
-      });
-    });
 
-  }
-
-  renderScene(): void {
+  public renderScene(): void {
+    const delta = this.clock.getDelta();
     this.controls?.update();
+    this.mixer?.update(delta);
     this.renderer.render(this.scene, this.camera);
   }
 
-  handleResize(): void {
+  public handleResize(): void {
     if (!this.camera || !this.renderer) return;
 
     const container = this.renderer.domElement.parentElement as HTMLElement;
@@ -105,7 +148,7 @@ export class SceneService {
     this.renderer.setSize(clientWidth, clientHeight);
   }
 
-  cleanup(): void {
+  public cleanup(): void {
     // Clean up event listeners
     window.removeEventListener("resize", this.handleResize);
 
