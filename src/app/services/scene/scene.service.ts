@@ -49,6 +49,12 @@ export class SceneService {
     this.mixer.clipAction(action).play();
   }
 
+  public stopAnimation(): void {
+    if (!this.mixer) return;
+    this.mixer.stopAllAction();
+  }
+
+
   private initializeScene(canvas: HTMLCanvasElement): {
     scene: THREE.Scene;
     camera: THREE.PerspectiveCamera;

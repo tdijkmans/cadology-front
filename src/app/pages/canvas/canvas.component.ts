@@ -38,4 +38,8 @@ export class CanvasComponent {
     this.isRunning = !this.isRunning;
   }
 
+  public stopAnimation(): void {
+    this.sceneService.stopAnimation();
+  }
+
 }
