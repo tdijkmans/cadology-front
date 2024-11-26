@@ -29,6 +29,9 @@
       "@models/*": [
         "./src/app/models/*"
       ],
+      "@pages/*": [
+        "./src/app/pages/*"
+      ],
     },
     "lib": [
       "ES2022",

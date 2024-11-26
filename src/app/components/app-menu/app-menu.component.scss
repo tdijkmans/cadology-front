@@ -60,4 +60,19 @@
         padding: 0;
     }
 
+    &-nav {
+        margin-top: $spacing-lg;
+        color: $secondary-color;
+        text-decoration: none;
+        gap: $spacing-sm;
+        display: flex;
+        flex-direction: column;
+        font-size: $heading-font-size;
+
+        &:hover {
+            color: $primary-color;
+        }
+
+    }
+
 }

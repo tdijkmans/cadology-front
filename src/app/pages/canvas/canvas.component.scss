@@ -1,0 +1,21 @@
+@import '../../../variables';
+
+.canvas-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.canvas-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: $spacing-xs 0;
+}
+
+.three-canvas {
+    width: 80vw;
+    height: 80vw;
+    margin: 0 auto;
+}

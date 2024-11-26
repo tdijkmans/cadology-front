@@ -13,6 +13,7 @@ export class DataService {
   private activity = new BehaviorSubject<Activity | null>(null);
   private activities = new BehaviorSubject<Activity[] | null>(null);
 
+
   get currentActivity$() {
     return this.activity.asObservable().pipe(filter((activity) => !!activity));
   }
@@ -35,7 +36,7 @@ export class DataService {
     );
   }
 
-  setCurrentActivity(activity: Activity) {
+  public setCurrentActivity(activity: Activity) {
     this.activity.next(activity);
   }
 
@@ -43,7 +44,7 @@ export class DataService {
     this.activities.next(activities);
   }
 
-  navigateActivity(direction: "next" | "previous") {
+  public navigateActivity(direction: "next" | "previous") {
     return this.allActivities$.pipe(
       tap((activities) => {
         const currentActivity = this.activity.value;
@@ -66,7 +67,9 @@ export class DataService {
     );
   }
 
-  init = (chipCode: string) => {
+  public init = (chipCode: string) => {
+    this.setItem("chipCode", chipCode);
+
     return this.fetchCurrentSeasonActivities({ chipCode }).pipe(
       mergeMap((currentActivities) => {
         this.setCurrentActivity(currentActivities.data[0]);
@@ -95,7 +98,7 @@ export class DataService {
     );
   };
 
-  fetchCurrentSeasonActivities({ chipCode }: { chipCode: string }) {
+  private fetchCurrentSeasonActivities({ chipCode }: { chipCode: string }) {
     const cacheKey = `SkateActvitity-CurrentSeason-${chipCode}`;
     const cachedData = this.getItem<SeasonsResponse>(cacheKey);
 
@@ -112,7 +115,7 @@ export class DataService {
     );
   }
 
-  fetchPreviousSeasonActivities({ chipCode }: { chipCode: string }) {
+  private fetchPreviousSeasonActivities({ chipCode }: { chipCode: string }) {
     const cacheKey = `SkateActvitity-PreviousSeason-${chipCode}`;
     const cachedData = this.getItem<SeasonsResponse>(cacheKey);
 
@@ -131,7 +134,7 @@ export class DataService {
 
   // LocalStorage methods
 
-  setItem<T>(key: string, value: T, expirationMin = 15): void {
+  private setItem<T>(key: string, value: T, expirationMin = 15): void {
     // Convert expiration time from minutes to milliseconds (default: 15 minutes)
     const expiration = expirationMin * 60 * 1000;
 
@@ -182,7 +185,7 @@ export class DataService {
     }
   }
 
-  removeItem(key: string): void {
+  private removeItem(key: string): void {
     try {
       localStorage.removeItem(key);
     } catch (error) {
