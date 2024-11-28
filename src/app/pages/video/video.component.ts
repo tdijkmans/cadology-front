@@ -8,6 +8,7 @@ import {
 } from "@angular/core";
 import { AngleGaugeComponent } from "@components/angle-gauge/angle-gauge.component";
 import { PosenetService } from "@services/posenet/posenet.service";
+import { ChartCommonModule, Color, LineChartModule } from "@swimlane/ngx-charts";
 import * as posenet from "@tensorflow-models/posenet";
 import * as tf from "@tensorflow/tfjs";
 
@@ -33,12 +34,15 @@ const parts: Record<posenet.Keypoint["part"], string> = {
   rightShoulder: "grey",
 } as const;
 
+const leftKneeColor = parts["leftKnee"];
+const rightKneeColor = parts["rightKnee"];
+
 // https://github.com/nicknochnack/PosenetRealtime/blob/master/src/App.js
 
 @Component({
   selector: "cad-video",
   standalone: true,
-  imports: [CommonModule, AngleGaugeComponent],
+  imports: [CommonModule, AngleGaugeComponent, ChartCommonModule, LineChartModule,],
   templateUrl: "./video.component.html",
   styleUrl: "./video.component.scss",
 })
@@ -50,16 +54,19 @@ export class VideoComponent implements AfterViewInit, OnInit {
   public kneeAngleLeft = {
     name: "Linkerknie",
     value: 0,
-    color: parts["leftKnee"],
+    color: leftKneeColor
   };
   public kneeAngleRight = {
     name: "Rechterknie",
     value: 0,
-    color: parts["rightKnee"],
+    color: rightKneeColor
   };
   public kneeAnglesTrace = [{ left: 0, right: 0 }];
   public poseConfideceThreshold = 0.5;
   public confidence = false;
+
+  results = [{ name: "", series: [{ name: 0, value: 0 }] }];
+  colorScheme = { domain: ['yellow', 'purple'] } as Color;
 
   constructor(private poseNetService: PosenetService) { }
 
@@ -87,106 +94,59 @@ export class VideoComponent implements AfterViewInit, OnInit {
     const canvas = this.canvasElement.nativeElement;
     const ctx = canvas.getContext("2d");
 
-    // Set canvas dimensions to match video
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
-    // This appears to be necessary for proper positioning of keypoints
     video.width = video.videoWidth;
     video.height = video.videoHeight;
-
 
     if (!ctx) { return; }
     this.detectPose(ctx, video);
   }
-  async detectPose(ctx: CanvasRenderingContext2D, video: HTMLVideoElement): Promise<void> {
+  async detectPose(
+    ctx: CanvasRenderingContext2D,
+    video: HTMLVideoElement,
+  ): Promise<void> {
     const pose = await this.poseNetService.estimatePose(video);
 
-    if (!pose) {
-      return;
-    }
+    if (!pose) { return; }
 
     const confidence = (pose?.score || 0) > this.poseConfideceThreshold;
     this.confidence = confidence;
-
-    if (!ctx) {
-      return;
-    }
 
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
     if (pose && confidence) {
       this.pose = pose;
-      this.drawPose(pose, ctx);
-      const [left, right] = [
-        this.calculateKneeAngle(pose, "left"),
-        this.calculateKneeAngle(pose, "right"),
-      ];
-      this.kneeAngleLeft = { ...this.kneeAngleLeft, value: left, };
-      this.kneeAngleRight = { ...this.kneeAngleRight, value: right, };
+      this.poseNetService.drawPose(pose, ctx, parts);
+
+      const left = this.poseNetService.calculateKneeAngle(pose, "left")
+      const right = this.poseNetService.calculateKneeAngle(pose, "right");
+
+      this.kneeAngleLeft = { ...this.kneeAngleLeft, value: left };
+      this.kneeAngleRight = { ...this.kneeAngleRight, value: right };
       this.kneeAnglesTrace = this.kneeAnglesTrace.concat({ left, right });
+      this.results = [
+        {
+          name: "Kniehoek Links",
+          series: this.kneeAnglesTrace.map((d, i) => ({
+            name: i,
+            value: d.left,
+          })),
+        },
+        {
+          name: "Kniehoek Rechts",
+          series: this.kneeAnglesTrace.map((d, i) => ({
+            name: i,
+            value: d.right,
+          })),
+        },
+      ]
     }
     requestAnimationFrame(this.detectPose.bind(this, ctx, video));
-  };
-
-  drawPose(
-    pose: posenet.Pose,
-    ctx: CanvasRenderingContext2D,
-    scoreThreshold = 0.5,
-  ): void {
-    // Draw keypoints
-    for (const keypoint of pose.keypoints) {
-      if (keypoint.score > scoreThreshold) {
-        // Filter out low-confidence points
-        ctx.beginPath();
-        ctx.arc(keypoint.position.x, keypoint.position.y, 5, 0, 2 * Math.PI);
-        ctx.fillStyle = parts[keypoint.part];
-        ctx.fill();
-      }
-
-      // Draw skeleton
-      const adjacentKeyPoints = posenet.getAdjacentKeyPoints(
-        pose.keypoints,
-        0.5,
-      );
-
-      for (const [partA, partB] of adjacentKeyPoints) {
-        ctx.beginPath();
-        ctx.moveTo(partA.position.x, partA.position.y);
-        ctx.lineTo(partB.position.x, partB.position.y);
-        ctx.strokeStyle = parts[partA.part];
-        ctx.lineWidth = 2;
-        ctx.stroke();
-      }
-    }
   }
 
-  calculateKneeAngle(
-    pose: posenet.Pose,
-    side: "left" | "right" = "left",
-    scoreThreshold = 0.5,
-  ): number {
-    const hipJoint = pose.keypoints.find((k) => k.part === `${side}Hip`);
-    const kneeJoin = pose.keypoints.find((k) => k.part === `${side}Knee`);
-    const ankleJoint = pose.keypoints.find((k) => k.part === `${side}Ankle`);
+  public resetTrace(): void {
+    this.kneeAnglesTrace = [{ left: 0, right: 0 }];
 
-    const [hip, knee, ankle] = [hipJoint, kneeJoin, ankleJoint].map(
-      (joint) => joint?.position,
-    );
-    const scores = [hipJoint, kneeJoin, ankleJoint].map(
-      (joint) => joint?.score,
-    );
-
-    if (
-      hip &&
-      knee &&
-      ankle &&
-      scores.every((score) => score !== undefined && score > scoreThreshold)
-    ) {
-      const angle =
-        Math.atan2(knee.y - hip.y, knee.x - hip.x) -
-        Math.atan2(ankle.y - knee.y, ankle.x - knee.x);
-      return Math.abs((angle * 180) / Math.PI);
-    }
-    return 0;
   }
 }

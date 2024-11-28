@@ -21,9 +21,15 @@
 }
 
 .video-controls {
+    display: flex;
+}
+
+.video-data {
     min-height: 100px;
     display: flex;
 }
+
+
 
 .video-signal {
     display: flex;
