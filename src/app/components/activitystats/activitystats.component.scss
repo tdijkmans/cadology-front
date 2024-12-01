@@ -3,16 +3,16 @@
 .as-data-badge {
     color: $dark-color;
     font-weight: bold;
-    padding: $spacing-xs $spacing-xs;
+    padding: $spacing-sm $spacing-sm;
     border-radius: $border-radius;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     border: 1px solid $accent-color;
-    max-width: 30%;
 
     @media (min-width: $breakpoint-mobile) {
         padding: $spacing-sm $spacing-md;
+        max-width: 100%;
     }
 }
 
@@ -29,10 +29,16 @@
 .as-data-badge-value {
     font-size: $key-font-size-mob;
     color: $dark-color;
-    font-weight: normal;
+    font-weight: $font-weight-bold;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    margin-bottom: $spacing-xs;
 
     @media (min-width: $breakpoint-mobile) {
         font-size: $key-font-size;
+        flex-direction: row;
+        gap: $spacing-xs;
     }
 }
 
@@ -52,7 +58,7 @@
 
 .as-data-badge-unit {
     font-size: $body-font-size-mob;
-    color: $dark-color;
+    color: $simple-gray;
     font-family: $font-family;
     font-weight: lighter;
 

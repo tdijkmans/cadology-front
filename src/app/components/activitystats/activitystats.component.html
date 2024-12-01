@@ -15,28 +15,29 @@
 
                 <div class="as-data-badge">
                     <div class="as-data-badge-label">
-                        Snelste ronde
+                        Snelste
                     </div>
                     <div class="as-data-badge-value">
-                        {{currentActivity.bestLap.duration | number:'1.0-2'}} <span
-                            class="as-data-badge-unit">sec</span>
+                        {{currentActivity.bestLap.duration | number:'1.0-2'}}
+                        <div class="as-data-badge-unit">sec</div>
                     </div>
                     <div class="as-data-badge-value">
                         {{currentActivity.bestLap.speed | number:'1.0-2'}}
-                        <span class="as-data-badge-unit">km/u</span>
+                        <div class="as-data-badge-unit">km/u</div>
                     </div>
                 </div>
 
                 <div class="as-data-badge">
                     <div class="as-data-badge-label">
-                        Gemiddelde ronde
+                        Gemiddelde
                     </div>
                     <div class="as-data-badge-value">
-                        {{currentActivity.medianTime | number:'1.0-2'}} <span class="as-data-badge-unit">sec</span>
+                        {{currentActivity.medianTime | number:'1.0-2'}}
+                        <div class="as-data-badge-unit">sec</div>
                     </div>
                     <div class="as-data-badge-value">
                         {{currentActivity.averageSpeed | number:'1.0-2'}}
-                        <span class="as-data-badge-unit">km/u</span>
+                        <div class="as-data-badge-unit">km/u</div>
                     </div>
                 </div>
 
@@ -48,7 +49,7 @@
 
                     <div class="as-data-badge-value">
                         {{totalTrainingTime[0]}}
-                        <span class="as-data-badge-unit">{{totalTrainingTime[1]}}</span>
+                        <div class="as-data-badge-unit">{{totalTrainingTime[1]}}</div>
                     </div>
                     <div class="as-data-badge-value"> {{currentActivity.lapCount}} <span
                             class="as-data-badge-unit">rondes</span>
