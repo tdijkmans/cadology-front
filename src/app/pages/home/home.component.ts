@@ -42,7 +42,7 @@ export class HomeComponent {
   private destroyRef = inject(DestroyRef);
   title = "";
   chipInput = "";
-  isLoading = true;
+  isLoading$ = new BehaviorSubject<boolean>(true);
 
   chartTab = new BehaviorSubject<ChartTabVariant>("distance");
   seasonTab = new BehaviorSubject<SeasonTabVariant>("current");
@@ -62,7 +62,7 @@ export class HomeComponent {
       this.d.prevActivities$,
     ]).pipe(
       map(([currentActivity, curActivities, prevActivities]) => {
-        this.isLoading = false;
+        this.isLoading$.next(false);
 
         return {
           currentActivity,

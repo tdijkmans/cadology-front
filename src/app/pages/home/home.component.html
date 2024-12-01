@@ -1,4 +1,4 @@
-<cad-page [isLoading]="isLoading">
+<cad-page [isLoading$]="(isLoading$)">
     <ng-container *ngIf="currentData$ | async as d">
         <activitystats [currentActivity]="d.currentActivity" (nextActivity)="selectNextActivity()"
             (prevActivity)="selectPrevActivity()" [isMostRecent]="d.currentActivity === d.curActivities[0]"
