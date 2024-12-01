@@ -7,6 +7,9 @@ import { BarchartComponent } from "@components/barchart/barchart.component";
 import { CircleBadgeComponent } from "@components/circle-badge/circle-badge.component";
 import { DistchartComponent } from "@components/distchart/distchart.component";
 import { HistochartComponent } from "@components/histochart/histochart.component";
+import { PageComponent } from "@components/page/page.component";
+import { NgIconComponent, provideIcons } from "@ng-icons/core";
+import { letsClock, letsRoadAlt, letsSpeed, letsStat } from "@ng-icons/lets-icons/regular";
 import type { Activity } from "@services/dataservice/data.interface";
 import { DataService } from "@services/dataservice/data.service";
 import { BehaviorSubject, type Observable, combineLatest, map } from "rxjs";
@@ -25,14 +28,21 @@ import type { ChartTabVariant, SeasonTabVariant } from "./home.interface";
     HistochartComponent,
     DistchartComponent,
     DistchartSeasonComponent,
+    NgIconComponent, PageComponent
   ],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  styleUrl: './home.component.scss',
+  viewProviders: [
+    provideIcons({
+      letsClock, letsSpeed, letsRoadAlt, letsStat
+    }),
+  ],
 })
 export class HomeComponent {
   private destroyRef = inject(DestroyRef);
   title = "";
   chipInput = "";
+  isLoading = true;
 
   chartTab = new BehaviorSubject<ChartTabVariant>("distance");
   seasonTab = new BehaviorSubject<SeasonTabVariant>("current");
@@ -51,11 +61,16 @@ export class HomeComponent {
       this.d.curActivities$,
       this.d.prevActivities$,
     ]).pipe(
-      map(([currentActivity, curActivities, prevActivities]) => ({
-        currentActivity,
-        curActivities,
-        prevActivities,
-      })),
+      map(([currentActivity, curActivities, prevActivities]) => {
+        this.isLoading = false;
+
+        return {
+          currentActivity,
+          curActivities,
+          prevActivities,
+        }
+      }
+      )
     );
   }
 
