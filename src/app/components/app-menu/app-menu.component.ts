@@ -6,7 +6,7 @@ import { NgIconComponent, provideIcons } from "@ng-icons/core";
 import {
   letsArrowLeft,
   letsArrowRight,
-  letsSettingLine,
+  letsMenu
 } from "@ng-icons/lets-icons/regular";
 import { DataService } from "@services/dataservice/data.service";
 
@@ -15,7 +15,7 @@ import { DataService } from "@services/dataservice/data.service";
   standalone: true,
   providers: [DataService],
   viewProviders: [
-    provideIcons({ letsArrowRight, letsArrowLeft, letsSettingLine }),
+    provideIcons({ letsArrowRight, letsArrowLeft, letsMenu }),
   ],
   imports: [FormsModule, CommonModule, NgIconComponent],
   templateUrl: "./app-menu.component.html",

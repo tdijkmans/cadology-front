@@ -7,13 +7,13 @@ import {
   letsSortUp,
   letsTrophy,
 } from "@ng-icons/lets-icons/regular";
+import type { ChartTabVariant } from "@pages/home/home.interface";
 import {
   type BarVerticalComponent,
   type Color,
   NgxChartsModule,
 } from "@swimlane/ngx-charts";
 import { theme } from "../../../_variables";
-import type { ChartTabVariant } from "../../app.interface";
 import type { Lap } from "../../services/dataservice/data.interface";
 import type { CappedLap } from "./barchart.interface";
 

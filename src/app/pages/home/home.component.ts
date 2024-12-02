@@ -7,9 +7,10 @@ import { BarchartComponent } from "@components/barchart/barchart.component";
 import { CircleBadgeComponent } from "@components/circle-badge/circle-badge.component";
 import { DistchartComponent } from "@components/distchart/distchart.component";
 import { HistochartComponent } from "@components/histochart/histochart.component";
+import { NotesComponent } from "@components/notes/notes.component";
 import { PageComponent } from "@components/page/page.component";
 import { NgIconComponent, provideIcons } from "@ng-icons/core";
-import { letsClock, letsRoadAlt, letsSpeed, letsStat } from "@ng-icons/lets-icons/regular";
+import { letsClock, letsNotebook, letsRoadAlt, letsSpeed, letsStat } from "@ng-icons/lets-icons/regular";
 import type { Activity } from "@services/dataservice/data.interface";
 import { DataService } from "@services/dataservice/data.service";
 import { BehaviorSubject, type Observable, combineLatest, map } from "rxjs";
@@ -28,13 +29,13 @@ import type { ChartTabVariant, SeasonTabVariant } from "./home.interface";
     HistochartComponent,
     DistchartComponent,
     DistchartSeasonComponent,
-    NgIconComponent, PageComponent
+    NgIconComponent, PageComponent, NotesComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
   viewProviders: [
     provideIcons({
-      letsClock, letsSpeed, letsRoadAlt, letsStat
+      letsClock, letsSpeed, letsRoadAlt, letsStat, letsNotebook
     }),
   ],
 })

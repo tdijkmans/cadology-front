@@ -22,6 +22,11 @@
                     <!-- Verdeling rondes (sec) -->
                     <ng-icon name="letsStat" size="1.2rem" />
                 </button>
+
+                <button class="tab" [class.active]="tab === 'myNotes'" (click)="setTab('myNotes')">
+                    <!-- Notities -->
+                    <ng-icon name="letsNotebook" size="1.2rem" />
+                </button>
             </div>
 
             <div>
@@ -49,6 +54,12 @@
                     <div class="card">
                         <histochart [curActivities]="d.curActivities" [prevActivities]="d.prevActivities"
                             [currentActivity]="d.currentActivity" [chartTab]="tab" />
+                    </div>
+                </div>
+
+                <div class="tab-item" [class.active]="tab === 'myNotes'">
+                    <div class="card">
+                        <cad-notes />
                     </div>
                 </div>
             </div>
