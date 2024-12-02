@@ -4,7 +4,7 @@
     color: $dark-color;
     font-weight: bold;
     padding: $spacing-sm $spacing-sm;
-    border-radius: $border-radius;
+    border-radius: $border-radius-none;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -92,7 +92,7 @@
     align-items: center;
     padding: $spacing-sm $spacing-md;
     background-color: $accent-color;
-    border-radius: 0;
+    border-radius: $border-radius-none;
     cursor: pointer;
 
     &-disabled {

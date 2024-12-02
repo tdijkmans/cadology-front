@@ -22,15 +22,11 @@ export class NotesComponent implements OnChanges {
   constructor() { }
 
   ngOnChanges() {
-    this.initializeData();
+    console.log({ currentActivity: this.currentActivity });
   }
 
-  initializeData() {
-    console.log('initializeData', { currentActivity: this.currentActivity });
-  }
 
   addNote() {
-    console.log('addNote');
     this.notes.push(this.note);
   }
 

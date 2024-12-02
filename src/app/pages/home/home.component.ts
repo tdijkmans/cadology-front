@@ -46,7 +46,7 @@ export class HomeComponent {
   isLoading$ = new BehaviorSubject<boolean>(true);
 
   chartTab = new BehaviorSubject<ChartTabVariant>("distance");
-  seasonTab = new BehaviorSubject<SeasonTabVariant>("current");
+  seasonTab = new BehaviorSubject<SeasonTabVariant>("progress");
 
   currentData$: Observable<{
     currentActivity: Activity;

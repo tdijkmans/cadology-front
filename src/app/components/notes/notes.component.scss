@@ -7,6 +7,21 @@
     margin: $spacing-md;
 }
 
+.notes-notes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-md;
+}
+
+.notes-note {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+    padding: $spacing-sm;
+    background-color: $subtle-color;
+
+}
+
 
 .notes-input {
     display: flex;
@@ -21,5 +36,5 @@
     font-size: 1.2rem;
     color: $simple-gray;
     background-color: $subtle-color;
-    border-radius: $border-radius;
+    border-radius: $border-radius-none;
 }

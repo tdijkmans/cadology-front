@@ -11,7 +11,7 @@
     background: none;
     border: none;
     cursor: pointer;
-    border-radius: 0;
+    border-radius: $border-radius-none;
     color: $simple-gray;
     font-weight: normal;
     display: flex;
@@ -63,7 +63,7 @@
     padding: $spacing-xs;
     width: 75%;
     z-index: -1;
-    border-radius: 0 0 3px 3px;
+    border-radius: $border-radius-sm;
     border: 1px solid $simple-gray;
     display: flex;
 

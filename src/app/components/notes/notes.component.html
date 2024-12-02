@@ -11,8 +11,8 @@
         <ng-icon name="letsNotebook" size="1.2rem"></ng-icon>
         <div>Geen notities</div>
     </div>
-    <div *ngFor="let note of notes">
-        <div>{{note}}</div>
+    <div class="notes-notes">
+        <div *ngFor="let note of notes" class="notes-note">{{note}}</div>
     </div>
 
 </div>
