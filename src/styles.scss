@@ -237,16 +237,35 @@ button,
     margin-bottom: $spacing-sm;
 }
 
+.mx-0 {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.my-0 {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
 .py-1 {
     padding-top: $spacing-sm;
     padding-bottom: $spacing-sm;
 }
 
 
-
 .px-1 {
     padding-left: $spacing-sm;
     padding-right: $spacing-sm;
+}
+
+.px-0 {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.py-0 {
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 

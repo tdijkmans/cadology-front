@@ -1,0 +1,25 @@
+@import '../../../variables.scss';
+
+.notes {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+    margin: $spacing-md;
+}
+
+
+.notes-input {
+    display: flex;
+
+}
+
+.notes-empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: $spacing-xs;
+    font-size: 1.2rem;
+    color: $simple-gray;
+    background-color: $subtle-color;
+    border-radius: $border-radius;
+}

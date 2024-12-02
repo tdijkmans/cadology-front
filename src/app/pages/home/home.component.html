@@ -1,8 +1,16 @@
 <cad-page [isLoading$]="(isLoading$)">
     <ng-container *ngIf="currentData$ | async as d">
-        <activitystats [currentActivity]="d.currentActivity" (nextActivity)="selectNextActivity()"
-            (prevActivity)="selectPrevActivity()" [isMostRecent]="d.currentActivity === d.curActivities[0]"
-            [isOldest]="d.currentActivity === d.prevActivities[d.prevActivities.length - 1]" />
+        <div class="stats-container">
+            <activitystats class='activitystats' [currentActivity]="d.currentActivity"
+                (nextActivity)="selectNextActivity()" (prevActivity)="selectPrevActivity()"
+                [isMostRecent]="d.currentActivity === d.curActivities[0]"
+                [isOldest]="d.currentActivity === d.prevActivities[d.prevActivities.length - 1]" />
+
+            <div class="stats-dropdown">
+
+
+            </div>
+        </div>
 
         <ng-container *ngIf="(chartTab | async) as tab">
             <div class="tab-container">
@@ -59,7 +67,7 @@
 
                 <div class="tab-item" [class.active]="tab === 'myNotes'">
                     <div class="card">
-                        <cad-notes />
+                        <cad-notes [currentActivity]="d.currentActivity" />
                     </div>
                 </div>
             </div>

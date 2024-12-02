@@ -41,3 +41,35 @@
 .tab-item.active {
     display: block;
 }
+
+.activitystats {
+    width: 100%;
+}
+
+.stats-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    align-items: center;
+    margin-bottom: $spacing-md;
+}
+
+.stats-dropdown {
+    height: 20px;
+    position: absolute;
+    bottom: -5px;
+    transition: background 0.3s ease-in-out;
+    background: white;
+    padding: $spacing-xs;
+    width: 75%;
+    z-index: -1;
+    border-radius: 0 0 3px 3px;
+    border: 1px solid $simple-gray;
+    display: flex;
+
+
+
+    &:hover {
+        background: $secondary-color;
+    }
+}
