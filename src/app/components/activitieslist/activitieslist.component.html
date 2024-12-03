@@ -2,7 +2,8 @@
     <div class="card">
         <ng-container *ngIf="currentActivity$ | async as currentActivity">
 
-            <div *ngFor="let a of (activities)" (click)="handleActivityClick(a)"
+            <div *ngFor="let a of (activities)" (click)="handleActivityClick(a)" (keypress)="handleActivityClick(a)"
+                focusable
                 [ngClass]="{'al-activity': true, 'al-current-activity': currentActivity.activityId === a.activityId, 'px-1 py-1': true}">
 
                 <h4 [ngClass]="{ 'al-current-activity-title': currentActivity.activityId === a.activityId }">{{
@@ -15,13 +16,13 @@
                 </div>
 
                 <div class="al-badges">
-                    <databadge [value]="(a.bestLap.duration | number: '1.2-2')" unit="sec"
+                    <cad-databadge [value]="(a.bestLap.duration | number: '1.2-2')" unit="sec"
                         [isCurrent]="currentActivity.activityId === a.activityId"
                         [hasTrophy]="fastestId === a.activityId" />
-                    <databadge [value]="(a.bestLap.speed | number: '1.2-2')" unit="km/u"
+                    <cad-databadge [value]="(a.bestLap.speed | number: '1.2-2')" unit="km/u"
                         [isCurrent]="currentActivity.activityId === a.activityId"
                         [hasTrophy]="fastestId === a.activityId" />
-                    <databadge [value]="a.lapCount" unit="ronden"
+                    <cad-databadge [value]="a.lapCount" unit="ronden"
                         [isCurrent]="currentActivity.activityId === a.activityId"
                         [hasTrophy]="mostLapsId === a.activityId" />
                 </div>

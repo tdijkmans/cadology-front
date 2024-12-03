@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { DatabadgeComponent } from '@components/databadge/databadge.component';
 import { provideIcons } from '@ng-icons/core';
 import { letsTrophy } from '@ng-icons/lets-icons/regular';
@@ -8,15 +8,24 @@ import { UiService } from '@services/uiservice/ui.service';
 import { Observable } from 'rxjs';
 import type { Activity } from '../../services/dataservice/data.interface';
 
+
+interface ActivityStatus {
+  isCurrent: boolean;
+  isFastestSpeed: boolean;
+  isFastestLap: boolean;
+  isMostLaps: boolean;
+
+}
+
 @Component({
-  selector: 'activitieslist',
+  selector: 'cad-activitieslist',
   standalone: true,
   imports: [CommonModule, DatabadgeComponent],
   templateUrl: './activitieslist.component.html',
   styleUrl: './activitieslist.component.scss',
   viewProviders: [provideIcons({ letsTrophy })],
 })
-export class ActivitieslistComponent {
+export class ActivitieslistComponent implements OnChanges {
   currentActivity$: Observable<Activity>;
 
   @Input({ required: true }) activities: Activity[] = [];
@@ -25,7 +34,7 @@ export class ActivitieslistComponent {
   fastestLapId: number | null = null;
   mostLapsId: number | null = null;
 
-  activityStatuses: { [id: number]: { isCurrent: boolean; isFastestSpeed: boolean; isFastestLap: boolean; isMostLaps: boolean } } = {};
+  activityStatuses: ActivityStatus[] = [];
 
   constructor(public d: DataService, public ui: UiService) {
     this.currentActivity$ = this.d.currentActivity$;

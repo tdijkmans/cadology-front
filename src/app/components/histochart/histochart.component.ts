@@ -13,7 +13,7 @@ import type { ChartTabVariant } from "../../pages/home/home.interface";
 import type { Result } from "./histochart.interface";
 
 @Component({
-  selector: "histochart",
+  selector: "cad-histochart",
   standalone: true,
   imports: [LineChartModule, CommonModule],
   templateUrl: "./histochart.component.html",

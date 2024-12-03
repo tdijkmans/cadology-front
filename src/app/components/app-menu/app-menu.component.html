@@ -17,21 +17,21 @@
                     <div class="tab-container">
                         <button class="tab" [class.active]="tab === 'current'" (click)="setSeasonTab('current')">
                             Dit seizoen
-                            <circle-badge [count]="d.curActivities.length" [active]="tab === 'current'" />
+                            <cad-circle-badge [count]="d.curActivities.length" [active]="tab === 'current'" />
                         </button>
                         <button class="tab" [class.active]="tab === 'previous'" (click)="setSeasonTab('previous')">
                             Vorig seizoen
-                            <circle-badge [count]="d.prevActivities.length" [active]="tab === 'previous'" />
+                            <cad-circle-badge [count]="d.prevActivities.length" [active]="tab === 'previous'" />
                         </button>
 
                     </div>
 
                     <div>
                         <div class="tab-item" [class.active]="tab === 'current'">
-                            <activitieslist [activities]="d.curActivities" />
+                            <cad-activitieslist [activities]="d.curActivities" />
                         </div>
                         <div class="tab-item" [class.active]="tab === 'previous'">
-                            <activitieslist [activities]="d.prevActivities" />
+                            <cad-activitieslist [activities]="d.prevActivities" />
                         </div>
 
                     </div>

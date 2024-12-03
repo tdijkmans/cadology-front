@@ -18,7 +18,7 @@ import { UiService } from "@services/uiservice/ui.service";
 import { BehaviorSubject } from "rxjs";
 
 @Component({
-  selector: "app-menu",
+  selector: "cad-menu",
   standalone: true,
   viewProviders: [
     provideIcons({ letsArrowRight, letsArrowLeft, letsMenu, letsCalendar }),

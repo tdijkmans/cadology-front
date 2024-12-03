@@ -8,7 +8,7 @@ import { theme } from "../../../_variables";
 import type { ChartTabVariant } from "../../pages/home/home.interface";
 
 @Component({
-  selector: "distchart",
+  selector: "cad-distchart",
   standalone: true,
   imports: [LineChartModule, CommonModule],
   templateUrl: "./distchart.component.html",

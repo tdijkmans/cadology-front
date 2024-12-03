@@ -7,7 +7,7 @@ import { DataService } from "@services/dataservice/data.service";
 import { StatisticsService } from "@services/statistics/statistics.service";
 
 @Component({
-  selector: "activitystats",
+  selector: "cad-activitystats",
   standalone: true,
   imports: [CommonModule, NgIconComponent],
   providers: [StatisticsService],

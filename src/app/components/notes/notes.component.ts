@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { letsAddRing, letsNotebook } from '@ng-icons/lets-icons/regular';
@@ -13,16 +13,11 @@ import { Activity } from '@services/dataservice/data.interface';
   styleUrl: './notes.component.scss',
   viewProviders: [provideIcons({ letsAddRing, letsNotebook })],
 })
-export class NotesComponent implements OnChanges {
+export class NotesComponent {
   @Input({ required: true }) currentActivity: Activity | null = null;
 
   notes: string[] = [];
   note = '';
-
-  constructor() { }
-
-  ngOnChanges() {
-  }
 
 
   addNote() {

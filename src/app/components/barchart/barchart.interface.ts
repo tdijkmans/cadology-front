@@ -1,4 +1,4 @@
-export type CappedLap = {
+export interface CappedLap {
     name: string;
     value: number;
     originalValue: number;

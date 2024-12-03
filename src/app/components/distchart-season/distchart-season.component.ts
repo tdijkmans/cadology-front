@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, Input, ViewChild } from "@angular/core";
+import { Component, Input, OnChanges, ViewChild } from "@angular/core";
 import type { Activity } from "@services/dataservice/data.interface";
 import { StatisticsService } from "@services/statistics/statistics.service";
 import {
@@ -11,13 +11,13 @@ import * as shape from "d3-shape";
 import { theme } from "../../../_variables";
 
 @Component({
-  selector: "distchart-season",
+  selector: "cad-distchart-season",
   standalone: true,
   imports: [LineChartModule, CommonModule],
   templateUrl: "./distchart-season.component.html",
   styleUrl: "./distchart-season.component.scss",
 })
-export class DistchartSeasonComponent {
+export class DistchartSeasonComponent implements OnChanges {
   @Input({ required: true }) currentActivity = {} as Activity;
   @Input({ required: true }) prevActivities: Activity[] = [];
   @Input({ required: true }) curActivities: Activity[] = [];
@@ -55,7 +55,7 @@ export class DistchartSeasonComponent {
     this.results = [
       {
         name: "Totale afstand",
-        series: cur.map((d, i) => ({
+        series: cur.map((d) => ({
           name: d.time - seasonDelta,
           trueDate: d.time,
           value: d.cumulativeDistance,
@@ -64,7 +64,7 @@ export class DistchartSeasonComponent {
       },
       {
         name: "Totale afstand vorig seizoen",
-        series: prev.map((d, i) => ({
+        series: prev.map((d) => ({
           name: d.time,
           trueDate: d.time,
           value: d.cumulativeDistance,
