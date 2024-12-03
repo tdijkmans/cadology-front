@@ -1,4 +1,4 @@
-import { Component, Input, type OnChanges, ViewChild } from "@angular/core";
+import { Component, Input, type OnChanges } from "@angular/core";
 import { NgIconComponent, provideIcons } from "@ng-icons/core";
 import {
   letsArrowLeft,
@@ -9,9 +9,8 @@ import {
 } from "@ng-icons/lets-icons/regular";
 import type { ChartTabVariant } from "@pages/home/home.interface";
 import {
-  type BarVerticalComponent,
   type Color,
-  NgxChartsModule,
+  NgxChartsModule
 } from "@swimlane/ngx-charts";
 import { theme } from "../../../_variables";
 import type { Lap } from "../../services/dataservice/data.interface";
@@ -40,10 +39,7 @@ export class BarchartComponent implements OnChanges {
   @Input({ required: true }) yScaleMax = 0;
   @Input({ required: true }) yScaleMin = 0;
   @Input({ required: true }) chartTab: ChartTabVariant = "distance";
-  @ViewChild("histoChart") chart: BarchartComponent | null = null;
 
-
-  @ViewChild("barChart") barChart: BarVerticalComponent | null = null;
 
   currentIndex = 0; // Index of the selected bar
   lapData: CappedLap[] = [];
@@ -56,7 +52,6 @@ export class BarchartComponent implements OnChanges {
   ngOnChanges(): void {
     this.initializeData();
     this.selectFastesLap();
-    this.barChart?.update();
 
   }
 
@@ -119,7 +114,10 @@ export class BarchartComponent implements OnChanges {
   }
 
   toggleSort() {
-    if (this.lapData.length < 2 || !this.barChart) { return; }
+    if (this.lapData.length < 2) {
+      console.error("No data to sort");
+      return;
+    }
     this.sortBy = this.sortBy === "sequential" ? "duration" : "sequential";
     const { name } = this.selectedLap || this.lapData[0];
 
@@ -129,8 +127,6 @@ export class BarchartComponent implements OnChanges {
         : [...this.lapData].sort((a, b) => a.value - b.value);
 
     this.lapData = [...results];
-    this.barChart.results = results;
     this.currentIndex = results.findIndex((l) => l.name === name);
-    this.barChart.update();
   }
 }

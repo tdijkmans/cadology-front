@@ -1,11 +1,10 @@
 import { CommonModule } from "@angular/common";
-import { Component, Input, OnChanges, ViewChild } from "@angular/core";
+import { Component, Input, OnChanges } from "@angular/core";
 import type { Activity } from "@services/dataservice/data.interface";
 import { StatisticsService } from "@services/statistics/statistics.service";
 import {
   type Color,
-  type LineChartComponent,
-  LineChartModule,
+  LineChartModule
 } from "@swimlane/ngx-charts";
 import * as shape from "d3-shape";
 import { theme } from "../../../_variables";
@@ -21,7 +20,6 @@ export class DistchartSeasonComponent implements OnChanges {
   @Input({ required: true }) currentActivity = {} as Activity;
   @Input({ required: true }) prevActivities: Activity[] = [];
   @Input({ required: true }) curActivities: Activity[] = [];
-  @ViewChild("histoChart") chart: LineChartComponent | null = null;
 
   totalDistanceCur = 0;
   totalTrainingHrCur = 0;
