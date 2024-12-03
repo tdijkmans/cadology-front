@@ -2,16 +2,16 @@
     <span class="menu-bar-item text-secondary mx-1">🧊🧊 Mijn IJstijden</span>
 
     <div class="menu-bar-item">
-        <span class="menu-bar-item text-secondary mx-1" (click)="ui.toggleModal()">
+        <button class="menu-bar-item text-secondary mx-1" (click)="ui.toggleModal()">
             <ng-icon name="letsCalendar" size="24" />
-        </span>
-        <span class="menu-bar-item text-secondary mx-1" (click)="ui.toggleDrawer()">
+        </button>
+        <button class="menu-bar-item text-secondary mx-1" (click)="ui.toggleDrawer()">
             <ng-icon name="letsMenu" size="24" />
-        </span>
+        </button>
     </div>
 
-    <div [ngClass]="{ 'modal-open': ui.modalOpen$ |async , 'modal':true }" (click)="ui.toggleModal()">
-        <div class="modal-content" (click)="stopPropagation($event)">
+    <button [ngClass]="{ 'modal-open': ui.modalOpen$ |async , 'modal':true }" (click)="ui.toggleModal()">
+        <div class="modal-content" (click)="stopPropagation($event)" tabindex="0" (keyup)="stopPropagation($event)">
             <ng-container *ngIf="d.currentData$ | async as d">
                 <ng-container *ngIf="(seasonTab | async) as tab">
                     <div class="tab-container">
@@ -42,9 +42,10 @@
 
 
         </div>
-    </div>
+    </button>
 
-    <div *ngIf="ui.drawerOpen$ |async" class="overlay" (click)="ui.toggleDrawer()"></div>
+    <div *ngIf="ui.drawerOpen$ |async" class="overlay" (click)="ui.toggleDrawer()" tabindex="0"
+        (keyup)="ui.toggleDrawer()"></div>
 
     <div class="menu" [ngClass]="{ 'menu--open': ui.drawerOpen$ |async }">
         <div>

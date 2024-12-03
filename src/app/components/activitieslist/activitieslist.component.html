@@ -3,7 +3,7 @@
         <ng-container *ngIf="currentActivity$ | async as currentActivity">
 
             <div *ngFor="let a of (activities)" (click)="handleActivityClick(a)" (keypress)="handleActivityClick(a)"
-                focusable
+                tabindex="0"
                 [ngClass]="{'al-activity': true, 'al-current-activity': currentActivity.activityId === a.activityId, 'px-1 py-1': true}">
 
                 <h4 [ngClass]="{ 'al-current-activity-title': currentActivity.activityId === a.activityId }">{{
