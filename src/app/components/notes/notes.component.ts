@@ -22,7 +22,6 @@ export class NotesComponent implements OnChanges {
   constructor() { }
 
   ngOnChanges() {
-    console.log({ currentActivity: this.currentActivity });
   }
 
 

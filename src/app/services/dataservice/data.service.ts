@@ -1,55 +1,77 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, catchError, filter, map, mergeMap, of, tap } from "rxjs";
+import {
+  BehaviorSubject,
+  catchError,
+  distinctUntilChanged,
+  map,
+  mergeMap,
+  of,
+  tap
+} from "rxjs";
 import { environment } from "../../../environments/environment";
-import type { Activity, SeasonsResponse } from "./data.interface";
+import type { Activity, Data, SeasonsResponse } from "./data.interface";
 
-@Injectable({
-  providedIn: "root",
-})
+@Injectable({ providedIn: "root" })
 export class DataService {
   constructor(private http: HttpClient) { }
 
-  private activity = new BehaviorSubject<Activity | null>(null);
-  private activities = new BehaviorSubject<Activity[] | null>(null);
+  private data = new BehaviorSubject<Data>({
+    currentActivity: {} as Activity,
+    activities: [],
+  });
 
+  private data$ = this.data.asObservable();
 
-  get currentActivity$() {
-    return this.activity.asObservable().pipe(filter((activity) => !!activity));
-  }
+  public currentActivity$ = this.data.asObservable().pipe(
+    map(({ currentActivity: activity }) => activity),
+    distinctUntilChanged(),
+  );
 
-  get allActivities$() {
-    return this.activities.asObservable().pipe(filter((activities) => !!activities));
-  }
+  public currentData$ = this.data.pipe(
+    mergeMap((data) => of(data.activities)),
+    map((activities) => {
+      const currentActivity = this.data.value.currentActivity;
+      const curActivities = activities.filter(
+        (a) => a.season === "currentSeasonActivities",
+      );
+      const prevActivities = activities.filter(
+        (a) => a.season === "previousSeasonActivities",
+      );
 
-  get curActivities$() {
-    return this.allActivities$.pipe(
-      filter((activities) => !!activities),
-      map((activities) => activities.filter((a) => a.season === "currentSeasonActivities")),
-    );
-  }
-
-  get prevActivities$() {
-    return this.allActivities$.pipe(
-      filter((activities) => !!activities),
-      map((activities) => activities.filter((a) => a.season === "previousSeasonActivities")),
-    );
-  }
+      return { currentActivity, curActivities, prevActivities };
+    }),
+  );
 
   public setCurrentActivity(activity: Activity) {
-    this.activity.next(activity);
+    if (!activity) {
+      console.error("No activity provided");
+      return;
+    }
+    this.data.next({
+      currentActivity: activity,
+      activities: this.data.value.activities,
+    });
   }
 
   private setAllActivities(activities: Activity[]) {
-    this.activities.next(activities);
+    this.data.next({
+      currentActivity: this.data.value.currentActivity,
+      activities,
+    });
   }
 
   public navigateActivity(direction: "next" | "previous") {
-    return this.allActivities$.pipe(
+    return this.data$.pipe(
+      map((data) => data.activities),
+      distinctUntilChanged(),
       tap((activities) => {
-        const currentActivity = this.activity.value;
+        const currentActivity = this.data.value.currentActivity;
 
-        if (!activities || !currentActivity) return;
+        if (!activities || !currentActivity) {
+          console.error("No activities or current activity found");
+          return
+        }
 
         const currentIndex = activities.findIndex(
           (activity) => activity.activityId === currentActivity.activityId,
@@ -61,6 +83,11 @@ export class DataService {
             : (currentIndex - 1 + activities.length) % activities.length;
 
         const newActivity = activities[newIndex];
+
+        if (!newActivity) {
+          console.error("No activity found");
+          return;
+        }
 
         this.setCurrentActivity(newActivity);
       }),

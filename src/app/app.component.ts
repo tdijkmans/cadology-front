@@ -12,7 +12,6 @@ import { Observable, combineLatest, distinctUntilChanged, map, of } from "rxjs";
   imports: [AppMenuComponent, RouterOutlet, CommonModule],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
-  providers: [DataService],
 })
 export class AppComponent {
   private destroyRef = inject(DestroyRef);

@@ -1,4 +1,4 @@
-<ng-content *ngIf="!(isLoading$ |async) else loadingTemplate"></ng-content>
+<ng-content *ngIf="!(isLoading) else loadingTemplate"></ng-content>
 
 <ng-template #loadingTemplate>
     <div class="loading">

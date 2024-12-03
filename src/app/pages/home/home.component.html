@@ -1,10 +1,8 @@
-<cad-page [isLoading$]="(isLoading$)">
-    <ng-container *ngIf="currentData$ | async as d">
+<cad-page [isLoading]="(isLoading)">
+
+    <ng-container *ngIf="d.currentData$ | async as d">
         <div class="stats-container">
-            <activitystats class='activitystats' [currentActivity]="d.currentActivity"
-                (nextActivity)="selectNextActivity()" (prevActivity)="selectPrevActivity()"
-                [isMostRecent]="d.currentActivity === d.curActivities[0]"
-                [isOldest]="d.currentActivity === d.prevActivities[d.prevActivities.length - 1]" />
+            <activitystats class='activitystats' />
 
             <div class="stats-dropdown">
 
@@ -75,28 +73,14 @@
 
         <ng-container *ngIf="(seasonTab | async) as tab">
             <div class="tab-container">
-                <button class="tab" [class.active]="tab === 'current'" (click)="setSeasonTab('current')">
-                    Dit seizoen
-                    <circle-badge [count]="d.curActivities.length" [active]="tab === 'current'" />
-                </button>
-                <button class="tab" [class.active]="tab === 'previous'" (click)="setSeasonTab('previous')">
-                    Vorig seizoen
-                    <circle-badge [count]="d.prevActivities.length" [active]="tab === 'previous'" />
-                </button>
+
                 <button class="tab" [class.active]="tab === 'progress'" (click)="setSeasonTab('progress')">
                     Voortgang
                 </button>
             </div>
 
             <div>
-                <div class="tab-item" [class.active]="tab === 'current'">
-                    <activitieslist [activities]="d.curActivities" [currentActivity]="d.currentActivity"
-                        (selectActivity)="handleAct($event)" />
-                </div>
-                <div class="tab-item" [class.active]="tab === 'previous'">
-                    <activitieslist [activities]="d.prevActivities" [currentActivity]="d.currentActivity"
-                        (selectActivity)="handleAct($event)" />
-                </div>
+
                 <div class="tab-item" [class.active]="tab === 'progress'">
                     <div class="card">
                         <distchart-season [curActivities]="d.curActivities" [prevActivities]="d.prevActivities"

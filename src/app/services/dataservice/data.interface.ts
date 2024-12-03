@@ -31,4 +31,16 @@ type SeasonsResponse = {
     type: Season;
 };
 
-export type { Activity, Lap, Season, SeasonsResponse };
+type Data = {
+    currentActivity: Activity;
+    activities: Activity[];
+};
+
+type CurrentData = {
+    currentActivity: Activity;
+    curActivities: Activity[];
+    prevActivities: Activity[];
+}
+
+
+export type { Activity, CurrentData, Data, Lap, Season, SeasonsResponse };

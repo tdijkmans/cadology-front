@@ -1,6 +1,5 @@
 import { CommonModule } from "@angular/common";
 import { Component, Input } from "@angular/core";
-import type { BehaviorSubject } from "rxjs";
 
 @Component({
   selector: "cad-page",
@@ -10,7 +9,7 @@ import type { BehaviorSubject } from "rxjs";
   styleUrl: "./page.component.scss",
 })
 export class PageComponent {
-  @Input({ required: true }) isLoading$: BehaviorSubject<boolean> | null = null;
+  @Input({ required: true }) isLoading = false;
 
 
 }

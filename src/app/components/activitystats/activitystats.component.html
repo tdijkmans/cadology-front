@@ -1,5 +1,5 @@
 <div class="px-1 py-1" *ngIf="currentActivity">
-    <div id="chart" class="card as-navigation-card">
+    <div id="chart" class="card as-navigation-card" *ngIf="currentActivity.activityId">
         <button [ngClass]="{'as-navigation-button': true, 'as-navigation-button-disabled': isOldest}"
             [disabled]="isOldest" (click)="onPrevious()">
             <ng-icon name="letsArrowLeft" />
