@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Activity, Lap } from "@services/dataservice/data.interface";
 
-type Bin = { bin: number; count: number; normalizedCount: number };
+interface Bin { bin: number; count: number; normalizedCount: number };
 
 @Injectable({
   providedIn: "root",
@@ -50,7 +50,7 @@ export class StatisticsService {
 
     return quantifiedLaps
       .sort((a, b) => a.startTime - b.startTime)
-      .map((lap, i) => {
+      .map((lap) => {
         cumulativeDistance += this.TRACK_LENGTH;
         return {
           time: lap.startTime,
@@ -59,7 +59,7 @@ export class StatisticsService {
       });
   }
 
-  public getCumulatingSeasonDistance(season: Array<Activity>) {
+  public getCumulatingSeasonDistance(season: Activity[]) {
     let cumulativeDistance = 0;
     let cumulativeLapCount = 0;
     let cumulativeTrainingMinutes = 0;
@@ -70,7 +70,7 @@ export class StatisticsService {
 
     return quantifiedSeason
       .sort((a, b) => a.time - b.time)
-      .map((activity, i) => {
+      .map((activity) => {
         cumulativeDistance += this.TRACK_LENGTH * activity.lapCount;
         cumulativeDistance = Math.round(cumulativeDistance * 100) / 100;
         cumulativeLapCount += activity.lapCount;

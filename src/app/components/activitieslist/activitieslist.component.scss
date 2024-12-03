@@ -18,6 +18,7 @@
         justify-content: space-between;
         margin-bottom: $spacing-xs;
         color: $simple-gray;
+        font-weight: normal;
     }
 
 
@@ -33,6 +34,7 @@
 
     &-title {
         color: white;
+        font-weight: normal;
     }
 
     &:hover {

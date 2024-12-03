@@ -1,40 +1,48 @@
 import { CommonModule } from "@angular/common";
 import { Component, DestroyRef, inject } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { ActivitieslistComponent } from "@components/activitieslist/activitieslist.component";
 import { ActivitystatsComponent } from "@components/activitystats/activitystats.component";
 import { BarchartComponent } from "@components/barchart/barchart.component";
-import { CircleBadgeComponent } from "@components/circle-badge/circle-badge.component";
 import { DistchartComponent } from "@components/distchart/distchart.component";
 import { HistochartComponent } from "@components/histochart/histochart.component";
+import { NotesComponent } from "@components/notes/notes.component";
 import { PageComponent } from "@components/page/page.component";
 import { NgIconComponent, provideIcons } from "@ng-icons/core";
-import { letsClock, letsRoadAlt, letsSpeed, letsStat } from "@ng-icons/lets-icons/regular";
-import type { Activity } from "@services/dataservice/data.interface";
+import {
+  letsClock,
+  letsNotebook,
+  letsRoadAlt,
+  letsSpeed,
+  letsStat,
+} from "@ng-icons/lets-icons/regular";
 import { DataService } from "@services/dataservice/data.service";
-import { BehaviorSubject, type Observable, combineLatest, map } from "rxjs";
+import { BehaviorSubject } from "rxjs";
 import { DistchartSeasonComponent } from "../../components/distchart-season/distchart-season.component";
 import type { ChartTabVariant, SeasonTabVariant } from "./home.interface";
 
 @Component({
-  selector: 'cad-home',
+  selector: "cad-home",
   standalone: true,
   imports: [
     CommonModule,
     ActivitystatsComponent,
-    ActivitieslistComponent,
-    CircleBadgeComponent,
     BarchartComponent,
     HistochartComponent,
     DistchartComponent,
     DistchartSeasonComponent,
-    NgIconComponent, PageComponent
+    NgIconComponent,
+    PageComponent,
+    NotesComponent,
   ],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss',
+  templateUrl: "./home.component.html",
+  styleUrl: "./home.component.scss",
   viewProviders: [
     provideIcons({
-      letsClock, letsSpeed, letsRoadAlt, letsStat
+      letsClock,
+      letsSpeed,
+      letsRoadAlt,
+      letsStat,
+      letsNotebook,
     }),
   ],
 })
@@ -42,57 +50,19 @@ export class HomeComponent {
   private destroyRef = inject(DestroyRef);
   title = "";
   chipInput = "";
-  isLoading$ = new BehaviorSubject<boolean>(true);
+  isLoading = true;
 
   chartTab = new BehaviorSubject<ChartTabVariant>("distance");
-  seasonTab = new BehaviorSubject<SeasonTabVariant>("current");
+  seasonTab = new BehaviorSubject<SeasonTabVariant>("progress");
 
-  currentData$: Observable<{
-    currentActivity: Activity;
-    curActivities: Activity[];
-    prevActivities: Activity[];
-  }>;
-
-  constructor(
-    private d: DataService,
-  ) {
-    this.currentData$ = combineLatest([
-      this.d.currentActivity$,
-      this.d.curActivities$,
-      this.d.prevActivities$,
-    ]).pipe(
-      map(([currentActivity, curActivities, prevActivities]) => {
-        this.isLoading$.next(false);
-
-        return {
-          currentActivity,
-          curActivities,
-          prevActivities,
-        }
-      }
-      )
-    );
-  }
-
-
-
-  handleAct(activity: Activity) {
-    this.d.setCurrentActivity(activity);
-  }
-
-  selectNextActivity() {
-    this.d
-      .navigateActivity("next")
+  constructor(public d: DataService) {
+    this.d.currentData$
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe();
+      .subscribe(() => {
+        this.isLoading = false;
+      });
   }
 
-  selectPrevActivity() {
-    this.d
-      .navigateActivity("previous")
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe();
-  }
 
   setTab(tab: ChartTabVariant) {
     this.chartTab.next(tab);

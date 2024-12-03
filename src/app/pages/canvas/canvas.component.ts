@@ -1,4 +1,4 @@
-import { Component, type ElementRef, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, type ElementRef, OnDestroy, ViewChild } from "@angular/core";
 import { SceneService } from "@services/scene/scene.service";
 
 @Component({
@@ -9,7 +9,7 @@ import { SceneService } from "@services/scene/scene.service";
   styleUrls: ["./canvas.component.scss"],
   providers: [SceneService],
 })
-export class CanvasComponent {
+export class CanvasComponent implements AfterViewInit, OnDestroy {
   @ViewChild("threeCanvas", { static: true })
   canvasRef!: ElementRef<HTMLCanvasElement>;
 

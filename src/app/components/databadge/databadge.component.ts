@@ -4,7 +4,7 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { letsTrophy } from '@ng-icons/lets-icons/regular';
 
 @Component({
-  selector: 'databadge',
+  selector: 'cad-databadge',
   standalone: true,
   imports: [CommonModule, NgIconComponent],
   templateUrl: './databadge.component.html',

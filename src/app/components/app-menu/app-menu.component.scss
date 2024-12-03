@@ -14,8 +14,47 @@
 
     &-item {
         display: flex;
+        background-color: $subtle-color;
+    }
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+    transition: opacity 0.3s ease-in-out;
+    opacity: 0;
+    visibility: hidden;
+    background-color: rgba(0, 0, 0, 0.5);
+
+    &-content {
+        position: fixed;
+        width: 90%;
+        height: 90%;
+        left: 5%;
+        top: 5%;
+
+        background-color: white;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        z-index: 20;
+
+        overflow-y: auto;
 
     }
+
+    &-open {
+        opacity: 1;
+        visibility: visible;
+    }
+
+
 }
 
 
@@ -28,6 +67,7 @@
     background: rgba(0, 0, 0, 0.5);
     z-index: 10;
     transition: opacity 0.3s ease-in-out;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .menu {
@@ -75,4 +115,45 @@
 
     }
 
+}
+
+.tab-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    border-bottom: 1px solid $simple-gray;
+}
+
+.tab {
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-radius: $border-radius-none;
+    color: $simple-gray;
+    font-weight: normal;
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+
+
+
+
+    &:hover {
+        color: $secondary-color;
+        transition: color 0.3s ease-in-out;
+    }
+}
+
+.tab.active {
+    border-bottom: 2px solid $secondary-color;
+    color: $secondary-color;
+    transition: color 0.3s ease-in-out;
+}
+
+.tab-item {
+    display: none;
+}
+
+.tab-item.active {
+    display: block;
 }

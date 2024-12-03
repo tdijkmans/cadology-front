@@ -1,14 +1,55 @@
 <div class="menu-bar px-1 py-1">
     <span class="menu-bar-item text-secondary mx-1">🧊🧊 Mijn IJstijden</span>
-    <span class="menu-bar-item text-secondary mx-1" (click)="toggleMenu()">
-        <ng-icon name="letsSettingLine" size="24" />
-    </span>
 
-    <div *ngIf="menuOpen" class="overlay" (click)="toggleMenu()"></div>
+    <div class="menu-bar-item">
+        <button class="menu-bar-item text-secondary mx-1" (click)="ui.toggleModal()">
+            <ng-icon name="letsCalendar" size="24" />
+        </button>
+        <button class="menu-bar-item text-secondary mx-1" (click)="ui.toggleDrawer()">
+            <ng-icon name="letsMenu" size="24" />
+        </button>
+    </div>
 
-    <div class="menu" [ngClass]="{ 'menu--open': menuOpen }">
+    <button [ngClass]="{ 'modal-open': ui.modalOpen$ |async , 'modal':true }" (click)="ui.toggleModal()">
+        <div class="modal-content" (click)="stopPropagation($event)" tabindex="0" (keyup)="stopPropagation($event)">
+            <ng-container *ngIf="d.currentData$ | async as d">
+                <ng-container *ngIf="(seasonTab | async) as tab">
+                    <div class="tab-container">
+                        <button class="tab" [class.active]="tab === 'current'" (click)="setSeasonTab('current')">
+                            Dit seizoen
+                            <cad-circle-badge [count]="d.curActivities.length" [active]="tab === 'current'" />
+                        </button>
+                        <button class="tab" [class.active]="tab === 'previous'" (click)="setSeasonTab('previous')">
+                            Vorig seizoen
+                            <cad-circle-badge [count]="d.prevActivities.length" [active]="tab === 'previous'" />
+                        </button>
+
+                    </div>
+
+                    <div>
+                        <div class="tab-item" [class.active]="tab === 'current'">
+                            <cad-activitieslist [activities]="d.curActivities" />
+                        </div>
+                        <div class="tab-item" [class.active]="tab === 'previous'">
+                            <cad-activitieslist [activities]="d.prevActivities" />
+                        </div>
+
+                    </div>
+
+                </ng-container>
+            </ng-container>
+
+
+
+        </div>
+    </button>
+
+    <div *ngIf="ui.drawerOpen$ |async" class="overlay" (click)="ui.toggleDrawer()" tabindex="0"
+        (keyup)="ui.toggleDrawer()"></div>
+
+    <div class="menu" [ngClass]="{ 'menu--open': ui.drawerOpen$ |async }">
         <div>
-            <button class="menu-item" (click)="toggleMenu()">
+            <button class="menu-item" (click)="ui.toggleDrawer()">
                 Terug <ng-icon name="letsArrowRight" size="24" color="--primay-color" />
             </button>
             <form>

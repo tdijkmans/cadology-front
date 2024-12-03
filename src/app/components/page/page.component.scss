@@ -1,5 +1,9 @@
 @import '../../../variables.scss';
 
+.page {
+    margin-top: calc(64px);
+}
+
 .loading {
     width: 100%;
     display: flex;

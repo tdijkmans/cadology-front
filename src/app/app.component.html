@@ -1,6 +1,6 @@
-<app-menu></app-menu>
+<cad-menu></cad-menu>
 
-<div *ngIf="!(chipCode$  | async)" class="app-content-void">
+<div *ngIf="(chipCode$  | async) === null  " class="app-content-void">
     <span class="text-secondary mx-1">
         <span>🥶</span>
         <p>Vul je transponder code in. </p>

@@ -86,7 +86,7 @@ textarea {
     width: 100%;
     padding: $spacing-sm;
     border: 1px solid #ddd;
-    border-radius: $border-radius;
+    border-radius: $border-radius-none;
     font-size: $body-font-size;
     margin-bottom: $spacing-md;
     transition: border-color 0.3s ease;
@@ -108,7 +108,7 @@ button,
     color: #ffffff;
     background-color: $primary-color;
     border: none;
-    border-radius: $border-radius;
+    border-radius: $border-radius-none;
     transition: background-color 0.3s ease, transform 0.2s ease;
     cursor: pointer;
 
@@ -143,7 +143,7 @@ button,
 // Card Style
 .card {
     background-color: #ffffff;
-    border-radius: $border-radius;
+    border-radius: $border-radius-none;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     transition: transform 0.2s ease;
@@ -237,16 +237,35 @@ button,
     margin-bottom: $spacing-sm;
 }
 
+.mx-0 {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.my-0 {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
 .py-1 {
     padding-top: $spacing-sm;
     padding-bottom: $spacing-sm;
 }
 
 
-
 .px-1 {
     padding-left: $spacing-sm;
     padding-right: $spacing-sm;
+}
+
+.px-0 {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.py-0 {
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 

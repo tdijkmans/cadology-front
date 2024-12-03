@@ -1,4 +1,4 @@
-type Lap = {
+interface Lap {
     lapNr: number;
     duration: number;
     speed: number;
@@ -8,7 +8,7 @@ type Lap = {
 
 
 type Season = "previousSeasonActivities" | "currentSeasonActivities";
-type Activity = {
+interface Activity {
     activityId: number;
     location: string;
     startTime: Date; //ISO 8601 format
@@ -25,10 +25,22 @@ type Activity = {
     season: Season;
 };
 
-type SeasonsResponse = {
+interface SeasonsResponse {
     data: Activity[];
     meta: { total: number; chipCode: string };
     type: Season;
 };
 
-export type { Activity, Lap, Season, SeasonsResponse };
+interface Data {
+    currentActivity: Activity;
+    activities: Activity[];
+};
+
+interface CurrentData {
+    currentActivity: Activity;
+    curActivities: Activity[];
+    prevActivities: Activity[];
+}
+
+
+export type { Activity, CurrentData, Data, Lap, Season, SeasonsResponse };

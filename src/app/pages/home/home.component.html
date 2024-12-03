@@ -1,8 +1,14 @@
-<cad-page [isLoading$]="(isLoading$)">
-    <ng-container *ngIf="currentData$ | async as d">
-        <activitystats [currentActivity]="d.currentActivity" (nextActivity)="selectNextActivity()"
-            (prevActivity)="selectPrevActivity()" [isMostRecent]="d.currentActivity === d.curActivities[0]"
-            [isOldest]="d.currentActivity === d.prevActivities[d.prevActivities.length - 1]" />
+<cad-page [isLoading]="(isLoading)">
+
+    <ng-container *ngIf="d.currentData$ | async as d">
+        <div class="stats-container">
+            <cad-activitystats class='activitystats' />
+
+            <div class="stats-dropdown">
+
+
+            </div>
+        </div>
 
         <ng-container *ngIf="(chartTab | async) as tab">
             <div class="tab-container">
@@ -22,33 +28,44 @@
                     <!-- Verdeling rondes (sec) -->
                     <ng-icon name="letsStat" size="1.2rem" />
                 </button>
+
+                <button class="tab" [class.active]="tab === 'myNotes'" (click)="setTab('myNotes')">
+                    <!-- Notities -->
+                    <ng-icon name="letsNotebook" size="1.2rem" />
+                </button>
             </div>
 
             <div>
                 <div class="tab-item" [class.active]="tab === 'lapTime'">
                     <div class="card">
-                        <barchart [chartTab]="tab" [laps]="d.currentActivity.laps" [type]="'lapTime'" [yScaleMax]="100"
-                            [yScaleMin]="25" />
+                        <cad-barchart [chartTab]="tab" [laps]="d.currentActivity.laps" [type]="'lapTime'"
+                            [yScaleMax]="100" [yScaleMin]="25" />
                     </div>
                 </div>
 
                 <div class="tab-item" [class.active]="tab === 'speed'">
                     <div class="card">
-                        <barchart [chartTab]="tab" [laps]="d.currentActivity.laps" [type]="'speed'" [yScaleMax]="40"
+                        <cad-barchart [chartTab]="tab" [laps]="d.currentActivity.laps" [type]="'speed'" [yScaleMax]="40"
                             [yScaleMin]="5" />
                     </div>
                 </div>
 
                 <div class="tab-item" [class.active]="tab === 'distance'">
                     <div class="card">
-                        <distchart [chartTab]="tab" [currentActivity]="d.currentActivity" />
+                        <cad-distchart [chartTab]="tab" [currentActivity]="d.currentActivity" />
                     </div>
                 </div>
 
                 <div class="tab-item" [class.active]="tab === 'season'">
                     <div class="card">
-                        <histochart [curActivities]="d.curActivities" [prevActivities]="d.prevActivities"
+                        <cad-histochart [curActivities]="d.curActivities" [prevActivities]="d.prevActivities"
                             [currentActivity]="d.currentActivity" [chartTab]="tab" />
+                    </div>
+                </div>
+
+                <div class="tab-item" [class.active]="tab === 'myNotes'">
+                    <div class="card">
+                        <cad-notes [currentActivity]="d.currentActivity" />
                     </div>
                 </div>
             </div>
@@ -56,31 +73,17 @@
 
         <ng-container *ngIf="(seasonTab | async) as tab">
             <div class="tab-container">
-                <button class="tab" [class.active]="tab === 'current'" (click)="setSeasonTab('current')">
-                    Dit seizoen
-                    <circle-badge [count]="d.curActivities.length" [active]="tab === 'current'" />
-                </button>
-                <button class="tab" [class.active]="tab === 'previous'" (click)="setSeasonTab('previous')">
-                    Vorig seizoen
-                    <circle-badge [count]="d.prevActivities.length" [active]="tab === 'previous'" />
-                </button>
+
                 <button class="tab" [class.active]="tab === 'progress'" (click)="setSeasonTab('progress')">
                     Voortgang
                 </button>
             </div>
 
             <div>
-                <div class="tab-item" [class.active]="tab === 'current'">
-                    <activitieslist [activities]="d.curActivities" [currentActivity]="d.currentActivity"
-                        (selectActivity)="handleAct($event)" />
-                </div>
-                <div class="tab-item" [class.active]="tab === 'previous'">
-                    <activitieslist [activities]="d.prevActivities" [currentActivity]="d.currentActivity"
-                        (selectActivity)="handleAct($event)" />
-                </div>
+
                 <div class="tab-item" [class.active]="tab === 'progress'">
                     <div class="card">
-                        <distchart-season [curActivities]="d.curActivities" [prevActivities]="d.prevActivities"
+                        <cad-distchart-season [curActivities]="d.curActivities" [prevActivities]="d.prevActivities"
                             [currentActivity]="d.currentActivity" />
                     </div>
                 </div>

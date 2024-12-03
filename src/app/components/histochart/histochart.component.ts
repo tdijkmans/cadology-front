@@ -9,11 +9,11 @@ import {
 } from "@swimlane/ngx-charts";
 import * as shape from "d3-shape";
 import { theme } from "../../../_variables";
-import type { ChartTabVariant } from "../../app.interface";
+import type { ChartTabVariant } from "../../pages/home/home.interface";
 import type { Result } from "./histochart.interface";
 
 @Component({
-  selector: "histochart",
+  selector: "cad-histochart",
   standalone: true,
   imports: [LineChartModule, CommonModule],
   templateUrl: "./histochart.component.html",
