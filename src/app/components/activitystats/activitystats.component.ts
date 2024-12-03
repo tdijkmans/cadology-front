@@ -24,11 +24,12 @@ export class ActivitystatsComponent {
   totalActivities = 0;
   currentActivity = {} as Activity;
 
-  constructor(public d: DataService) {
+  constructor(public d: DataService, public s: StatisticsService) {
     this.d.currentData$.subscribe((data) => {
       this.identifyBoundaries(data);
     });
   }
+
 
   onNext() {
     this.d.navigateActivity("next").subscribe();
@@ -39,14 +40,15 @@ export class ActivitystatsComponent {
   }
 
   identifyBoundaries(data: CurrentData) {
-    this.currentActivity = data.currentActivity;
-    const mostRecent = data.curActivities;
-    const oldest = data.prevActivities;
-    const currentMostRecent = mostRecent.sort(
+    const { curActivities, prevActivities, currentActivity } = data;
+    this.currentActivity = currentActivity;
+    this.totalDistance = this.s.distanceFromLapCount(this.currentActivity.laps.length);
+    this.totalTrainingTime = this.s.formattedTime(this.currentActivity.totalTrainingTime);
+    const currentMostRecent = curActivities.sort(
       (a, b) =>
         new Date(b.startTime).getTime() - new Date(a.startTime).getTime(),
     )[0];
-    const currentOldest = oldest.sort(
+    const currentOldest = prevActivities.sort(
       (a, b) =>
         new Date(a.startTime).getTime() - new Date(b.startTime).getTime(),
     )[0];
