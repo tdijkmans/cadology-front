@@ -7,15 +7,10 @@ import {
   letsSortUp,
   letsTrophy,
 } from "@ng-icons/lets-icons/regular";
-import type { ChartTabVariant } from "@pages/home/home.interface";
-import {
-  type Color,
-  NgxChartsModule
-} from "@swimlane/ngx-charts";
+import { type Color, NgxChartsModule } from "@swimlane/ngx-charts";
 import { theme } from "../../../_variables";
 import type { Lap } from "../../services/dataservice/data.interface";
 import type { CappedLap } from "./barchart.interface";
-
 
 @Component({
   selector: "cad-barchart",
@@ -38,13 +33,12 @@ export class BarchartComponent implements OnChanges {
   @Input({ required: true }) type: "speed" | "lapTime" = "lapTime";
   @Input({ required: true }) yScaleMax = 0;
   @Input({ required: true }) yScaleMin = 0;
-  @Input({ required: true }) chartTab: ChartTabVariant = "distance";
-
 
   currentIndex = 0; // Index of the selected bar
   lapData: CappedLap[] = [];
   selectedLap: (typeof this.lapData)[0] | null = null;
   fastestLap: CappedLap | null = null;
+  progressiveLaps: CappedLap[] = [];
   colors = this.updateColors();
   sortBy: "sequential" | "duration" = "sequential";
   scheme = { domain: [theme.secondarycolor] } as Color;
@@ -52,7 +46,7 @@ export class BarchartComponent implements OnChanges {
   ngOnChanges(): void {
     this.initializeData();
     this.selectFastesLap();
-
+    this.identifyProgressiveStreak();
   }
 
   initializeData() {
@@ -86,6 +80,47 @@ export class BarchartComponent implements OnChanges {
     this.onSelect(fastestLap);
   }
 
+  identifyProgressiveStreak(delta = 0.1) {
+    // Identify laps where each lap is faster than the previous by at least delta
+    const progressiveLaps = this.lapData.map((lap, index) => {
+      const previousLap = this.lapData[index - 1];
+      const isProgressive = previousLap
+        ? lap.originalValue - previousLap.originalValue < -delta
+        : false;
+
+      return { isProgressive, ...lap };
+    });
+
+    // Track the longest streak of progressive laps
+    const { longestStreak } = progressiveLaps.reduce<{
+      currentStreak: { value: number; lapIds: string[] };
+      longestStreak: { value: number; lapIds: string[] };
+    }>(
+      (acc, lap) => {
+        if (lap.isProgressive) {
+          acc.currentStreak.lapIds.push(lap.name);
+          acc.currentStreak.value += 1;
+
+          if (acc.currentStreak.value > acc.longestStreak.value) {
+            acc.longestStreak = { ...acc.currentStreak };
+          }
+        } else {
+          acc.currentStreak = { value: 0, lapIds: [] };
+        }
+        return acc;
+      },
+      {
+        currentStreak: { value: 0, lapIds: [] },
+        longestStreak: { value: 0, lapIds: [] },
+      },
+    );
+
+    console.log("Longest Progressive Streak:", longestStreak);
+
+    // Save the progressive laps to the component's state or class property
+    this.progressiveLaps = progressiveLaps;
+  }
+
   onSelect(event: CappedLap): void {
     this.currentIndex = this.lapData.findIndex((l) => l.name === event.name);
     this.colors = this.updateColors();
@@ -93,8 +128,8 @@ export class BarchartComponent implements OnChanges {
   }
 
   updateColors() {
-    return this.lapData.map((data, index) => ({
-      name: data.name,
+    return this.lapData.map((lap, index) => ({
+      name: lap.name,
       value:
         index === this.currentIndex ? theme.primarycolor : theme.secondarycolor,
     }));

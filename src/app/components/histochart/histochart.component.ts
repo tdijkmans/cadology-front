@@ -8,7 +8,6 @@ import {
 } from "@swimlane/ngx-charts";
 import * as shape from "d3-shape";
 import { theme } from "../../../_variables";
-import type { ChartTabVariant } from "../../pages/home/home.interface";
 import type { Result } from "./histochart.interface";
 
 @Component({
@@ -22,7 +21,6 @@ export class HistochartComponent implements OnChanges {
   @Input({ required: true }) currentActivity: Activity | null = null;
   @Input({ required: true }) prevActivities: Activity[] = [];
   @Input({ required: true }) curActivities: Activity[] = [];
-  @Input({ required: true }) chartTab: ChartTabVariant = "distance";
 
   curve = shape.curveMonotoneX;
   results = [{ name: "", series: [{ name: "", value: 0 }] }] as Result;

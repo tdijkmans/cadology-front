@@ -5,7 +5,6 @@ import { StatisticsService } from "@services/statistics/statistics.service";
 import { type Color, LineChartModule } from "@swimlane/ngx-charts";
 import * as shape from "d3-shape";
 import { theme } from "../../../_variables";
-import type { ChartTabVariant } from "../../pages/home/home.interface";
 
 @Component({
   selector: "cad-distchart",
@@ -16,9 +15,6 @@ import type { ChartTabVariant } from "../../pages/home/home.interface";
 })
 export class DistchartComponent implements OnChanges {
   @Input({ required: true }) currentActivity = {} as Activity;
-  @Input({ required: true }) chartTab: ChartTabVariant = "distance";
-
-
 
   totalDistance = 0;
   totalTrainingTime = ['0', 'uur'];
