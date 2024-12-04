@@ -8,12 +8,14 @@ import {
 } from "@swimlane/ngx-charts";
 import * as shape from "d3-shape";
 import { theme } from "../../../_variables";
+import { ChartcontainerComponent } from "../chart/chartcontainer/chartcontainer.component";
+import { ChartheaderComponent } from "../chart/chartheader/chartheader.component";
 import type { Result } from "./histochart.interface";
 
 @Component({
   selector: "cad-histochart",
   standalone: true,
-  imports: [LineChartModule, CommonModule],
+  imports: [LineChartModule, CommonModule, ChartheaderComponent, ChartcontainerComponent],
   templateUrl: "./histochart.component.html",
   styleUrl: "./histochart.component.scss",
 })

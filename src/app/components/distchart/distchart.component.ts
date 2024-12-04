@@ -1,5 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { Component, Input, type OnChanges } from "@angular/core";
+import { ChartcontainerComponent } from "@components/chart/chartcontainer/chartcontainer.component";
+import { ChartheaderComponent } from "@components/chart/chartheader/chartheader.component";
 import type { Activity } from "@services/dataservice/data.interface";
 import { StatisticsService } from "@services/statistics/statistics.service";
 import { type Color, LineChartModule } from "@swimlane/ngx-charts";
@@ -9,7 +11,7 @@ import { theme } from "../../../_variables";
 @Component({
   selector: "cad-distchart",
   standalone: true,
-  imports: [LineChartModule, CommonModule],
+  imports: [LineChartModule, CommonModule, ChartcontainerComponent, ChartcontainerComponent, ChartheaderComponent,],
   templateUrl: "./distchart.component.html",
   styleUrl: "./distchart.component.scss",
 })
@@ -25,12 +27,14 @@ export class DistchartComponent implements OnChanges {
 
   constructor(private s: StatisticsService) { }
 
-  ngOnChanges(): void { this.initializeData(); }
+  ngOnChanges(): void {
+
+    this.initializeData();
+  }
 
   initializeData() {
-    const cumulativeDistance = this.s.getCumulatingDistance(
-      this.currentActivity?.laps ?? [],
-    );
+    const { laps, totalTrainingTime } = this.currentActivity;
+    const cumulativeDistance = this.s.getCumulatingDistance(laps);
     this.results = [
       {
         name: "Totale afstand",
@@ -41,8 +45,8 @@ export class DistchartComponent implements OnChanges {
         })),
       },
     ];
-    this.totalDistance = this.s.distanceFromLapCount(this.currentActivity.laps.length);
-    this.totalTrainingTime = this.s.formattedTime(this.currentActivity.totalTrainingTime);
+    this.totalDistance = this.s.distanceFromLapCount(laps.length);
+    this.totalTrainingTime = this.s.formattedTime(totalTrainingTime);
   }
 
   xAxisTickFormatting = (date: number): string => {

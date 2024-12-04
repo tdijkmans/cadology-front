@@ -2,10 +2,8 @@
 
     <ng-container *ngIf="d.currentData$ | async as d">
         <div class="stats-container">
-            <cad-activitystats class='activitystats' />
-
+            <cad-activitystats class='activitystats' *ngIf="d.currentActivity.laps && d.currentActivity.activityId" />
             <div class="stats-dropdown">
-
 
             </div>
         </div>
@@ -35,7 +33,7 @@
                 </button>
             </div>
 
-            <div>
+            <div *ngIf="d.currentActivity.laps">
                 <div class="tab-item" [class.active]="tab === 'lapTime'">
                     <div class="card">
                         <cad-barchart [laps]="d.currentActivity.laps" [type]="'lapTime'" [yScaleMax]="100"
@@ -83,8 +81,8 @@
 
                 <div class="tab-item" [class.active]="tab === 'progress'">
                     <div class="card">
-                        <cad-distchart-season [curActivities]="d.curActivities" [prevActivities]="d.prevActivities"
-                            [currentActivity]="d.currentActivity" />
+                        <cad-distchart-season *ngIf="d.currentActivity.laps" [curActivities]="d.curActivities"
+                            [prevActivities]="d.prevActivities" [currentActivity]="d.currentActivity" />
                     </div>
                 </div>
             </div>

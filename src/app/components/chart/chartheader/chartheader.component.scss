@@ -1,0 +1,12 @@
+@import '../../../../variables';
+
+.chart-header {
+    display: flex;
+    gap: $spacing-md;
+    align-items: center;
+    justify-content: center;
+    margin: $spacing-md;
+    background-color: $subtle-color;
+    color: $secondary-color;
+    padding: $spacing-sm;
+}

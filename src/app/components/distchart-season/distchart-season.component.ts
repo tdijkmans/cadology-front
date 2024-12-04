@@ -8,11 +8,13 @@ import {
 } from "@swimlane/ngx-charts";
 import * as shape from "d3-shape";
 import { theme } from "../../../_variables";
+import { ChartcontainerComponent } from "../chart/chartcontainer/chartcontainer.component";
+import { ChartheaderComponent } from "../chart/chartheader/chartheader.component";
 
 @Component({
   selector: "cad-distchart-season",
   standalone: true,
-  imports: [LineChartModule, CommonModule],
+  imports: [LineChartModule, CommonModule, ChartcontainerComponent, ChartheaderComponent],
   templateUrl: "./distchart-season.component.html",
   styleUrl: "./distchart-season.component.scss",
 })

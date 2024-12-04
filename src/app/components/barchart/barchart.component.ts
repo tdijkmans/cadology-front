@@ -3,19 +3,23 @@ import { NgIconComponent, provideIcons } from "@ng-icons/core";
 import {
   letsArrowLeft,
   letsArrowRight,
+  letsLightningAlt,
   letsSortDown,
   letsSortUp,
-  letsTrophy,
+  letsTrophy
 } from "@ng-icons/lets-icons/regular";
 import { type Color, NgxChartsModule } from "@swimlane/ngx-charts";
 import { theme } from "../../../_variables";
 import type { Lap } from "../../services/dataservice/data.interface";
+import { ChartcontainerComponent } from "../chart/chartcontainer/chartcontainer.component";
+import { ChartheaderComponent } from "../chart/chartheader/chartheader.component";
+import { ChartnavigationComponent } from "../chart/chartnavigation/chartnavigation.component";
 import type { CappedLap } from "./barchart.interface";
 
 @Component({
   selector: "cad-barchart",
   standalone: true,
-  imports: [NgxChartsModule, NgIconComponent],
+  imports: [NgxChartsModule, NgIconComponent, ChartheaderComponent, ChartcontainerComponent, ChartcontainerComponent, ChartheaderComponent, ChartnavigationComponent],
   templateUrl: "./barchart.component.html",
   styleUrl: "./barchart.component.scss",
   viewProviders: [
@@ -25,6 +29,7 @@ import type { CappedLap } from "./barchart.interface";
       letsTrophy,
       letsSortUp,
       letsSortDown,
+      letsLightningAlt
     }),
   ],
 })
@@ -38,29 +43,32 @@ export class BarchartComponent implements OnChanges {
   lapData: CappedLap[] = [];
   selectedLap: (typeof this.lapData)[0] | null = null;
   fastestLap: CappedLap | null = null;
-  progressiveLaps: CappedLap[] = [];
   colors = this.updateColors();
   sortBy: "sequential" | "duration" = "sequential";
   scheme = { domain: [theme.secondarycolor] } as Color;
+  progressiveStreak = [] as CappedLap[];
 
   ngOnChanges(): void {
     this.initializeData();
+    this.progressiveStreak = this.identifyProgressiveStreak();
     this.selectFastesLap();
-    this.identifyProgressiveStreak();
   }
 
-  initializeData() {
+  initializeData(progressiveDelta = 0) {
     const laps = this.laps;
     const twoDecimal = (v: number) => Math.round(v * 100) / 100;
 
     // Process data, storing both capped and original values
-    this.lapData = laps.map((l, index) => {
+    const lapData = laps.map((l, index) => {
       const speed = twoDecimal(l.speed);
       const lapTime = l.duration;
       const originalValue = this.type === "speed" ? speed : lapTime;
       const isCapped = originalValue > this.yScaleMax;
+      const isProgressive = index > 0 && (laps[index].speed + progressiveDelta) > (laps[index - 1].speed);
+
 
       return {
+        isProgressive,
         name: `${index + 1}`,
         value: Math.min(originalValue, this.yScaleMax), // Capped value for display
         originalValue, // Uncapped value for display
@@ -70,6 +78,8 @@ export class BarchartComponent implements OnChanges {
         lapTime,
       };
     });
+
+    this.lapData = lapData
   }
 
   selectFastesLap() {
@@ -80,72 +90,86 @@ export class BarchartComponent implements OnChanges {
     this.onSelect(fastestLap);
   }
 
-  identifyProgressiveStreak(delta = 0.1) {
-    // Identify laps where each lap is faster than the previous by at least delta
-    const progressiveLaps = this.lapData.map((lap, index) => {
-      const previousLap = this.lapData[index - 1];
-      const isProgressive = previousLap
-        ? lap.originalValue - previousLap.originalValue < -delta
-        : false;
+  selectFirstOfLongestStreak() {
 
-      return { isProgressive, ...lap };
-    });
+    this.onSelect(this.progressiveStreak[0]);
+  }
 
-    // Track the longest streak of progressive laps
-    const { longestStreak } = progressiveLaps.reduce<{
-      currentStreak: { value: number; lapIds: string[] };
-      longestStreak: { value: number; lapIds: string[] };
+  identifyProgressiveStreak() {
+    const { longestStreak } = this.lapData.reduce<{
+      currentStreak: { value: number; laps: CappedLap[] };
+      longestStreak: { value: number; laps: CappedLap[] };
     }>(
       (acc, lap) => {
         if (lap.isProgressive) {
-          acc.currentStreak.lapIds.push(lap.name);
+
+          acc.currentStreak.laps.push(lap);
           acc.currentStreak.value += 1;
 
           if (acc.currentStreak.value > acc.longestStreak.value) {
             acc.longestStreak = { ...acc.currentStreak };
           }
         } else {
-          acc.currentStreak = { value: 0, lapIds: [] };
+          acc.currentStreak = { value: 0, laps: [] };
         }
         return acc;
       },
       {
-        currentStreak: { value: 0, lapIds: [] },
-        longestStreak: { value: 0, lapIds: [] },
+        currentStreak: { value: 0, laps: [] },
+        longestStreak: { value: 0, laps: [] },
       },
     );
 
-    console.log("Longest Progressive Streak:", longestStreak);
+    // Prepend the first lap of the longest streak to the lapIds array for display
+    const firstStreakLapId = longestStreak.laps[0].seq - 1;
+    const firstStreakLap = this.lapData.find((l) => l.seq === firstStreakLapId) || {} as CappedLap;
 
-    // Save the progressive laps to the component's state or class property
-    this.progressiveLaps = progressiveLaps;
+    return [firstStreakLap, longestStreak.laps].flat();
+
   }
 
-  onSelect(event: CappedLap): void {
-    this.currentIndex = this.lapData.findIndex((l) => l.name === event.name);
-    this.colors = this.updateColors();
+  onSelect(lap: CappedLap): void {
+    this.currentIndex = this.lapData.findIndex((l) => l.name === lap.name);
     this.selectedLap = this.lapData[this.currentIndex];
+    this.colors = this.updateColors();
   }
 
   updateColors() {
+    const progressiveStreakIds = this.progressiveStreak?.map((l) => l.seq) || [];
+    const fastestLapId = this.fastestLap?.name;
+
+    const getColor = (index: number, lap: CappedLap) => {
+      if (index === this.currentIndex) {
+        return theme.primarycolor
+      }
+      if (progressiveStreakIds.includes(lap.seq)) {
+        return theme.warningcolor
+      };
+
+      if (lap.name === fastestLapId) {
+        return theme.successcolor
+      };
+      return theme.secondarycolor
+    };
+
+
     return this.lapData.map((lap, index) => ({
       name: lap.name,
-      value:
-        index === this.currentIndex ? theme.primarycolor : theme.secondarycolor,
+      value: getColor(index, lap),
     }));
   }
 
   selectNextBar() {
     this.currentIndex = (this.currentIndex + 1) % this.lapData.length;
-    this.colors = this.updateColors();
     this.selectedLap = this.lapData[this.currentIndex];
+    this.colors = this.updateColors();
   }
 
   selectPrevBar() {
     this.currentIndex =
       (this.currentIndex - 1 + this.lapData.length) % this.lapData.length;
-    this.colors = this.updateColors();
     this.selectedLap = this.lapData[this.currentIndex];
+    this.colors = this.updateColors();
   }
 
   toggleSort() {
