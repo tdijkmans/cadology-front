@@ -102,7 +102,7 @@ textarea {
 button,
 .btn {
     display: inline-block;
-    padding: $spacing-sm $spacing-lg;
+    padding: $spacing-sm;
     font-size: $body-font-size;
     font-weight: bold;
     color: #ffffff;
@@ -118,6 +118,11 @@ button,
 
     &:active {
         background-color: darken($primary-color, 10%);
+    }
+
+    @media (min-width: $breakpoint-mobile) {
+        padding: $spacing-md;
+
     }
 }
 
@@ -137,6 +142,39 @@ button,
     &:hover {
         background-color: $primary-color;
         color: #ffffff;
+    }
+}
+
+.btn-subtle {
+    background-color: $subtle-color;
+    color: $secondary-color;
+
+    &:hover {
+        background-color: darken($subtle-color, 10%);
+    }
+
+    &:active {
+        background-color: lighten($secondary-color, 30%);
+    }
+
+    &:focus {
+        background-color: darken($subtle-color, 20%);
+    }
+
+    &:disabled {
+        background-color: $subtle-color;
+        color: $simple-gray;
+        cursor: not-allowed;
+    }
+
+    &:focus-visible {
+        outline: 2px solid $secondary-color;
+        outline-offset: 2px;
+    }
+
+    &:focus-within {
+        outline: 2px solid $secondary-color;
+        outline-offset: 2px;
     }
 }
 
@@ -321,45 +359,4 @@ button,
 .bg-simple-gray {
     background-color: $simple-gray;
     color: $dark-color;
-}
-
-
-
-.chart {
-    &-container {
-        width: 100%;
-        height: 60vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-    }
-
-    &-navigation {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin: $spacing-sm;
-
-        button {
-            background-color: $subtle-color;
-            color: $secondary-color;
-        }
-    }
-
-    &-value {
-        display: flex;
-        gap: $spacing-sm;
-    }
-
-    &-header {
-        display: flex;
-        gap: $spacing-md;
-        align-items: center;
-        justify-content: center;
-        margin: $spacing-md;
-        background-color: $subtle-color;
-        color: $secondary-color;
-        padding: $spacing-sm;
-    }
 }

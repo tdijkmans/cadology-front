@@ -52,15 +52,13 @@ export class HomeComponent {
   chipInput = "";
   isLoading = true;
 
-  chartTab = new BehaviorSubject<ChartTabVariant>("distance");
+  chartTab = new BehaviorSubject<ChartTabVariant>("lapTime");
   seasonTab = new BehaviorSubject<SeasonTabVariant>("progress");
 
   constructor(public d: DataService) {
     this.d.currentData$
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => {
-        this.isLoading = false;
-      });
+      .subscribe(() => { this.isLoading = false; });
   }
 
 

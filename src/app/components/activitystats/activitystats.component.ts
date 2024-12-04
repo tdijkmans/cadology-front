@@ -42,8 +42,9 @@ export class ActivitystatsComponent {
   identifyBoundaries(data: CurrentData) {
     const { curActivities, prevActivities, currentActivity } = data;
     this.currentActivity = currentActivity;
-    this.totalDistance = this.s.distanceFromLapCount(this.currentActivity.laps.length);
-    this.totalTrainingTime = this.s.formattedTime(this.currentActivity.totalTrainingTime);
+    const { laps, activityId, totalTrainingTime } = currentActivity;
+    this.totalDistance = this.s.distanceFromLapCount(laps.length);
+    this.totalTrainingTime = this.s.formattedTime(totalTrainingTime);
     const currentMostRecent = curActivities.sort(
       (a, b) =>
         new Date(b.startTime).getTime() - new Date(a.startTime).getTime(),
@@ -52,9 +53,7 @@ export class ActivitystatsComponent {
       (a, b) =>
         new Date(a.startTime).getTime() - new Date(b.startTime).getTime(),
     )[0];
-    this.isMostRecent =
-      currentMostRecent.activityId === this.currentActivity.activityId;
-    this.isOldest =
-      currentOldest.activityId === this.currentActivity.activityId;
+    this.isMostRecent = currentMostRecent.activityId === activityId;
+    this.isOldest = currentOldest.activityId === activityId;
   }
 }

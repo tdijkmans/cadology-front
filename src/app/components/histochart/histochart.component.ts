@@ -1,21 +1,21 @@
 import { CommonModule } from "@angular/common";
-import { Component, Input, type OnChanges, ViewChild } from "@angular/core";
+import { Component, Input, type OnChanges } from "@angular/core";
 import type { Activity } from "@services/dataservice/data.interface";
 import { StatisticsService } from "@services/statistics/statistics.service";
 import {
   type Color,
-  type LineChartComponent,
-  LineChartModule,
+  LineChartModule
 } from "@swimlane/ngx-charts";
 import * as shape from "d3-shape";
 import { theme } from "../../../_variables";
-import type { ChartTabVariant } from "../../pages/home/home.interface";
+import { ChartcontainerComponent } from "../chart/chartcontainer/chartcontainer.component";
+import { ChartheaderComponent } from "../chart/chartheader/chartheader.component";
 import type { Result } from "./histochart.interface";
 
 @Component({
   selector: "cad-histochart",
   standalone: true,
-  imports: [LineChartModule, CommonModule],
+  imports: [LineChartModule, CommonModule, ChartheaderComponent, ChartcontainerComponent],
   templateUrl: "./histochart.component.html",
   styleUrl: "./histochart.component.scss",
 })
@@ -23,8 +23,6 @@ export class HistochartComponent implements OnChanges {
   @Input({ required: true }) currentActivity: Activity | null = null;
   @Input({ required: true }) prevActivities: Activity[] = [];
   @Input({ required: true }) curActivities: Activity[] = [];
-  @Input({ required: true }) chartTab: ChartTabVariant = "distance";
-  @ViewChild("histoChart") chart: LineChartComponent | null = null;
 
   curve = shape.curveMonotoneX;
   results = [{ name: "", series: [{ name: "", value: 0 }] }] as Result;
@@ -35,7 +33,6 @@ export class HistochartComponent implements OnChanges {
   constructor(private s: StatisticsService) { }
 
   ngOnChanges() {
-    this.chart?.update();
     this.initializeData();
   }
 

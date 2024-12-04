@@ -2,10 +2,8 @@
 
     <ng-container *ngIf="d.currentData$ | async as d">
         <div class="stats-container">
-            <cad-activitystats class='activitystats' />
-
+            <cad-activitystats class='activitystats' *ngIf="d.currentActivity.laps && d.currentActivity.activityId" />
             <div class="stats-dropdown">
-
 
             </div>
         </div>
@@ -35,31 +33,31 @@
                 </button>
             </div>
 
-            <div>
+            <div *ngIf="d.currentActivity.laps">
                 <div class="tab-item" [class.active]="tab === 'lapTime'">
                     <div class="card">
-                        <cad-barchart [chartTab]="tab" [laps]="d.currentActivity.laps" [type]="'lapTime'"
-                            [yScaleMax]="100" [yScaleMin]="25" />
+                        <cad-barchart [laps]="d.currentActivity.laps" [type]="'lapTime'" [yScaleMax]="100"
+                            [yScaleMin]="25" />
                     </div>
                 </div>
 
                 <div class="tab-item" [class.active]="tab === 'speed'">
                     <div class="card">
-                        <cad-barchart [chartTab]="tab" [laps]="d.currentActivity.laps" [type]="'speed'" [yScaleMax]="40"
+                        <cad-barchart [laps]="d.currentActivity.laps" [type]="'speed'" [yScaleMax]="40"
                             [yScaleMin]="5" />
                     </div>
                 </div>
 
                 <div class="tab-item" [class.active]="tab === 'distance'">
                     <div class="card">
-                        <cad-distchart [chartTab]="tab" [currentActivity]="d.currentActivity" />
+                        <cad-distchart [currentActivity]="d.currentActivity" />
                     </div>
                 </div>
 
                 <div class="tab-item" [class.active]="tab === 'season'">
                     <div class="card">
                         <cad-histochart [curActivities]="d.curActivities" [prevActivities]="d.prevActivities"
-                            [currentActivity]="d.currentActivity" [chartTab]="tab" />
+                            [currentActivity]="d.currentActivity" />
                     </div>
                 </div>
 
@@ -83,8 +81,8 @@
 
                 <div class="tab-item" [class.active]="tab === 'progress'">
                     <div class="card">
-                        <cad-distchart-season [curActivities]="d.curActivities" [prevActivities]="d.prevActivities"
-                            [currentActivity]="d.currentActivity" />
+                        <cad-distchart-season *ngIf="d.currentActivity.laps" [curActivities]="d.curActivities"
+                            [prevActivities]="d.prevActivities" [currentActivity]="d.currentActivity" />
                     </div>
                 </div>
             </div>

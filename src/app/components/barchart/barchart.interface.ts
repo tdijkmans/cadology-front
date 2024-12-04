@@ -6,4 +6,5 @@ export interface CappedLap {
     seq: number;
     speed: number;
     lapTime: number;
+    isProgressive: boolean;
 };

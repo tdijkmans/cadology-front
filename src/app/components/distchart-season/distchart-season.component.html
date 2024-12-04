@@ -1,4 +1,4 @@
-<div class="chart-header">
+<cad-chartheader>
     <p class="text-secondary">{{totalDistanceCur | number: '1.0-0'}} km in {{totalTrainingHrCur | number: '1.0-0'}} uur
         (dit seizoen)
     </p>
@@ -6,8 +6,9 @@
     <p class="text-gray">{{totalDistancePrev | number: '1.0-0'}} km in {{totalTrainingHrPrev | number: '1.0-0'}}
         uur (vorig seizoen)
     </p>
-</div>
-<div class="chart-container">
+</cad-chartheader>
+
+<cad-chartcontainer>
     <ngx-charts-line-chart #distChart [scheme]="scheme" [showXAxisLabel]="true" [showYAxisLabel]="true" [xAxis]="true"
         [yAxis]="true" [xAxisLabel]="''" [results]="results" [legend]="false" [legendTitle]="''"
         [tooltipDisabled]="false" [gradient]="false" [xAxisTickFormatting]="xAxisTickFormatting"
@@ -28,4 +29,4 @@
             </div>
         </ng-template>
     </ngx-charts-line-chart>
-</div>
+</cad-chartcontainer>
