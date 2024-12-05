@@ -1,4 +1,4 @@
-<button
+<div
   [ngClass]="{ 'modal-open': ui.modalOpen$ | async, modal: true }"
   (click)="ui.toggleModal()"
 >
@@ -8,6 +8,15 @@
     tabindex="0"
     (keyup)="stopPropagation($event)"
   >
-    <ng-content></ng-content>
+    <ng-container *ngIf="d.currentData$ | async as d">
+      <cad-tabs [tabs]="tabs">
+        <cad-tab [tabId]="'current'">
+          <cad-activitieslist [activities]="d.curActivities" />
+        </cad-tab>
+        <cad-tab [tabId]="'previous'">
+          <cad-activitieslist [activities]="d.prevActivities" />
+        </cad-tab>
+      </cad-tabs>
+    </ng-container>
   </div>
-</button>
+</div>
