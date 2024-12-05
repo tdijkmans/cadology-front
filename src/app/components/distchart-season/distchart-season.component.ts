@@ -1,22 +1,24 @@
-import { CommonModule } from "@angular/common";
-import { Component, Input, OnChanges } from "@angular/core";
-import type { Activity } from "@services/dataservice/data.interface";
-import { StatisticsService } from "@services/statistics/statistics.service";
-import {
-  type Color,
-  LineChartModule
-} from "@swimlane/ngx-charts";
-import * as shape from "d3-shape";
-import { theme } from "../../../_variables";
-import { ChartcontainerComponent } from "../chart/chartcontainer/chartcontainer.component";
-import { ChartheaderComponent } from "../chart/chartheader/chartheader.component";
+import { CommonModule } from '@angular/common';
+import { Component, Input, OnChanges } from '@angular/core';
+import type { Activity } from '@services/dataservice/data.interface';
+import { StatisticsService } from '@services/statistics/statistics.service';
+import { type Color, LineChartModule } from '@swimlane/ngx-charts';
+import * as shape from 'd3-shape';
+import { theme } from '../../../_variables';
+import { ChartcontainerComponent } from '../chart/chartcontainer/chartcontainer.component';
+import { ChartheaderComponent } from '../chart/chartheader/chartheader.component';
 
 @Component({
-  selector: "cad-distchart-season",
+  selector: 'cad-distchart-season',
   standalone: true,
-  imports: [LineChartModule, CommonModule, ChartcontainerComponent, ChartheaderComponent],
-  templateUrl: "./distchart-season.component.html",
-  styleUrl: "./distchart-season.component.scss",
+  imports: [
+    LineChartModule,
+    CommonModule,
+    ChartcontainerComponent,
+    ChartheaderComponent,
+  ],
+  templateUrl: './distchart-season.component.html',
+  styleUrl: './distchart-season.component.scss',
 })
 export class DistchartSeasonComponent implements OnChanges {
   @Input({ required: true }) currentActivity = {} as Activity;
@@ -28,19 +30,19 @@ export class DistchartSeasonComponent implements OnChanges {
   totalDistancePrev = 0;
   totalTrainingHrPrev = 0;
 
-  results = [{ name: "", series: [{ name: 0, value: 0 }] }];
+  results = [{ name: '', series: [{ name: 0, value: 0 }] }];
   scheme = { domain: [theme.secondarycolor, theme.subtlecolor] } as Color;
   curve = shape.curveBasis;
 
-  constructor(private s: StatisticsService) { }
+  constructor(private s: StatisticsService) {}
 
   ngOnChanges(): void {
     this.initializeData();
   }
 
   initializeData() {
-    const cur = this.s.getCumulatingSeasonDistance(this.curActivities,);
-    const prev = this.s.getCumulatingSeasonDistance(this.prevActivities,);
+    const cur = this.s.getCumulatingSeasonDistance(this.curActivities);
+    const prev = this.s.getCumulatingSeasonDistance(this.prevActivities);
 
     this.totalDistanceCur = cur[cur.length - 1].cumulativeDistance;
     this.totalTrainingHrCur =
@@ -54,7 +56,7 @@ export class DistchartSeasonComponent implements OnChanges {
 
     this.results = [
       {
-        name: "Totale afstand",
+        name: 'Totale afstand',
         series: cur.map((d) => ({
           name: d.time - seasonDelta,
           trueDate: d.time,
@@ -63,7 +65,7 @@ export class DistchartSeasonComponent implements OnChanges {
         })),
       },
       {
-        name: "Totale afstand vorig seizoen",
+        name: 'Totale afstand vorig seizoen',
         series: prev.map((d) => ({
           name: d.time,
           trueDate: d.time,
@@ -75,9 +77,9 @@ export class DistchartSeasonComponent implements OnChanges {
   }
 
   xAxisTickFormatting = (date: number): string => {
-    return new Date(date).toLocaleDateString("nl-NL", {
-      month: "short",
-      day: "numeric",
+    return new Date(date).toLocaleDateString('nl-NL', {
+      month: 'short',
+      day: 'numeric',
     });
   };
 

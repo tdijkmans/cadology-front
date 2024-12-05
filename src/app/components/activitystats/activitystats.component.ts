@@ -1,18 +1,21 @@
-import { CommonModule } from "@angular/common";
-import { Component } from "@angular/core";
-import { NgIconComponent, provideIcons } from "@ng-icons/core";
-import { letsArrowLeft, letsArrowRight } from "@ng-icons/lets-icons/regular";
-import type { Activity, CurrentData } from "@services/dataservice/data.interface";
-import { DataService } from "@services/dataservice/data.service";
-import { StatisticsService } from "@services/statistics/statistics.service";
+import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import { letsArrowLeft, letsArrowRight } from '@ng-icons/lets-icons/regular';
+import type {
+  Activity,
+  CurrentData,
+} from '@services/dataservice/data.interface';
+import { DataService } from '@services/dataservice/data.service';
+import { StatisticsService } from '@services/statistics/statistics.service';
 
 @Component({
-  selector: "cad-activitystats",
+  selector: 'cad-activitystats',
   standalone: true,
   imports: [CommonModule, NgIconComponent],
   providers: [StatisticsService],
-  templateUrl: "./activitystats.component.html",
-  styleUrl: "./activitystats.component.scss",
+  templateUrl: './activitystats.component.html',
+  styleUrl: './activitystats.component.scss',
   viewProviders: [provideIcons({ letsArrowRight, letsArrowLeft })],
 })
 export class ActivitystatsComponent {
@@ -20,23 +23,25 @@ export class ActivitystatsComponent {
   isOldest = false;
 
   totalDistance = 0;
-  totalTrainingTime = ["0", "uur"];
+  totalTrainingTime = ['0', 'uur'];
   totalActivities = 0;
   currentActivity = {} as Activity;
 
-  constructor(public d: DataService, public s: StatisticsService) {
+  constructor(
+    public d: DataService,
+    public s: StatisticsService,
+  ) {
     this.d.currentData$.subscribe((data) => {
       this.identifyBoundaries(data);
     });
   }
 
-
   onNext() {
-    this.d.navigateActivity("next").subscribe();
+    this.d.navigateActivity('next').subscribe();
   }
 
   onPrevious() {
-    this.d.navigateActivity("previous").subscribe();
+    this.d.navigateActivity('previous').subscribe();
   }
 
   identifyBoundaries(data: CurrentData) {

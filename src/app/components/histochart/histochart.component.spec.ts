@@ -8,9 +8,8 @@ describe('HistochartComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HistochartComponent]
-    })
-    .compileComponents();
+      imports: [HistochartComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(HistochartComponent);
     component = fixture.componentInstance;

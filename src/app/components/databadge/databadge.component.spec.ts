@@ -8,9 +8,8 @@ describe('DatabadgeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DatabadgeComponent]
-    })
-    .compileComponents();
+      imports: [DatabadgeComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DatabadgeComponent);
     component = fixture.componentInstance;

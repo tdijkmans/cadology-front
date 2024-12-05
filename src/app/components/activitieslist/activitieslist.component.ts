@@ -8,13 +8,11 @@ import { UiService } from '@services/uiservice/ui.service';
 import { Observable } from 'rxjs';
 import type { Activity } from '../../services/dataservice/data.interface';
 
-
 interface ActivityStatus {
   isCurrent: boolean;
   isFastestSpeed: boolean;
   isFastestLap: boolean;
   isMostLaps: boolean;
-
 }
 
 @Component({
@@ -36,14 +34,16 @@ export class ActivitieslistComponent implements OnChanges {
 
   activityStatuses: ActivityStatus[] = [];
 
-  constructor(public d: DataService, public ui: UiService) {
+  constructor(
+    public d: DataService,
+    public ui: UiService,
+  ) {
     this.currentActivity$ = this.d.currentActivity$;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['activities']) {
       this.calculateAchievements(this.activities);
-
     }
   }
 
@@ -56,18 +56,17 @@ export class ActivitieslistComponent implements OnChanges {
     if (activities.length === 0) return;
 
     this.fastestId = activities.reduce((prev, curr) =>
-      (curr.bestLap.speed > prev.bestLap.speed ? curr : prev)).activityId;
-
+      curr.bestLap.speed > prev.bestLap.speed ? curr : prev,
+    ).activityId;
 
     // To ignore tracks of length lower than 400m we use speed to identify the fastest lap
     //  250 meter track is thus ignored
     this.fastestLapId = activities.reduce((prev, curr) =>
-      (curr.bestLap.speed < prev.bestLap.speed ? curr : prev)).activityId;
+      curr.bestLap.speed < prev.bestLap.speed ? curr : prev,
+    ).activityId;
 
     this.mostLapsId = activities.reduce((prev, curr) =>
-      (curr.lapCount > prev.lapCount ? curr : prev)).activityId;
-
+      curr.lapCount > prev.lapCount ? curr : prev,
+    ).activityId;
   }
-
-
 }

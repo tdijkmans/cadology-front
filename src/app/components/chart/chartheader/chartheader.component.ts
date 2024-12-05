@@ -5,8 +5,6 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './chartheader.component.html',
-  styleUrl: './chartheader.component.scss'
+  styleUrl: './chartheader.component.scss',
 })
-export class ChartheaderComponent {
-
-}
+export class ChartheaderComponent {}

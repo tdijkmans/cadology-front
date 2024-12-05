@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import * as posenet from '@tensorflow-models/posenet';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PosenetService {
   private model: posenet.PoseNet | null = null;
@@ -12,7 +11,9 @@ export class PosenetService {
     this.model = await posenet.load();
   }
 
-  async estimatePose(videoElement: HTMLVideoElement): Promise<posenet.Pose | null> {
+  async estimatePose(
+    videoElement: HTMLVideoElement,
+  ): Promise<posenet.Pose | null> {
     if (!this.model) {
       console.error('PoseNet model is not loaded.');
       return null;
@@ -24,7 +25,7 @@ export class PosenetService {
 
   calculateKneeAngle(
     pose: posenet.Pose,
-    side: "left" | "right" = "left",
+    side: 'left' | 'right' = 'left',
     scoreThreshold = 0.5,
   ): number {
     const hipJoint = pose.keypoints.find((k) => k.part === `${side}Hip`);
@@ -55,7 +56,7 @@ export class PosenetService {
   drawPose(
     pose: posenet.Pose,
     ctx: CanvasRenderingContext2D,
-    parts: Record<posenet.Keypoint["part"], string>,
+    parts: Record<posenet.Keypoint['part'], string>,
     scoreThreshold = 0.5,
   ): void {
     // Draw keypoints
@@ -84,6 +85,4 @@ export class PosenetService {
       }
     }
   }
-
-
 }

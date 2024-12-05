@@ -1,54 +1,52 @@
-@import 'variables';
+@import "variables";
 /* You can add global styles to this file, and also import other style files */
 
 // Colors
 :root {
-    --primary-color: #ff4500;
-    /* Bright, sporty orange-red */
-    --secondary-color: #1e90ff;
-    /* Vivid blue for highlights */
-    --background-color: #f4f4f9;
-    /* Light gray background for contrast */
-    --accent-color: #00c853;
-    /* Bright green accent for success messages */
-    --subtle-color: #f9f9f9;
-    /* Very light gray for subtle text or borders */
-    --dark-color: #333333;
-    /* Dark text color for readability */
+  --primary-color: #ff4500;
+  /* Bright, sporty orange-red */
+  --secondary-color: #1e90ff;
+  /* Vivid blue for highlights */
+  --background-color: #f4f4f9;
+  /* Light gray background for contrast */
+  --accent-color: #00c853;
+  /* Bright green accent for success messages */
+  --subtle-color: #f9f9f9;
+  /* Very light gray for subtle text or borders */
+  --dark-color: #333333;
+  /* Dark text color for readability */
 
-    --data-color-primary: #ff5722; // Warm, attention-grabbing orange
-    --data-color-secondary: #42a5f5; // Calm, medium blue for contrast
-    --data-color-tertiary: #66bb6a; // Fresh green for positive or growth-related data
-    --data-color-quaternary: #ab47bc; // Bold purple for standout data points
-    --data-color-quinary: #ffa726; // Bright orange-yellow for highlights or warnings
-    --data-color-senary: #ef5350; // Vivid red for emphasis or critical data
+  --data-color-primary: #ff5722; // Warm, attention-grabbing orange
+  --data-color-secondary: #42a5f5; // Calm, medium blue for contrast
+  --data-color-tertiary: #66bb6a; // Fresh green for positive or growth-related data
+  --data-color-quaternary: #ab47bc; // Bold purple for standout data points
+  --data-color-quinary: #ffa726; // Bright orange-yellow for highlights or warnings
+  --data-color-senary: #ef5350; // Vivid red for emphasis or critical data
 
-    --success-color: #00c853;
-    /* Bright green for success messages */
-    --warning-color: #ffab00;
-    /* Bright yellow for warnings */
-    --error-color: #d32f2f;
-    /* Dark red for error messages */
-
+  --success-color: #00c853;
+  /* Bright green for success messages */
+  --warning-color: #ffab00;
+  /* Bright yellow for warnings */
+  --error-color: #d32f2f;
+  /* Dark red for error messages */
 }
-
 
 // General Reset
 *,
 *::before,
 *::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: $font-family;
-    font-size: $body-font-size;
-    color: $dark-color;
-    background-color: $background-color;
-    line-height: 1.6;
-    overflow-x: hidden;
+  font-family: $font-family;
+  font-size: $body-font-size;
+  color: $dark-color;
+  background-color: $background-color;
+  line-height: 1.6;
+  overflow-x: hidden;
 }
 
 h1,
@@ -57,306 +55,297 @@ h3,
 h4,
 h5,
 h6 {
-    color: $primary-color;
-    font-weight: bold;
-    font-size: $heading-font-size-mob;
+  color: $primary-color;
+  font-weight: bold;
+  font-size: $heading-font-size-mob;
 
-
-    @media screen and (min-width: $breakpoint-mobile) {
-        margin-bottom: $spacing-md;
-        font-size: $heading-font-size;
-    }
-
+  @media screen and (min-width: $breakpoint-mobile) {
+    margin-bottom: $spacing-md;
+    font-size: $heading-font-size;
+  }
 }
 
 a {
-    color: $secondary-color;
-    text-decoration: none;
-    transition: color 0.3s ease;
+  color: $secondary-color;
+  text-decoration: none;
+  transition: color 0.3s ease;
 
-    &:hover {
-        color: darken($secondary-color, 10%);
-    }
+  &:hover {
+    color: darken($secondary-color, 10%);
+  }
 }
 
 // Form Inputs
 input,
 select,
 textarea {
-    width: 100%;
-    padding: $spacing-sm;
-    border: 1px solid #ddd;
-    border-radius: $border-radius-none;
-    font-size: $body-font-size;
-    margin-bottom: $spacing-md;
-    transition: border-color 0.3s ease;
+  width: 100%;
+  padding: $spacing-sm;
+  border: 1px solid #ddd;
+  border-radius: $border-radius-none;
+  font-size: $body-font-size;
+  margin-bottom: $spacing-md;
+  transition: border-color 0.3s ease;
 
-    &:focus {
-        outline: none;
-        border-color: $primary-color;
-        box-shadow: 0 0 5px rgba(255, 69, 0, 0.2);
-    }
+  &:focus {
+    outline: none;
+    border-color: $primary-color;
+    box-shadow: 0 0 5px rgba(255, 69, 0, 0.2);
+  }
 }
 
 // Buttons
 button,
 .btn {
-    display: inline-block;
-    padding: $spacing-sm;
-    font-size: $body-font-size;
-    font-weight: bold;
-    color: #ffffff;
-    background-color: $primary-color;
-    border: none;
-    border-radius: $border-radius-none;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    cursor: pointer;
+  display: inline-block;
+  padding: $spacing-sm;
+  font-size: $body-font-size;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: $primary-color;
+  border: none;
+  border-radius: $border-radius-none;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
+  cursor: pointer;
 
-    &:hover {
-        background-color: lighten($primary-color, 10%);
-    }
+  &:hover {
+    background-color: lighten($primary-color, 10%);
+  }
 
-    &:active {
-        background-color: darken($primary-color, 10%);
-    }
+  &:active {
+    background-color: darken($primary-color, 10%);
+  }
 
-    @media (min-width: $breakpoint-mobile) {
-        padding: $spacing-md;
-
-    }
+  @media (min-width: $breakpoint-mobile) {
+    padding: $spacing-md;
+  }
 }
 
 .btn-secondary {
-    background-color: $secondary-color;
+  background-color: $secondary-color;
 
-    &:hover {
-        background-color: lighten($secondary-color, 10%);
-    }
+  &:hover {
+    background-color: lighten($secondary-color, 10%);
+  }
 }
 
 .btn-inverse {
-    background-color: transparent;
-    color: $primary-color;
-    border: 1px solid $primary-color;
+  background-color: transparent;
+  color: $primary-color;
+  border: 1px solid $primary-color;
 
-    &:hover {
-        background-color: $primary-color;
-        color: #ffffff;
-    }
+  &:hover {
+    background-color: $primary-color;
+    color: #ffffff;
+  }
 }
 
 .btn-subtle {
+  background-color: $subtle-color;
+  color: $secondary-color;
+
+  &:hover {
+    background-color: darken($subtle-color, 10%);
+  }
+
+  &:active {
+    background-color: lighten($secondary-color, 30%);
+  }
+
+  &:focus {
+    background-color: darken($subtle-color, 20%);
+  }
+
+  &:disabled {
     background-color: $subtle-color;
-    color: $secondary-color;
+    color: $simple-gray;
+    cursor: not-allowed;
+  }
 
-    &:hover {
-        background-color: darken($subtle-color, 10%);
-    }
+  &:focus-visible {
+    outline: 2px solid $secondary-color;
+    outline-offset: 2px;
+  }
 
-    &:active {
-        background-color: lighten($secondary-color, 30%);
-    }
-
-    &:focus {
-        background-color: darken($subtle-color, 20%);
-    }
-
-    &:disabled {
-        background-color: $subtle-color;
-        color: $simple-gray;
-        cursor: not-allowed;
-    }
-
-    &:focus-visible {
-        outline: 2px solid $secondary-color;
-        outline-offset: 2px;
-    }
-
-    &:focus-within {
-        outline: 2px solid $secondary-color;
-        outline-offset: 2px;
-    }
+  &:focus-within {
+    outline: 2px solid $secondary-color;
+    outline-offset: 2px;
+  }
 }
 
 // Card Style
 .card {
-    background-color: #ffffff;
-    border-radius: $border-radius-none;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    transition: transform 0.2s ease;
+  background-color: #ffffff;
+  border-radius: $border-radius-none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s ease;
 
-    &:hover {
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  &:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  }
+
+  .card-header {
+    padding: $spacing-sm;
+    font-size: $heading-font-size;
+    text-align: center;
+
+    @media screen and (min-width: $breakpoint-mobile) {
+      font-size: $heading-font-size-mob;
     }
+  }
 
-    .card-header {
-        padding: $spacing-sm;
-        font-size: $heading-font-size;
-        text-align: center;
+  .card-body {
+    font-size: $body-font-size-mob;
 
-        @media screen and (min-width: $breakpoint-mobile) {
-            font-size: $heading-font-size-mob;
-        }
+    @media screen and (min-width: $breakpoint-mobile) {
+      padding: $spacing-md;
+      font-size: $body-font-size;
     }
-
-    .card-body {
-        font-size: $body-font-size-mob;
-
-        @media screen and (min-width: $breakpoint-mobile) {
-            padding: $spacing-md;
-            font-size: $body-font-size;
-        }
-
-
-    }
+  }
 }
 
 .text-primary {
-    color: $primary-color;
+  color: $primary-color;
 }
 
 .text-secondary {
-    color: $secondary-color;
+  color: $secondary-color;
 }
 
 .text-subtle {
-    color: $subtle-color;
+  color: $subtle-color;
 }
 
 .text-gray {
-    color: $simple-gray
+  color: $simple-gray;
 }
 
 .text-dark {
-    color: $dark-color;
+  color: $dark-color;
 }
 
 .text-accent {
-    color: $accent-color;
+  color: $accent-color;
 }
 
 .text-error {
-    color: $error-color;
+  color: $error-color;
 }
 
 .text-success {
-    color: $success-color;
+  color: $success-color;
 }
-
-
-
-
 
 // Utility Classes
 .mt-1 {
-    margin-top: $spacing-sm;
+  margin-top: $spacing-sm;
 }
 
 .mt-2 {
-    margin-top: $spacing-md;
+  margin-top: $spacing-md;
 }
 
 .mb-1 {
-    margin-bottom: $spacing-sm;
+  margin-bottom: $spacing-sm;
 }
 
 .mb-2 {
-    margin-bottom: $spacing-md;
+  margin-bottom: $spacing-md;
 }
 
 .mx-1 {
-    margin-left: $spacing-sm;
-    margin-right: $spacing-sm;
+  margin-left: $spacing-sm;
+  margin-right: $spacing-sm;
 }
 
 .my-1 {
-    margin-top: $spacing-sm;
-    margin-bottom: $spacing-sm;
+  margin-top: $spacing-sm;
+  margin-bottom: $spacing-sm;
 }
 
 .mx-0 {
-    margin-left: 0;
-    margin-right: 0;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .my-0 {
-    margin-top: 0;
-    margin-bottom: 0;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .py-1 {
-    padding-top: $spacing-sm;
-    padding-bottom: $spacing-sm;
+  padding-top: $spacing-sm;
+  padding-bottom: $spacing-sm;
 }
 
-
 .px-1 {
-    padding-left: $spacing-sm;
-    padding-right: $spacing-sm;
+  padding-left: $spacing-sm;
+  padding-right: $spacing-sm;
 }
 
 .px-0 {
-    padding-left: 0;
-    padding-right: 0;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .py-0 {
-    padding-top: 0;
-    padding-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
-
 .text-center {
-    text-align: center;
+  text-align: center;
 }
 
 .text-primary {
-    color: $primary-color;
+  color: $primary-color;
 }
 
 .text-secondary {
-    color: $secondary-color;
+  color: $secondary-color;
 }
 
 .text-accent {
-    color: $accent-color;
+  color: $accent-color;
 }
 
 .text-error {
-    color: $error-color;
+  color: $error-color;
 }
 
 .text-success {
-    color: $success-color;
+  color: $success-color;
 }
 
 .bg-primary {
-    background-color: $primary-color;
-    color: #ffffff;
+  background-color: $primary-color;
+  color: #ffffff;
 }
 
 .bg-secondary {
-    background-color: $secondary-color;
-    color: #ffffff;
+  background-color: $secondary-color;
+  color: #ffffff;
 }
 
 .bg-accent {
-    background-color: $accent-color;
-    color: #ffffff;
+  background-color: $accent-color;
+  color: #ffffff;
 }
 
 .bg-subtle {
-    background-color: $subtle-color;
-    color: $dark-color;
+  background-color: $subtle-color;
+  color: $dark-color;
 }
 
 .bg-dark {
-    background-color: $dark-color;
-    color: #ffffff;
+  background-color: $dark-color;
+  color: #ffffff;
 }
 
 .bg-simple-gray {
-    background-color: $simple-gray;
-    color: $dark-color;
+  background-color: $simple-gray;
+  color: $dark-color;
 }

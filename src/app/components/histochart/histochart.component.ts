@@ -1,23 +1,25 @@
-import { CommonModule } from "@angular/common";
-import { Component, Input, type OnChanges } from "@angular/core";
-import type { Activity } from "@services/dataservice/data.interface";
-import { StatisticsService } from "@services/statistics/statistics.service";
-import {
-  type Color,
-  LineChartModule
-} from "@swimlane/ngx-charts";
-import * as shape from "d3-shape";
-import { theme } from "../../../_variables";
-import { ChartcontainerComponent } from "../chart/chartcontainer/chartcontainer.component";
-import { ChartheaderComponent } from "../chart/chartheader/chartheader.component";
-import type { Result } from "./histochart.interface";
+import { CommonModule } from '@angular/common';
+import { Component, Input, type OnChanges } from '@angular/core';
+import type { Activity } from '@services/dataservice/data.interface';
+import { StatisticsService } from '@services/statistics/statistics.service';
+import { type Color, LineChartModule } from '@swimlane/ngx-charts';
+import * as shape from 'd3-shape';
+import { theme } from '../../../_variables';
+import { ChartcontainerComponent } from '../chart/chartcontainer/chartcontainer.component';
+import { ChartheaderComponent } from '../chart/chartheader/chartheader.component';
+import type { Result } from './histochart.interface';
 
 @Component({
-  selector: "cad-histochart",
+  selector: 'cad-histochart',
   standalone: true,
-  imports: [LineChartModule, CommonModule, ChartheaderComponent, ChartcontainerComponent],
-  templateUrl: "./histochart.component.html",
-  styleUrl: "./histochart.component.scss",
+  imports: [
+    LineChartModule,
+    CommonModule,
+    ChartheaderComponent,
+    ChartcontainerComponent,
+  ],
+  templateUrl: './histochart.component.html',
+  styleUrl: './histochart.component.scss',
 })
 export class HistochartComponent implements OnChanges {
   @Input({ required: true }) currentActivity: Activity | null = null;
@@ -25,12 +27,12 @@ export class HistochartComponent implements OnChanges {
   @Input({ required: true }) curActivities: Activity[] = [];
 
   curve = shape.curveMonotoneX;
-  results = [{ name: "", series: [{ name: "", value: 0 }] }] as Result;
+  results = [{ name: '', series: [{ name: '', value: 0 }] }] as Result;
   scheme = {
     domain: [theme.accentcolor, theme.secondarycolor, theme.subtlecolor],
   } as Color;
 
-  constructor(private s: StatisticsService) { }
+  constructor(private s: StatisticsService) {}
 
   ngOnChanges() {
     this.initializeData();
@@ -51,9 +53,7 @@ export class HistochartComponent implements OnChanges {
 
     const currentSeasonHisto = this.s
       .getBinnedData(
-        curActivities?.flatMap((a) =>
-          a.laps.map((lap) => lap.duration),
-        ) ?? [],
+        curActivities?.flatMap((a) => a.laps.map((lap) => lap.duration)) ?? [],
       )
       .map((lap) => ({
         name: `${lap.bin}`,
@@ -63,9 +63,7 @@ export class HistochartComponent implements OnChanges {
 
     const previousSeasonHisto = this.s
       .getBinnedData(
-        prevActivities?.flatMap((a) =>
-          a.laps.map((lap) => lap.duration),
-        ) ?? [],
+        prevActivities?.flatMap((a) => a.laps.map((lap) => lap.duration)) ?? [],
       )
       .map((lap) => ({
         name: `${lap.bin}`,
@@ -74,9 +72,9 @@ export class HistochartComponent implements OnChanges {
       }));
 
     this.results = [
-      { name: "Deze sessie", series: currentHisto },
-      { name: "Dit seizoen", series: currentSeasonHisto },
-      { name: "Vorig seizoen", series: previousSeasonHisto },
+      { name: 'Deze sessie', series: currentHisto },
+      { name: 'Dit seizoen', series: currentSeasonHisto },
+      { name: 'Vorig seizoen', series: previousSeasonHisto },
     ];
   }
 

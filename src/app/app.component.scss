@@ -1,18 +1,16 @@
-@import '../variables.scss';
+@import "../variables.scss";
 
 .app-content {
-    margin-top: 50px;
+  margin-top: 50px;
 
-    &-void {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        width: 100%;
-        text-align: center;
-        background: #72C6EF;
-        background: linear-gradient(30deg,
-                #aedef6, #bee2ff);
-
-    }
+  &-void {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    text-align: center;
+    background: #72c6ef;
+    background: linear-gradient(30deg, #aedef6, #bee2ff);
+  }
 }

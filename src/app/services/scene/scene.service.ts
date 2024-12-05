@@ -1,10 +1,14 @@
-import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import * as THREE from "three";
-import { type GLTF, GLTFLoader, OrbitControls } from "three/examples/jsm/Addons.js";
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import * as THREE from 'three';
+import {
+  type GLTF,
+  GLTFLoader,
+  OrbitControls,
+} from 'three/examples/jsm/Addons.js';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class SceneService {
   private scene: THREE.Scene;
@@ -21,10 +25,13 @@ export class SceneService {
   }
 
   // https://github.com/code4fukui/three.js_examples/blob/main/webgl_animation_skinning_additive_blending.html#L195
-  public loadGltfModel(path: string, canvas: HTMLCanvasElement): Observable<THREE.Group<THREE.Object3DEventMap>> {
+  public loadGltfModel(
+    path: string,
+    canvas: HTMLCanvasElement,
+  ): Observable<THREE.Group<THREE.Object3DEventMap>> {
     this.initializeScene(canvas);
 
-    window.addEventListener("resize", () => this.handleResize());
+    window.addEventListener('resize', () => this.handleResize());
 
     return new Observable<THREE.Group<THREE.Object3DEventMap>>((observer) => {
       this.gltfLoader.load(path, (gltf) => {
@@ -45,7 +52,9 @@ export class SceneService {
     const gltf = this.model;
     if (!this.mixer) return;
     this.mixer.stopAllAction();
-    const action = gltf.animations.find((animation) => animation.name === name) as THREE.AnimationClip;
+    const action = gltf.animations.find(
+      (animation) => animation.name === name,
+    ) as THREE.AnimationClip;
     this.mixer.clipAction(action).play();
   }
 
@@ -53,7 +62,6 @@ export class SceneService {
     if (!this.mixer) return;
     this.mixer.stopAllAction();
   }
-
 
   private initializeScene(canvas: HTMLCanvasElement): {
     scene: THREE.Scene;
@@ -64,7 +72,12 @@ export class SceneService {
     const { clientWidth, clientHeight } = canvas;
 
     // Camera
-    this.camera = new THREE.PerspectiveCamera(75, clientWidth / clientHeight, 0.1, 1000,);
+    this.camera = new THREE.PerspectiveCamera(
+      75,
+      clientWidth / clientHeight,
+      0.1,
+      1000,
+    );
     this.camera.position.set(-1, 2, 3);
 
     // Renderer
@@ -91,7 +104,12 @@ export class SceneService {
     // Append to DOM
     canvas.appendChild(this.renderer.domElement);
 
-    return { scene: this.scene, camera: this.camera, renderer: this.renderer, mixer: this.mixer };
+    return {
+      scene: this.scene,
+      camera: this.camera,
+      renderer: this.renderer,
+      mixer: this.mixer,
+    };
   }
 
   private addControls(
@@ -111,7 +129,11 @@ export class SceneService {
 
     const orangeHemiHex = 0xf9d71c;
     const blueHemiHex = 0x1e90ff;
-    const hemiLight = new THREE.HemisphereLight(orangeHemiHex, blueHemiHex, 0.5);
+    const hemiLight = new THREE.HemisphereLight(
+      orangeHemiHex,
+      blueHemiHex,
+      0.5,
+    );
     hemiLight.position.set(10, 20, 10);
     this.scene.add(hemiLight);
   }
@@ -131,8 +153,6 @@ export class SceneService {
     ground.receiveShadow = true;
     this.scene.add(ground);
   }
-
-
 
   public renderScene(): void {
     const delta = this.clock.getDelta();
@@ -154,7 +174,7 @@ export class SceneService {
 
   public cleanup(): void {
     // Clean up event listeners
-    window.removeEventListener("resize", this.handleResize);
+    window.removeEventListener('resize', this.handleResize);
 
     // Dispose of Three.js objects
     this.scene.traverse((object) => {

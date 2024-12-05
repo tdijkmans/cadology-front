@@ -1,13 +1,18 @@
 <div class="page">
-    <ng-content *ngIf="!(isLoading) else loadingTemplate"></ng-content>
+  <ng-content *ngIf="!isLoading; else loadingTemplate"></ng-content>
 
-    <ng-template #loadingTemplate>
-        <div class="loading">
-            <svg width="100px" height="50px" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="0" y="0" width="100px" height="50px" class="above-zero" />
-                <rect x="0" y="0" width="100px" height="50px" class="zero-container" />
-            </svg>
-            <span class="loading-text">laden...</span>
-        </div>
-    </ng-template>
+  <ng-template #loadingTemplate>
+    <div class="loading">
+      <svg
+        width="100px"
+        height="50px"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect x="0" y="0" width="100px" height="50px" class="above-zero" />
+        <rect x="0" y="0" width="100px" height="50px" class="zero-container" />
+      </svg>
+      <span class="loading-text">laden...</span>
+    </div>
+  </ng-template>
 </div>

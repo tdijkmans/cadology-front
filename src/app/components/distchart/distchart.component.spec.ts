@@ -8,9 +8,8 @@ describe('DistchartComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DistchartComponent]
-    })
-    .compileComponents();
+      imports: [DistchartComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DistchartComponent);
     component = fixture.componentInstance;

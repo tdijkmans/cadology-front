@@ -1,5 +1,5 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import {
   BehaviorSubject,
   catchError,
@@ -7,14 +7,14 @@ import {
   map,
   mergeMap,
   of,
-  tap
-} from "rxjs";
-import { environment } from "../../../environments/environment";
-import type { Activity, Data, SeasonsResponse } from "./data.interface";
+  tap,
+} from 'rxjs';
+import { environment } from '../../../environments/environment';
+import type { Activity, Data, SeasonsResponse } from './data.interface';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class DataService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   private data = new BehaviorSubject<Data>({
     currentActivity: {} as Activity,
@@ -22,6 +22,12 @@ export class DataService {
   });
 
   private data$ = this.data.asObservable();
+
+  private status = new BehaviorSubject<'loading' | 'loaded' | 'error'>(
+    'loading',
+  );
+
+  public status$ = this.status.asObservable();
 
   public currentActivity$ = this.data.asObservable().pipe(
     map(({ currentActivity: activity }) => activity),
@@ -33,10 +39,10 @@ export class DataService {
     map((activities) => {
       const currentActivity = this.data.value.currentActivity;
       const curActivities = activities.filter(
-        (a) => a.season === "currentSeasonActivities",
+        (a) => a.season === 'currentSeasonActivities',
       );
       const prevActivities = activities.filter(
-        (a) => a.season === "previousSeasonActivities",
+        (a) => a.season === 'previousSeasonActivities',
       );
 
       return { currentActivity, curActivities, prevActivities };
@@ -45,7 +51,7 @@ export class DataService {
 
   public setCurrentActivity(activity: Activity) {
     if (!activity) {
-      console.error("No activity provided");
+      console.error('No activity provided');
       return;
     }
     this.data.next({
@@ -61,7 +67,7 @@ export class DataService {
     });
   }
 
-  public navigateActivity(direction: "next" | "previous") {
+  public navigateActivity(direction: 'next' | 'previous') {
     return this.data$.pipe(
       map((data) => data.activities),
       distinctUntilChanged(),
@@ -69,8 +75,8 @@ export class DataService {
         const currentActivity = this.data.value.currentActivity;
 
         if (!activities || !currentActivity) {
-          console.error("No activities or current activity found");
-          return
+          console.error('No activities or current activity found');
+          return;
         }
 
         const currentIndex = activities.findIndex(
@@ -78,14 +84,14 @@ export class DataService {
         );
 
         const newIndex =
-          direction === "previous"
+          direction === 'previous'
             ? (currentIndex + 1) % activities.length
             : (currentIndex - 1 + activities.length) % activities.length;
 
         const newActivity = activities[newIndex];
 
         if (!newActivity) {
-          console.error("No activity found");
+          console.error('No activity found');
           return;
         }
 
@@ -95,7 +101,8 @@ export class DataService {
   }
 
   public init = (chipCode: string) => {
-    this.setItem("chipCode", chipCode);
+    this.status.next('loading');
+    this.setItem('chipCode', chipCode);
 
     return this.fetchCurrentSeasonActivities({ chipCode }).pipe(
       mergeMap((currentActivities) => {
@@ -119,6 +126,7 @@ export class DataService {
             });
 
             this.setAllActivities(sortedActivities);
+            this.status.next('loaded');
           }),
         );
       }),
@@ -165,7 +173,7 @@ export class DataService {
     // Convert expiration time from minutes to milliseconds (default: 15 minutes)
     const expiration = expirationMin * 60 * 1000;
 
-    if (key === "chipCode") {
+    if (key === 'chipCode') {
       // Store chipCode without expiration
       localStorage.setItem(key, JSON.stringify(value));
     } else {
@@ -187,7 +195,7 @@ export class DataService {
       const serializedValue = localStorage.getItem(key);
       if (!serializedValue) return null;
 
-      if (key === "chipCode") {
+      if (key === 'chipCode') {
         // Return chipCode without checking expiration
         return JSON.parse(serializedValue);
       }
@@ -225,13 +233,13 @@ export class DataService {
 
   clearLocalStorage(): void {
     try {
-      const chipCode = localStorage.getItem("chipCode");
+      const chipCode = localStorage.getItem('chipCode');
       localStorage.clear();
       if (chipCode) {
-        localStorage.setItem("chipCode", chipCode);
+        localStorage.setItem('chipCode', chipCode);
       }
     } catch (error) {
-      console.error("Error clearing localStorage:", error);
+      console.error('Error clearing localStorage:', error);
     }
   }
 }

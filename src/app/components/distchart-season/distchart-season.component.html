@@ -1,32 +1,50 @@
 <cad-chartheader>
-    <p class="text-secondary">{{totalDistanceCur | number: '1.0-0'}} km in {{totalTrainingHrCur | number: '1.0-0'}} uur
-        (dit seizoen)
-    </p>
+  <p class="text-secondary">
+    {{ totalDistanceCur | number: "1.0-0" }} km in
+    {{ totalTrainingHrCur | number: "1.0-0" }} uur (dit seizoen)
+  </p>
 
-    <p class="text-gray">{{totalDistancePrev | number: '1.0-0'}} km in {{totalTrainingHrPrev | number: '1.0-0'}}
-        uur (vorig seizoen)
-    </p>
+  <p class="text-gray">
+    {{ totalDistancePrev | number: "1.0-0" }} km in
+    {{ totalTrainingHrPrev | number: "1.0-0" }}
+    uur (vorig seizoen)
+  </p>
 </cad-chartheader>
 
 <cad-chartcontainer>
-    <ngx-charts-line-chart #distChart [scheme]="scheme" [showXAxisLabel]="true" [showYAxisLabel]="true" [xAxis]="true"
-        [yAxis]="true" [xAxisLabel]="''" [results]="results" [legend]="false" [legendTitle]="''"
-        [tooltipDisabled]="false" [gradient]="false" [xAxisTickFormatting]="xAxisTickFormatting"
-        [yAxisTickFormatting]="yAxisTickFormatting">
+  <ngx-charts-line-chart
+    #distChart
+    [scheme]="scheme"
+    [showXAxisLabel]="true"
+    [showYAxisLabel]="true"
+    [xAxis]="true"
+    [yAxis]="true"
+    [xAxisLabel]="''"
+    [results]="results"
+    [legend]="false"
+    [legendTitle]="''"
+    [tooltipDisabled]="false"
+    [gradient]="false"
+    [xAxisTickFormatting]="xAxisTickFormatting"
+    [yAxisTickFormatting]="yAxisTickFormatting"
+  >
+    <ng-template #tooltipTemplate let-model="model">
+      <div class="tooltip-container">
+        <div class="tooltip-label">
+          {{ model.trueDate | date: "EEEE d MMMM y" }}
+        </div>
+        <div class="tooltip-label">{{ model.value }} km</div>
+      </div>
+    </ng-template>
 
-        <ng-template #tooltipTemplate let-model="model">
-            <div class="tooltip-container">
-                <div class="tooltip-label">{{model.trueDate | date:'EEEE d MMMM y'}}</div>
-                <div class="tooltip-label">{{model.value}} km</div>
-            </div>
-        </ng-template>
-
-        <ng-template #seriesTooltipTemplate let-model="model">
-            <div class="tooltip-container">
-                <div class="tooltip-label">{{model[0].trueDate | date:'EEEE d MMMM y'}}</div>
-                <div class="tooltip-label">{{model[0].value}} km</div>
-                <div class="tooltip-label">{{model[0].customText}}</div>
-            </div>
-        </ng-template>
-    </ngx-charts-line-chart>
+    <ng-template #seriesTooltipTemplate let-model="model">
+      <div class="tooltip-container">
+        <div class="tooltip-label">
+          {{ model[0].trueDate | date: "EEEE d MMMM y" }}
+        </div>
+        <div class="tooltip-label">{{ model[0].value }} km</div>
+        <div class="tooltip-label">{{ model[0].customText }}</div>
+      </div>
+    </ng-template>
+  </ngx-charts-line-chart>
 </cad-chartcontainer>

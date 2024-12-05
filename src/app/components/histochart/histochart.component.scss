@@ -1,22 +1,22 @@
-@import '../../../variables.scss';
+@import "../../../variables.scss";
 
 .histo-legend {
+  display: flex;
+  gap: $spacing-md;
+  align-items: center;
+  justify-content: center;
+
+  &-item {
     display: flex;
-    gap: $spacing-md;
+    gap: $spacing-sm;
     align-items: center;
     justify-content: center;
 
-    &-item {
-        display: flex;
-        gap: $spacing-sm;
-        align-items: center;
-        justify-content: center;
-
-        &-color {
-            width: 1rem;
-            height: 1rem;
-            border-radius: 50%;
-            aspect-ratio: 1;
-        }
+    &-color {
+      width: 1rem;
+      height: 1rem;
+      border-radius: 50%;
+      aspect-ratio: 1;
     }
+  }
 }

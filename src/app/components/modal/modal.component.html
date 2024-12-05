@@ -1,0 +1,13 @@
+<button
+  [ngClass]="{ 'modal-open': ui.modalOpen$ | async, modal: true }"
+  (click)="ui.toggleModal()"
+>
+  <div
+    class="modal-content"
+    (click)="stopPropagation($event)"
+    tabindex="0"
+    (keyup)="stopPropagation($event)"
+  >
+    <ng-content></ng-content>
+  </div>
+</button>

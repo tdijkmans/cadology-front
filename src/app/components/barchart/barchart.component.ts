@@ -1,27 +1,35 @@
-import { Component, Input, type OnChanges } from "@angular/core";
-import { NgIconComponent, provideIcons } from "@ng-icons/core";
+import { Component, Input, type OnChanges } from '@angular/core';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import {
   letsArrowLeft,
   letsArrowRight,
   letsLightningAlt,
   letsSortDown,
   letsSortUp,
-  letsTrophy
-} from "@ng-icons/lets-icons/regular";
-import { type Color, NgxChartsModule } from "@swimlane/ngx-charts";
-import { theme } from "../../../_variables";
-import type { Lap } from "../../services/dataservice/data.interface";
-import { ChartcontainerComponent } from "../chart/chartcontainer/chartcontainer.component";
-import { ChartheaderComponent } from "../chart/chartheader/chartheader.component";
-import { ChartnavigationComponent } from "../chart/chartnavigation/chartnavigation.component";
-import type { CappedLap } from "./barchart.interface";
+  letsTrophy,
+} from '@ng-icons/lets-icons/regular';
+import { type Color, NgxChartsModule } from '@swimlane/ngx-charts';
+import { theme } from '../../../_variables';
+import type { Lap } from '../../services/dataservice/data.interface';
+import { ChartcontainerComponent } from '../chart/chartcontainer/chartcontainer.component';
+import { ChartheaderComponent } from '../chart/chartheader/chartheader.component';
+import { ChartnavigationComponent } from '../chart/chartnavigation/chartnavigation.component';
+import type { CappedLap } from './barchart.interface';
 
 @Component({
-  selector: "cad-barchart",
+  selector: 'cad-barchart',
   standalone: true,
-  imports: [NgxChartsModule, NgIconComponent, ChartheaderComponent, ChartcontainerComponent, ChartcontainerComponent, ChartheaderComponent, ChartnavigationComponent],
-  templateUrl: "./barchart.component.html",
-  styleUrl: "./barchart.component.scss",
+  imports: [
+    NgxChartsModule,
+    NgIconComponent,
+    ChartheaderComponent,
+    ChartcontainerComponent,
+    ChartcontainerComponent,
+    ChartheaderComponent,
+    ChartnavigationComponent,
+  ],
+  templateUrl: './barchart.component.html',
+  styleUrl: './barchart.component.scss',
   viewProviders: [
     provideIcons({
       letsArrowRight,
@@ -29,13 +37,13 @@ import type { CappedLap } from "./barchart.interface";
       letsTrophy,
       letsSortUp,
       letsSortDown,
-      letsLightningAlt
+      letsLightningAlt,
     }),
   ],
 })
 export class BarchartComponent implements OnChanges {
   @Input({ required: true }) laps: Lap[] = [];
-  @Input({ required: true }) type: "speed" | "lapTime" = "lapTime";
+  @Input({ required: true }) type: 'speed' | 'lapTime' = 'lapTime';
   @Input({ required: true }) yScaleMax = 0;
   @Input({ required: true }) yScaleMin = 0;
 
@@ -44,7 +52,7 @@ export class BarchartComponent implements OnChanges {
   selectedLap: (typeof this.lapData)[0] | null = null;
   fastestLap: CappedLap | null = null;
   colors = this.updateColors();
-  sortBy: "sequential" | "duration" = "sequential";
+  sortBy: 'sequential' | 'duration' = 'sequential';
   scheme = { domain: [theme.secondarycolor] } as Color;
   progressiveStreak = [] as CappedLap[];
 
@@ -62,10 +70,11 @@ export class BarchartComponent implements OnChanges {
     const lapData = laps.map((l, index) => {
       const speed = twoDecimal(l.speed);
       const lapTime = l.duration;
-      const originalValue = this.type === "speed" ? speed : lapTime;
+      const originalValue = this.type === 'speed' ? speed : lapTime;
       const isCapped = originalValue > this.yScaleMax;
-      const isProgressive = index > 0 && (laps[index].speed + progressiveDelta) > (laps[index - 1].speed);
-
+      const isProgressive =
+        index > 0 &&
+        laps[index].speed + progressiveDelta > laps[index - 1].speed;
 
       return {
         isProgressive,
@@ -79,7 +88,7 @@ export class BarchartComponent implements OnChanges {
       };
     });
 
-    this.lapData = lapData
+    this.lapData = lapData;
   }
 
   selectFastesLap() {
@@ -91,7 +100,6 @@ export class BarchartComponent implements OnChanges {
   }
 
   selectFirstOfLongestStreak() {
-
     this.onSelect(this.progressiveStreak[0]);
   }
 
@@ -102,7 +110,6 @@ export class BarchartComponent implements OnChanges {
     }>(
       (acc, lap) => {
         if (lap.isProgressive) {
-
           acc.currentStreak.laps.push(lap);
           acc.currentStreak.value += 1;
 
@@ -122,10 +129,10 @@ export class BarchartComponent implements OnChanges {
 
     // Prepend the first lap of the longest streak to the lapIds array for display
     const firstStreakLapId = longestStreak.laps[0].seq - 1;
-    const firstStreakLap = this.lapData.find((l) => l.seq === firstStreakLapId) || {} as CappedLap;
+    const firstStreakLap =
+      this.lapData.find((l) => l.seq === firstStreakLapId) || ({} as CappedLap);
 
     return [firstStreakLap, longestStreak.laps].flat();
-
   }
 
   onSelect(lap: CappedLap): void {
@@ -135,23 +142,23 @@ export class BarchartComponent implements OnChanges {
   }
 
   updateColors() {
-    const progressiveStreakIds = this.progressiveStreak?.map((l) => l.seq) || [];
+    const progressiveStreakIds =
+      this.progressiveStreak?.map((l) => l.seq) || [];
     const fastestLapId = this.fastestLap?.name;
 
     const getColor = (index: number, lap: CappedLap) => {
       if (index === this.currentIndex) {
-        return theme.primarycolor
+        return theme.primarycolor;
       }
       if (progressiveStreakIds.includes(lap.seq)) {
-        return theme.warningcolor
-      };
+        return theme.warningcolor;
+      }
 
       if (lap.name === fastestLapId) {
-        return theme.successcolor
-      };
-      return theme.secondarycolor
+        return theme.successcolor;
+      }
+      return theme.secondarycolor;
     };
-
 
     return this.lapData.map((lap, index) => ({
       name: lap.name,
@@ -174,14 +181,14 @@ export class BarchartComponent implements OnChanges {
 
   toggleSort() {
     if (this.lapData.length < 2) {
-      console.error("No data to sort");
+      console.error('No data to sort');
       return;
     }
-    this.sortBy = this.sortBy === "sequential" ? "duration" : "sequential";
+    this.sortBy = this.sortBy === 'sequential' ? 'duration' : 'sequential';
     const { name } = this.selectedLap || this.lapData[0];
 
     const results =
-      this.sortBy === "sequential"
+      this.sortBy === 'sequential'
         ? [...this.lapData].sort((a, b) => a.seq - b.seq)
         : [...this.lapData].sort((a, b) => a.value - b.value);
 

@@ -8,9 +8,8 @@ describe('AngleGaugeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AngleGaugeComponent]
-    })
-    .compileComponents();
+      imports: [AngleGaugeComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(AngleGaugeComponent);
     component = fixture.componentInstance;

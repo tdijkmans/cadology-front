@@ -6,10 +6,9 @@ import { Component, Input } from '@angular/core';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './circle-badge.component.html',
-  styleUrl: './circle-badge.component.scss'
+  styleUrl: './circle-badge.component.scss',
 })
 export class CircleBadgeComponent {
   @Input({ required: true }) count = 0;
   @Input() active = false;
-
 }

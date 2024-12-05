@@ -1,17 +1,17 @@
-import { CommonModule } from "@angular/common";
-import { Component, DestroyRef, OnInit, inject } from "@angular/core";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { ActivatedRoute, RouterOutlet } from "@angular/router";
-import { AppMenuComponent } from "@components/app-menu/app-menu.component";
-import { DataService } from "@services/dataservice/data.service";
-import { Observable, combineLatest, distinctUntilChanged, map, of } from "rxjs";
+import { CommonModule } from '@angular/common';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, RouterOutlet } from '@angular/router';
+import { AppMenuComponent } from '@components/app-menu/app-menu.component';
+import { DataService } from '@services/dataservice/data.service';
+import { Observable, combineLatest, distinctUntilChanged, map, of } from 'rxjs';
 
 @Component({
-  selector: "cad-root",
+  selector: 'cad-root',
   standalone: true,
   imports: [AppMenuComponent, RouterOutlet, CommonModule],
-  templateUrl: "./app.component.html",
-  styleUrl: "./app.component.scss",
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
@@ -20,16 +20,16 @@ export class AppComponent implements OnInit {
   constructor(
     private d: DataService,
     private r: ActivatedRoute,
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.initApp();
   }
 
   initApp() {
-    const localChipCode$ = of(this.d.getItem<string>("chipCode"));
+    const localChipCode$ = of(this.d.getItem<string>('chipCode'));
     const routeChipCode$ = this.r.queryParams.pipe<string>(
-      map((params) => params["transponder"]),
+      map((params) => params['transponder']),
     );
 
     combineLatest([routeChipCode$, localChipCode$])

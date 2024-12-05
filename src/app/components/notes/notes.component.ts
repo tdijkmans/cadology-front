@@ -19,9 +19,7 @@ export class NotesComponent {
   notes: string[] = [];
   note = '';
 
-
   addNote() {
     this.notes.push(this.note);
   }
-
 }

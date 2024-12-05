@@ -4,16 +4,16 @@ import { HomeComponent } from '@pages/home/home.component';
 import { VideoComponent } from '@pages/video/video.component';
 
 export const routes: Routes = [
-    {
-        path: 'canvas',
-        component: CanvasComponent
-    },
-    {
-        path: 'video',
-        component: VideoComponent
-    },
-    {
-        path: '',
-        component: HomeComponent
-    }
+  {
+    path: 'canvas',
+    component: CanvasComponent,
+  },
+  {
+    path: 'video',
+    component: VideoComponent,
+  },
+  {
+    path: '',
+    component: HomeComponent,
+  },
 ];

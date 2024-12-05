@@ -1,10 +1,14 @@
-import { Injectable } from "@angular/core";
-import { Activity, Lap } from "@services/dataservice/data.interface";
+import { Injectable } from '@angular/core';
+import { Activity, Lap } from '@services/dataservice/data.interface';
 
-interface Bin { bin: number; count: number; normalizedCount: number };
+interface Bin {
+  bin: number;
+  count: number;
+  normalizedCount: number;
+}
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class StatisticsService {
   TRACK_LENGTH = 0.38418 as const;
@@ -89,11 +93,11 @@ export class StatisticsService {
 
   public formattedTime(totalTrainingTime: string | undefined) {
     if (!totalTrainingTime) {
-      return ["0", "uur"];
+      return ['0', 'uur'];
     }
-    const time = totalTrainingTime?.split(".")[0];
-    const numberOfColons = time?.split(":").length;
-    return numberOfColons === 2 ? [time, "minuten"] : [time, "uur"];
+    const time = totalTrainingTime?.split('.')[0];
+    const numberOfColons = time?.split(':').length;
+    return numberOfColons === 2 ? [time, 'minuten'] : [time, 'uur'];
   }
 
   public distanceFromLapCount(lapCount: number) {

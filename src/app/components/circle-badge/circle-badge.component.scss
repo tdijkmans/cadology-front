@@ -1,19 +1,18 @@
-@import '../../../variables.scss';
+@import "../../../variables.scss";
 
 .circle-badge {
-    background-color: $simple-gray;
-    border-radius: 50%;
-    color: #fff;
-    display: inline-block;
-    line-height: 24px;
-    height: 24px;
-    width: 24px;
-    font-size: 12px;
-    transition: background-color 0.3s;
+  background-color: $simple-gray;
+  border-radius: 50%;
+  color: #fff;
+  display: inline-block;
+  line-height: 24px;
+  height: 24px;
+  width: 24px;
+  font-size: 12px;
+  transition: background-color 0.3s;
 
-
-    // active is secondary
-    &.active {
-        background-color: $secondary-color
-    }
+  // active is secondary
+  &.active {
+    background-color: $secondary-color;
+  }
 }

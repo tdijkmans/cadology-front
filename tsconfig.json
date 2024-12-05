@@ -20,28 +20,17 @@
     "target": "ES2022",
     "module": "ES2022",
     "paths": {
-      "@services/*": [
-        "./src/app/services/*"
-      ],
-      "@components/*": [
-        "./src/app/components/*"
-      ],
-      "@models/*": [
-        "./src/app/models/*"
-      ],
-      "@pages/*": [
-        "./src/app/pages/*"
-      ],
+      "@services/*": ["./src/app/services/*"],
+      "@components/*": ["./src/app/components/*"],
+      "@models/*": ["./src/app/models/*"],
+      "@pages/*": ["./src/app/pages/*"]
     },
-    "lib": [
-      "ES2022",
-      "dom"
-    ]
+    "lib": ["ES2022", "dom"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
-  },
+  }
 }

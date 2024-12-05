@@ -1,74 +1,97 @@
 <div class="menu-bar px-1 py-1">
-    <span class="menu-bar-item text-secondary mx-1">🧊🧊 Mijn IJstijden</span>
+  <span class="menu-bar-item text-secondary mx-1">🧊🧊 Mijn IJstijden</span>
 
-    <div class="menu-bar-item">
-        <button class="menu-bar-item text-secondary mx-1" (click)="ui.toggleModal()">
-            <ng-icon name="letsCalendar" size="24" />
-        </button>
-        <button class="menu-bar-item text-secondary mx-1" (click)="ui.toggleDrawer()">
-            <ng-icon name="letsMenu" size="24" />
-        </button>
-    </div>
-
-    <button [ngClass]="{ 'modal-open': ui.modalOpen$ |async , 'modal':true }" (click)="ui.toggleModal()">
-        <div class="modal-content" (click)="stopPropagation($event)" tabindex="0" (keyup)="stopPropagation($event)">
-            <ng-container *ngIf="d.currentData$ | async as d">
-                <ng-container *ngIf="(seasonTab | async) as tab">
-                    <div class="tab-container">
-                        <button class="tab" [class.active]="tab === 'current'" (click)="setSeasonTab('current')">
-                            Dit seizoen
-                            <cad-circle-badge [count]="d.curActivities.length" [active]="tab === 'current'" />
-                        </button>
-                        <button class="tab" [class.active]="tab === 'previous'" (click)="setSeasonTab('previous')">
-                            Vorig seizoen
-                            <cad-circle-badge [count]="d.prevActivities.length" [active]="tab === 'previous'" />
-                        </button>
-
-                    </div>
-
-                    <div>
-                        <div class="tab-item" [class.active]="tab === 'current'">
-                            <cad-activitieslist [activities]="d.curActivities" />
-                        </div>
-                        <div class="tab-item" [class.active]="tab === 'previous'">
-                            <cad-activitieslist [activities]="d.prevActivities" />
-                        </div>
-
-                    </div>
-
-                </ng-container>
-            </ng-container>
-
-
-
-        </div>
+  <div class="menu-bar-item">
+    <button
+      class="menu-bar-item text-secondary mx-1"
+      (click)="ui.toggleModal()"
+    >
+      <ng-icon name="letsCalendar" size="24" />
     </button>
+    <button
+      class="menu-bar-item text-secondary mx-1"
+      (click)="ui.toggleDrawer()"
+    >
+      <ng-icon name="letsMenu" size="24" />
+    </button>
+  </div>
 
-    <div *ngIf="ui.drawerOpen$ |async" class="overlay" (click)="ui.toggleDrawer()" tabindex="0"
-        (keyup)="ui.toggleDrawer()"></div>
-
-    <div class="menu" [ngClass]="{ 'menu--open': ui.drawerOpen$ |async }">
-        <div>
-            <button class="menu-item" (click)="ui.toggleDrawer()">
-                Terug <ng-icon name="letsArrowRight" size="24" color="--primay-color" />
-            </button>
-            <form>
-                <label for="textInput" hidden>Transponder</label>
-                <input type="text" id="textInput" [(ngModel)]="chipInput" name="textInput"
-                    placeholder="Transponder, bijv. 'AB-12345'">
-            </form>
-            <button (click)="onClick(chipInput)">Ophalen</button>
-            <span class="text-error mx-1" *ngIf="errorMessage">
-                {{errorMessage}}
-            </span>
-
-            <nav class="menu-nav">
-                <a href="/">Home</a>
-                <a href="/canvas">Canvas</a>
-                <a href="/video">Video</a>
-            </nav>
+  <cad-modal>
+    <ng-container *ngIf="d.currentData$ | async as d">
+      <ng-container *ngIf="seasonTab | async as tab">
+        <div class="tab-container">
+          <button
+            class="tab"
+            [class.active]="tab === 'current'"
+            (click)="setSeasonTab('current')"
+          >
+            Dit seizoen
+            <cad-circle-badge
+              [count]="d.curActivities.length"
+              [active]="tab === 'current'"
+            />
+          </button>
+          <button
+            class="tab"
+            [class.active]="tab === 'previous'"
+            (click)="setSeasonTab('previous')"
+          >
+            Vorig seizoen
+            <cad-circle-badge
+              [count]="d.prevActivities.length"
+              [active]="tab === 'previous'"
+            />
+          </button>
         </div>
-        <button (click)="clearCache()" class="btn-inverse">Cache verwijderen</button>
-    </div>
 
+        <div>
+          <div class="tab-item" [class.active]="tab === 'current'">
+            <cad-activitieslist [activities]="d.curActivities" />
+          </div>
+          <div class="tab-item" [class.active]="tab === 'previous'">
+            <cad-activitieslist [activities]="d.prevActivities" />
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+  </cad-modal>
+
+  <div
+    *ngIf="ui.drawerOpen$ | async"
+    class="overlay"
+    (click)="ui.toggleDrawer()"
+    tabindex="0"
+    (keyup)="ui.toggleDrawer()"
+  ></div>
+
+  <div class="menu" [ngClass]="{ 'menu--open': ui.drawerOpen$ | async }">
+    <div>
+      <button class="menu-item" (click)="ui.toggleDrawer()">
+        Terug <ng-icon name="letsArrowRight" size="24" color="--primay-color" />
+      </button>
+      <form>
+        <label for="textInput" hidden>Transponder</label>
+        <input
+          type="text"
+          id="textInput"
+          [(ngModel)]="chipInput"
+          name="textInput"
+          placeholder="Transponder, bijv. 'AB-12345'"
+        />
+      </form>
+      <button (click)="onClick(chipInput)">Ophalen</button>
+      <span class="text-error mx-1" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </span>
+
+      <nav class="menu-nav">
+        <a href="/">Home</a>
+        <a href="/canvas">Canvas</a>
+        <a href="/video">Video</a>
+      </nav>
+    </div>
+    <button (click)="clearCache()" class="btn-inverse">
+      Cache verwijderen
+    </button>
+  </div>
 </div>

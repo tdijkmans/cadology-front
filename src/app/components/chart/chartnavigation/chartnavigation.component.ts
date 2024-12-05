@@ -5,8 +5,6 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './chartnavigation.component.html',
-  styleUrl: './chartnavigation.component.scss'
+  styleUrl: './chartnavigation.component.scss',
 })
-export class ChartnavigationComponent {
-
-}
+export class ChartnavigationComponent {}

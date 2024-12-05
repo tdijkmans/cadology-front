@@ -8,9 +8,8 @@ describe('ChartheaderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ChartheaderComponent]
-    })
-    .compileComponents();
+      imports: [ChartheaderComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ChartheaderComponent);
     component = fixture.componentInstance;

@@ -1,102 +1,101 @@
-@import '../../../variables.scss';
+@import "../../../variables.scss";
 
 .as-data-badge {
-    color: $dark-color;
-    font-weight: bold;
-    padding: $spacing-sm $spacing-sm;
-    border-radius: $border-radius-none;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    border: 1px solid $accent-color;
+  color: $dark-color;
+  font-weight: bold;
+  padding: $spacing-sm $spacing-sm;
+  border-radius: $border-radius-none;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  border: 1px solid $accent-color;
 
-    @media (min-width: $breakpoint-mobile) {
-        padding: $spacing-sm $spacing-md;
-        max-width: 100%;
-    }
+  @media (min-width: $breakpoint-mobile) {
+    padding: $spacing-sm $spacing-md;
+    max-width: 100%;
+  }
 }
 
 .as-date {
-    font-size: $heading-font-size-mob;
-    color: $dark-color;
-    font-weight: normal;
+  font-size: $heading-font-size-mob;
+  color: $dark-color;
+  font-weight: normal;
 
-    @media (min-width: $breakpoint-mobile) {
-        font-size: $heading-font-size;
-    }
+  @media (min-width: $breakpoint-mobile) {
+    font-size: $heading-font-size;
+  }
 }
 
 .as-data-badge-value {
-    font-size: $key-font-size-mob;
-    color: $dark-color;
-    font-weight: $font-weight-bold;
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-    margin-bottom: $spacing-xs;
+  font-size: $key-font-size-mob;
+  color: $dark-color;
+  font-weight: $font-weight-bold;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  margin-bottom: $spacing-xs;
 
-    @media (min-width: $breakpoint-mobile) {
-        font-size: $key-font-size;
-        flex-direction: row;
-        gap: $spacing-xs;
-    }
+  @media (min-width: $breakpoint-mobile) {
+    font-size: $key-font-size;
+    flex-direction: row;
+    gap: $spacing-xs;
+  }
 }
 
 .as-data-badge-label {
-    margin-top: $spacing-xs;
-    font-size: $body-font-size-mob;
-    color: $accent-color;
-    font-family: $font-family;
-    font-weight: normal;
-    text-overflow: ellipsis;
-    overflow: hidden;
+  margin-top: $spacing-xs;
+  font-size: $body-font-size-mob;
+  color: $accent-color;
+  font-family: $font-family;
+  font-weight: normal;
+  text-overflow: ellipsis;
+  overflow: hidden;
 
-    @media (min-width: $breakpoint-mobile) {
-        font-size: $body-font-size;
-    }
+  @media (min-width: $breakpoint-mobile) {
+    font-size: $body-font-size;
+  }
 }
 
 .as-data-badge-unit {
-    font-size: $body-font-size-mob;
-    color: $simple-gray;
-    font-family: $font-family;
-    font-weight: lighter;
+  font-size: $body-font-size-mob;
+  color: $simple-gray;
+  font-family: $font-family;
+  font-weight: lighter;
 
-    @media (min-width: $breakpoint-mobile) {
-        font-size: $body-font-size;
-    }
+  @media (min-width: $breakpoint-mobile) {
+    font-size: $body-font-size;
+  }
 }
 
 .as-stats {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: $spacing-sm;
-    padding: $spacing-sm;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+  padding: $spacing-sm;
 
-    @media (min-width: $breakpoint-mobile) {
-        gap: $spacing-md;
-        padding: $spacing-md;
-
-    }
+  @media (min-width: $breakpoint-mobile) {
+    gap: $spacing-md;
+    padding: $spacing-md;
+  }
 }
 
 .as-navigation-card {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .as-navigation-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: $spacing-sm $spacing-md;
-    background-color: $accent-color;
-    border-radius: $border-radius-none;
-    cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: $spacing-sm $spacing-md;
+  background-color: $accent-color;
+  border-radius: $border-radius-none;
+  cursor: pointer;
 
-    &-disabled {
-        background-color: $simple-gray;
-        cursor: not-allowed;
-    }
+  &-disabled {
+    background-color: $simple-gray;
+    cursor: not-allowed;
+  }
 }

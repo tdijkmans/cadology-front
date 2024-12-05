@@ -1,55 +1,53 @@
-@import '../../../variables';
+@import "../../../variables";
 
 .al-activity {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  cursor: pointer;
+  padding-bottom: $spacing-md;
+  border-bottom: 1px solid $simple-gray;
+
+  &:hover {
+    background-color: #f0f0f0;
+  }
+
+  .al-date {
+    width: 100%;
     display: flex;
-    flex-direction: column;
-    align-items: start;
-    cursor: pointer;
-    padding-bottom: $spacing-md;
-    border-bottom: 1px solid $simple-gray;
+    justify-content: space-between;
+    margin-bottom: $spacing-xs;
+    color: $simple-gray;
+    font-weight: normal;
+  }
 
-    &:hover {
-        background-color: #f0f0f0;
-    }
-
-    .al-date {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: $spacing-xs;
-        color: $simple-gray;
-        font-weight: normal;
-    }
-
-
-    &:last-child {
-        border-bottom: none;
-    }
+  &:last-child {
+    border-bottom: none;
+  }
 }
 
 .al-current-activity {
-    background-color: $accent-color;
+  background-color: $accent-color;
+  color: white;
+  transition: background-color 0.3s;
+
+  &-title {
     color: white;
-    transition: background-color 0.3s;
+    font-weight: normal;
+  }
 
-    &-title {
-        color: white;
-        font-weight: normal;
-    }
+  &:hover {
+    background-color: darken($accent-color, 10%);
+  }
 
-    &:hover {
-        background-color: darken($accent-color, 10%);
-    }
-
-    .al-date {
-        color: white;
-    }
+  .al-date {
+    color: white;
+  }
 }
 
 .al-badges {
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: $spacing-xs;
-    gap: $spacing-xs;
-
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: $spacing-xs;
+  gap: $spacing-xs;
 }

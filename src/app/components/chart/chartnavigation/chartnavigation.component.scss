@@ -1,13 +1,13 @@
-@import '../../../../variables';
+@import "../../../../variables";
 
 .chart-navigation {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: $spacing-sm;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: $spacing-sm;
 
-    button {
-        background-color: $subtle-color;
-        color: $secondary-color;
-    }
+  button {
+    background-color: $subtle-color;
+    color: $secondary-color;
+  }
 }

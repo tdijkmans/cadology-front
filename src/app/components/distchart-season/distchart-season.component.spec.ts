@@ -8,9 +8,8 @@ describe('DistchartSeasonComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DistchartSeasonComponent]
-    })
-    .compileComponents();
+      imports: [DistchartSeasonComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DistchartSeasonComponent);
     component = fixture.componentInstance;
