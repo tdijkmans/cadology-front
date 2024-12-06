@@ -124,7 +124,6 @@ export class BarchartComponent implements OnChanges {
   }
 
   selectFastesLap() {
-    console.log(' hoi');
     const fastestLap = this.lapData.reduce((prev, current) =>
       prev.speed > current.speed ? prev : current,
     );

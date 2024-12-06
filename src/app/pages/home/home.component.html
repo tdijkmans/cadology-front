@@ -64,12 +64,6 @@
         </cad-card>
       </cad-tab>
 
-      <cad-tab [tabId]="'myNotes'" [groupId]="'home'">
-        <cad-card>
-          <cad-notes [currentActivity]="d.currentActivity" />
-        </cad-card>
-      </cad-tab>
-
       <cad-tab [tabId]="'distSeason'" [groupId]="'home'">
         <cad-card>
           <cad-distchart-season
@@ -78,6 +72,12 @@
             [prevActivities]="d.prevActivities"
             [currentActivity]="d.currentActivity"
           />
+        </cad-card>
+      </cad-tab>
+
+      <cad-tab [tabId]="'myNotes'" [groupId]="'home'">
+        <cad-card>
+          <cad-notes [currentActivity]="d.currentActivity" />
         </cad-card>
       </cad-tab>
     </cad-tabs>

@@ -39,8 +39,8 @@ export class HomeComponent {
     { id: 'speed', icon: 'letsSpeed' },
     { id: 'distance', icon: 'letsRoadAlt' },
     { id: 'season', icon: 'letsStat' },
-    { id: 'myNotes', icon: 'letsNotebook' },
     { id: 'distSeason', icon: 'letsChartAlt' },
+    { id: 'myNotes', icon: 'letsNotebook' },
   ];
 
   constructor(
