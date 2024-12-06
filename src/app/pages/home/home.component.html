@@ -5,124 +5,68 @@
         class="activitystats"
         *ngIf="d.currentActivity.laps && d.currentActivity.activityId"
       />
-      <div class="stats-dropdown"></div>
     </div>
 
-    <ng-container *ngIf="chartTab | async as tab">
-      <div class="tab-container">
-        <button
-          class="tab"
-          [class.active]="tab === 'lapTime'"
-          (click)="setTab('lapTime')"
-        >
-          <!-- Rondes -->
-          <ng-icon name="letsClock" size="1.2rem" />
-        </button>
-        <button
-          class="tab"
-          [class.active]="tab === 'speed'"
-          (click)="setTab('speed')"
-        >
-          <!-- Rondes -->
-          <ng-icon name="letsSpeed" size="1.2rem" />
-        </button>
-        <button
-          class="tab"
-          [class.active]="tab === 'distance'"
-          (click)="setTab('distance')"
-        >
-          <!-- Afstand -->
-          <ng-icon name="letsRoadAlt" size="1.2rem" />
-        </button>
-        <button
-          class="tab"
-          [class.active]="tab === 'season'"
-          (click)="setTab('season')"
-        >
-          <!-- Verdeling rondes (sec) -->
-          <ng-icon name="letsStat" size="1.2rem" />
-        </button>
+    <cad-tabs [tabs]="tabs" [groupId]="'home'">
+      <cad-tab [tabId]="'lapTime'" [groupId]="'home'">
+        <cad-card class="mx-2 my-2">
+          <cad-barchart
+            [laps]="d.currentActivity.laps"
+            [type]="'lapTime'"
+            [yScaleMax]="100"
+            [yScaleMin]="25"
+          />
+        </cad-card>
+      </cad-tab>
+      <cad-tab
+        [tabId]="'speed'"
+        *ngIf="d.currentActivity.laps"
+        [groupId]="'home'"
+      >
+        <cad-card>
+          <cad-barchart
+            [laps]="d.currentActivity.laps"
+            [type]="'speed'"
+            [yScaleMax]="40"
+            [yScaleMin]="5"
+          />
+        </cad-card>
+      </cad-tab>
 
-        <button
-          class="tab"
-          [class.active]="tab === 'myNotes'"
-          (click)="setTab('myNotes')"
-        >
-          <!-- Notities -->
-          <ng-icon name="letsNotebook" size="1.2rem" />
-        </button>
-      </div>
+      <cad-tab
+        [tabId]="'distance'"
+        *ngIf="d.currentActivity.laps"
+        [groupId]="'home'"
+      >
+        <cad-card>
+          <cad-distchart [currentActivity]="d.currentActivity" />
+        </cad-card>
+      </cad-tab>
 
-      <div *ngIf="d.currentActivity.laps">
-        <div class="tab-item" [class.active]="tab === 'lapTime'">
-          <div class="card">
-            <cad-barchart
-              [laps]="d.currentActivity.laps"
-              [type]="'lapTime'"
-              [yScaleMax]="100"
-              [yScaleMin]="25"
-            />
-          </div>
-        </div>
+      <cad-tab [tabId]="'season'" [groupId]="'home'">
+        <cad-card>
+          <cad-histochart
+            [curActivities]="d.curActivities"
+            [prevActivities]="d.prevActivities"
+            [currentActivity]="d.currentActivity"
+          />
+        </cad-card>
+      </cad-tab>
 
-        <div class="tab-item" [class.active]="tab === 'speed'">
-          <div class="card">
-            <cad-barchart
-              [laps]="d.currentActivity.laps"
-              [type]="'speed'"
-              [yScaleMax]="40"
-              [yScaleMin]="5"
-            />
-          </div>
-        </div>
+      <cad-tab [tabId]="'myNotes'" [groupId]="'home'">
+        <cad-card>
+          <cad-notes [currentActivity]="d.currentActivity" />
+        </cad-card>
+      </cad-tab>
+    </cad-tabs>
 
-        <div class="tab-item" [class.active]="tab === 'distance'">
-          <div class="card">
-            <cad-distchart [currentActivity]="d.currentActivity" />
-          </div>
-        </div>
-
-        <div class="tab-item" [class.active]="tab === 'season'">
-          <div class="card">
-            <cad-histochart
-              [curActivities]="d.curActivities"
-              [prevActivities]="d.prevActivities"
-              [currentActivity]="d.currentActivity"
-            />
-          </div>
-        </div>
-
-        <div class="tab-item" [class.active]="tab === 'myNotes'">
-          <div class="card">
-            <cad-notes [currentActivity]="d.currentActivity" />
-          </div>
-        </div>
-      </div>
-    </ng-container>
-
-    <ng-container *ngIf="seasonTab | async as tab">
-      <div class="tab-container">
-        <button
-          class="tab"
-          [class.active]="tab === 'progress'"
-          (click)="setSeasonTab('progress')"
-        >
-          Voortgang
-        </button>
-      </div>
-
-      <div>
-        <div class="tab-item" [class.active]="tab === 'progress'">
-          <div class="card">
-            <cad-distchart-season
-              *ngIf="d.currentActivity.laps"
-              [curActivities]="d.curActivities"
-              [prevActivities]="d.prevActivities"
-              [currentActivity]="d.currentActivity"
-            />
-          </div>
-        </div>
-      </div>
-    </ng-container>
+    <cad-card>
+      <cad-distchart-season
+        *ngIf="d.currentActivity.laps"
+        [curActivities]="d.curActivities"
+        [prevActivities]="d.prevActivities"
+        [currentActivity]="d.currentActivity"
+      />
+    </cad-card>
   </ng-container>
 </cad-page>

@@ -1,16 +1,29 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Tab } from '../tabs.component';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TabsService {
-  private activeTabId = new BehaviorSubject<Tab['id']>('');
+  private tabGroups = new Map<string, BehaviorSubject<string>>();
 
-  public activeTabId$ = this.activeTabId.asObservable();
+  public getActiveTabId$(groupId: string) {
+    if (!this.tabGroups.has(groupId)) {
+      this.tabGroups.set(groupId, new BehaviorSubject<string>(''));
+    }
+    return this.tabGroups.get(groupId)!.asObservable();
+  }
 
-  public setActiveTab(tabId: Tab['id']) {
-    this.activeTabId.next(tabId);
+  public setActiveTab(groupId: string, tabId: string) {
+    if (!this.tabGroups.has(groupId)) {
+      this.tabGroups.set(groupId, new BehaviorSubject<string>(''));
+    }
+    this.tabGroups.get(groupId)!.next(tabId);
+  }
+
+  public initializeGroup(groupId: string, initialTabId: string) {
+    if (!this.tabGroups.has(groupId)) {
+      this.tabGroups.set(groupId, new BehaviorSubject<string>(initialTabId));
+    }
   }
 }

@@ -9,11 +9,11 @@
     (keyup)="stopPropagation($event)"
   >
     <ng-container *ngIf="d.currentData$ | async as d">
-      <cad-tabs [tabs]="tabs">
-        <cad-tab [tabId]="'current'">
+      <cad-tabs [tabs]="tabs" [groupId]="'modal'">
+        <cad-tab [tabId]="'current'" [groupId]="'modal'">
           <cad-activitieslist [activities]="d.curActivities" />
         </cad-tab>
-        <cad-tab [tabId]="'previous'">
+        <cad-tab [tabId]="'previous'" [groupId]="'modal'">
           <cad-activitieslist [activities]="d.prevActivities" />
         </cad-tab>
       </cad-tabs>

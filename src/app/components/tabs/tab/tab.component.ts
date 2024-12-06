@@ -11,6 +11,7 @@ import { TabsService } from '../service/tabs.service';
 })
 export class TabComponent {
   @Input({ required: true }) tabId = '';
+  @Input({ required: true }) groupId = '';
 
   constructor(public t: TabsService) {}
 }

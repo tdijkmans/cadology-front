@@ -175,37 +175,7 @@ button,
   }
 }
 
-// Card Style
-.card {
-  background-color: #ffffff;
-  border-radius: $border-radius-none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  transition: transform 0.2s ease;
-
-  &:hover {
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-  }
-
-  .card-header {
-    padding: $spacing-sm;
-    font-size: $heading-font-size;
-    text-align: center;
-
-    @media screen and (min-width: $breakpoint-mobile) {
-      font-size: $heading-font-size-mob;
-    }
-  }
-
-  .card-body {
-    font-size: $body-font-size-mob;
-
-    @media screen and (min-width: $breakpoint-mobile) {
-      padding: $spacing-md;
-      font-size: $body-font-size;
-    }
-  }
-}
+// Text Colors
 
 .text-primary {
   color: $primary-color;
@@ -239,7 +209,7 @@ button,
   color: $success-color;
 }
 
-// Utility Classes
+// Margins
 .mt-1 {
   margin-top: $spacing-sm;
 }
@@ -276,6 +246,7 @@ button,
   margin-bottom: 0;
 }
 
+// Padding
 .py-1 {
   padding-top: $spacing-sm;
   padding-bottom: $spacing-sm;
@@ -295,6 +266,8 @@ button,
   padding-top: 0;
   padding-bottom: 0;
 }
+
+// Text
 
 .text-center {
   text-align: center;
@@ -320,6 +293,7 @@ button,
   color: $success-color;
 }
 
+// Backgrounds
 .bg-primary {
   background-color: $primary-color;
   color: #ffffff;

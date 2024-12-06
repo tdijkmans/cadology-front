@@ -1,3 +1,6 @@
-<div class="tab-item" [class.active]="(t.activeTabId$ | async) === tabId">
+<div
+  class="tab-item"
+  [class.active]="(t.getActiveTabId$(groupId) | async) === tabId"
+>
   <ng-content></ng-content>
 </div>

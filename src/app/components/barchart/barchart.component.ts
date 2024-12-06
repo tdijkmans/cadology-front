@@ -63,6 +63,9 @@ export class BarchartComponent implements OnChanges {
   }
 
   initializeData(progressiveDelta = 0) {
+    if (!this.laps?.length) {
+      return;
+    }
     const laps = this.laps;
     const twoDecimal = (v: number) => Math.round(v * 100) / 100;
 

@@ -7,6 +7,7 @@ import { DataService } from '@services/dataservice/data.service';
 import { UiService } from '@services/uiservice/ui.service';
 import { Observable } from 'rxjs';
 import type { Activity } from '../../services/dataservice/data.interface';
+import { CardComponent } from '../card/card.component';
 
 interface ActivityStatus {
   isCurrent: boolean;
@@ -18,7 +19,7 @@ interface ActivityStatus {
 @Component({
   selector: 'cad-activitieslist',
   standalone: true,
-  imports: [CommonModule, DatabadgeComponent],
+  imports: [CommonModule, DatabadgeComponent, CardComponent],
   templateUrl: './activitieslist.component.html',
   styleUrl: './activitieslist.component.scss',
   viewProviders: [provideIcons({ letsTrophy })],

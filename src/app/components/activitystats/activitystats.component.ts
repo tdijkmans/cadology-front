@@ -8,11 +8,12 @@ import type {
 } from '@services/dataservice/data.interface';
 import { DataService } from '@services/dataservice/data.service';
 import { StatisticsService } from '@services/statistics/statistics.service';
+import { CardComponent } from '../card/card.component';
 
 @Component({
   selector: 'cad-activitystats',
   standalone: true,
-  imports: [CommonModule, NgIconComponent],
+  imports: [CommonModule, NgIconComponent, CardComponent],
   providers: [StatisticsService],
   templateUrl: './activitystats.component.html',
   styleUrl: './activitystats.component.scss',

@@ -1,7 +1,7 @@
-<div class="px-1 py-1" *ngIf="currentActivity">
+<div class="as-stats px-1 py-1" *ngIf="currentActivity">
   <div
     id="chart"
-    class="card as-navigation-card"
+    class="as-card as-navigation-card"
     *ngIf="currentActivity.activityId"
   >
     <button
@@ -15,14 +15,14 @@
       <ng-icon name="letsArrowLeft" />
     </button>
     <div>
-      <div class="card-header">
+      <div class="as-card-header">
         <h2 class="text-accent">{{ currentActivity.location }}</h2>
         <h3 class="text-accent as-date">
           {{ currentActivity.startTime | date: "EEEE d MMMM y" }}
         </h3>
       </div>
 
-      <div class="card-body as-stats">
+      <div class="as-card-body as-stats">
         <div class="as-data-badge">
           <div class="as-data-badge-label">Snelste</div>
           <div class="as-data-badge-value">

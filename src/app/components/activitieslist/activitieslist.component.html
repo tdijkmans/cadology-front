@@ -1,54 +1,48 @@
-<div class="px-1 py-1">
-  <div class="card">
-    <ng-container *ngIf="currentActivity$ | async as currentActivity">
-      <div
-        *ngFor="let a of activities"
-        (click)="handleActivityClick(a)"
-        (keypress)="handleActivityClick(a)"
-        tabindex="0"
-        [ngClass]="{
-          'al-activity': true,
-          'al-current-activity': currentActivity.activityId === a.activityId,
-          'px-1 py-1': true,
-        }"
-      >
-        <h4
-          [ngClass]="{
-            'al-current-activity-title':
-              currentActivity.activityId === a.activityId,
-          }"
-        >
-          {{ a.location }}
-        </h4>
+<cad-card class="px-1 py-1" *ngIf="currentActivity$ | async as currentActivity">
+  <div
+    *ngFor="let a of activities"
+    (click)="handleActivityClick(a)"
+    (keypress)="handleActivityClick(a)"
+    tabindex="0"
+    [ngClass]="{
+      'al-activity': true,
+      'al-current-activity': currentActivity.activityId === a.activityId,
+      'px-1 py-1': true,
+    }"
+  >
+    <h4
+      [ngClass]="{
+        'al-current-activity-title':
+          currentActivity.activityId === a.activityId,
+      }"
+    >
+      {{ a.location }}
+    </h4>
 
-        <div class="al-date">
-          <p>{{ a.startTime | date: "dd MMMM yyyy" }}</p>
-          <p>
-            {{ a.startTime | date: "HH:mm" }} - {{ a.endTime | date: "HH:mm" }}
-          </p>
-        </div>
+    <div class="al-date">
+      <p>{{ a.startTime | date: "dd MMMM yyyy" }}</p>
+      <p>{{ a.startTime | date: "HH:mm" }} - {{ a.endTime | date: "HH:mm" }}</p>
+    </div>
 
-        <div class="al-badges">
-          <cad-databadge
-            [value]="a.bestLap.duration | number: '1.2-2'"
-            unit="sec"
-            [isCurrent]="currentActivity.activityId === a.activityId"
-            [hasTrophy]="fastestId === a.activityId"
-          />
-          <cad-databadge
-            [value]="a.bestLap.speed | number: '1.2-2'"
-            unit="km/u"
-            [isCurrent]="currentActivity.activityId === a.activityId"
-            [hasTrophy]="fastestId === a.activityId"
-          />
-          <cad-databadge
-            [value]="a.lapCount"
-            unit="ronden"
-            [isCurrent]="currentActivity.activityId === a.activityId"
-            [hasTrophy]="mostLapsId === a.activityId"
-          />
-        </div>
-      </div>
-    </ng-container>
+    <div class="al-badges">
+      <cad-databadge
+        [value]="a.bestLap.duration | number: '1.2-2'"
+        unit="sec"
+        [isCurrent]="currentActivity.activityId === a.activityId"
+        [hasTrophy]="fastestId === a.activityId"
+      />
+      <cad-databadge
+        [value]="a.bestLap.speed | number: '1.2-2'"
+        unit="km/u"
+        [isCurrent]="currentActivity.activityId === a.activityId"
+        [hasTrophy]="fastestId === a.activityId"
+      />
+      <cad-databadge
+        [value]="a.lapCount"
+        unit="ronden"
+        [isCurrent]="currentActivity.activityId === a.activityId"
+        [hasTrophy]="mostLapsId === a.activityId"
+      />
+    </div>
   </div>
-</div>
+</cad-card>
