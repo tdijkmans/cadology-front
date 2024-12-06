@@ -1,5 +1,5 @@
 <div class="tab-container">
-  <ng-container *ngIf="t.getActiveTabId$(groupId) | async as activeTabId">
+  <ng-container *ngIf="ui.getActiveTabId$(groupId) | async as activeTabId">
     <button
       *ngFor="let tab of tabs; let i = index"
       class="tab"

@@ -9,6 +9,6 @@
   </span>
 </div>
 
-<div class="app-content" *ngIf="(chipCode$ | async) !== null">
+<div *ngIf="(chipCode$ | async) !== null">
   <router-outlet />
 </div>

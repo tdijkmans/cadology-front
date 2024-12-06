@@ -1,7 +1,11 @@
 @import "../../../variables.scss";
 
 .page {
-  margin-top: calc(64px);
+  margin-top: 64px;
+
+  @media (min-width: $breakpoint-mobile) {
+    margin-top: 96px;
+  }
 }
 
 .loading {

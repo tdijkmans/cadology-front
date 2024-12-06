@@ -1,13 +1,10 @@
 @import "../../../variables.scss";
 
-.activitystats {
-  width: 100%;
-}
-
 .stats-container {
   display: flex;
   flex-direction: column;
   position: relative;
   align-items: center;
   margin-bottom: $spacing-md;
+  width: 100%;
 }

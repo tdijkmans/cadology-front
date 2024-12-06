@@ -7,9 +7,10 @@ import { BehaviorSubject } from 'rxjs';
 export class UiService {
   private drawerOpen = new BehaviorSubject<boolean>(false);
   private modalOpen = new BehaviorSubject<boolean>(false);
+  private tabGroups = new Map<string, BehaviorSubject<string>>();
 
-  drawerOpen$ = this.drawerOpen.asObservable(); // Observable for drawer state
-  modalOpen$ = this.modalOpen.asObservable(); // Observable for modal state
+  drawerOpen$ = this.drawerOpen.asObservable();
+  modalOpen$ = this.modalOpen.asObservable();
 
   // Methods to control the drawer
   openDrawer() {
@@ -35,5 +36,26 @@ export class UiService {
 
   toggleModal() {
     this.modalOpen.next(!this.modalOpen.value);
+  }
+
+  // Methods to control the tabs
+  getActiveTabId$(groupId: string) {
+    if (!this.tabGroups.has(groupId)) {
+      this.tabGroups.set(groupId, new BehaviorSubject<string>(''));
+    }
+    return this.tabGroups.get(groupId)?.asObservable();
+  }
+
+  setActiveTab(groupId: string, tabId: string) {
+    if (!this.tabGroups.has(groupId)) {
+      this.tabGroups.set(groupId, new BehaviorSubject<string>(''));
+    }
+    this.tabGroups.get(groupId)?.next(tabId);
+  }
+
+  initializeGroup(groupId: string, initialTabId: string) {
+    if (!this.tabGroups.has(groupId)) {
+      this.tabGroups.set(groupId, new BehaviorSubject<string>(initialTabId));
+    }
   }
 }

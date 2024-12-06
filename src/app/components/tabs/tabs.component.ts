@@ -9,16 +9,8 @@ import {
   letsSpeed,
   letsStat,
 } from '@ng-icons/lets-icons/regular';
-import { TabsService } from './service/tabs.service';
-
-type Icon =
-  | 'letsClock'
-  | 'letsSpeed'
-  | 'letsRoadAlt'
-  | 'letsStat'
-  | 'letsNotebook';
-
-export type Tab = { label?: string; value?: number; id: string; icon?: Icon };
+import { UiService } from '@services/uiservice/ui.service';
+import { Tab } from './tabs.inteface';
 
 @Component({
   selector: 'cad-tabs',
@@ -34,16 +26,15 @@ export class TabsComponent implements OnInit {
   @Input({ required: true }) tabs: Tab[] = [];
   @Input({ required: true }) groupId!: string;
 
-  constructor(public t: TabsService) {}
+  constructor(public ui: UiService) {}
 
   setSelectedTab(tabId: Tab['id']) {
-    this.t.setActiveTab(this.groupId, tabId);
-    console.log('setSelectedTab', tabId, this.groupId);
+    this.ui.setActiveTab(this.groupId, tabId);
   }
 
   ngOnInit() {
     if (this.tabs.length) {
-      this.t.initializeGroup(this.groupId, this.tabs[0].id);
+      this.ui.initializeGroup(this.groupId, this.tabs[0].id);
     }
   }
 }

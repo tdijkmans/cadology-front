@@ -8,7 +8,8 @@ import { HistochartComponent } from '@components/histochart/histochart.component
 import { NotesComponent } from '@components/notes/notes.component';
 import { PageComponent } from '@components/page/page.component';
 import { TabComponent } from '@components/tabs/tab/tab.component';
-import { Tab, TabsComponent } from '@components/tabs/tabs.component';
+import { TabsComponent } from '@components/tabs/tabs.component';
+import { Tab } from '@components/tabs/tabs.inteface';
 import { DataService } from '@services/dataservice/data.service';
 import { CardComponent } from '../../components/card/card.component';
 import { DistchartSeasonComponent } from '../../components/distchart-season/distchart-season.component';

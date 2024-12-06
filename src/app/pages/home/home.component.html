@@ -1,11 +1,9 @@
 <cad-page [isLoading]="isLoading">
   <ng-container *ngIf="d.currentData$ | async as d">
-    <div class="stats-container">
-      <cad-activitystats
-        class="activitystats"
-        *ngIf="d.currentActivity.laps && d.currentActivity.activityId"
-      />
-    </div>
+    <cad-activitystats
+      class="stats-container"
+      *ngIf="d.currentActivity.laps && d.currentActivity.activityId"
+    />
 
     <cad-tabs [tabs]="tabs" [groupId]="'home'">
       <cad-tab [tabId]="'lapTime'" [groupId]="'home'">
