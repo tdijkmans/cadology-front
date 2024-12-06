@@ -1,90 +1,84 @@
-<div class="px-1 py-1" *ngIf="currentActivity">
-  <div
-    id="chart"
-    class="card as-navigation-card"
-    *ngIf="currentActivity.activityId"
+<div id="chart" class="as-card" *ngIf="currentActivity?.activityId">
+  <button
+    [ngClass]="{
+      'as-button': true,
+      'as-button__disabled': isOldest,
+    }"
+    [disabled]="isOldest"
+    (click)="onPrevious()"
   >
-    <button
-      [ngClass]="{
-        'as-navigation-button': true,
-        'as-navigation-button-disabled': isOldest,
-      }"
-      [disabled]="isOldest"
-      (click)="onPrevious()"
-    >
-      <ng-icon name="letsArrowLeft" />
-    </button>
-    <div>
-      <div class="card-header">
-        <h2 class="text-accent">{{ currentActivity.location }}</h2>
-        <h3 class="text-accent as-date">
-          {{ currentActivity.startTime | date: "EEEE d MMMM y" }}
-        </h3>
+    <ng-icon name="letsArrowLeft" />
+  </button>
+  <div>
+    <div class="as-card-header">
+      <h2 class="text-accent">{{ currentActivity.location }}</h2>
+      <h3 class="text-accent as-date">
+        {{ currentActivity.startTime | date: "EEEE d MMMM y" }}
+      </h3>
+    </div>
+
+    <div class="as-card-body as-stats">
+      <div class="as-badge">
+        <div class="as-badge-label">Snelste</div>
+        <div class="as-badge-value">
+          {{ currentActivity.bestLap.duration | number: "1.0-2" }}
+          <div class="as-badge-unit">sec</div>
+        </div>
+        <div class="as-badge-value">
+          {{ currentActivity.bestLap.speed | number: "1.0-2" }}
+          <div class="as-badge-unit">km/u</div>
+        </div>
       </div>
 
-      <div class="card-body as-stats">
-        <div class="as-data-badge">
-          <div class="as-data-badge-label">Snelste</div>
-          <div class="as-data-badge-value">
-            {{ currentActivity.bestLap.duration | number: "1.0-2" }}
-            <div class="as-data-badge-unit">sec</div>
-          </div>
-          <div class="as-data-badge-value">
-            {{ currentActivity.bestLap.speed | number: "1.0-2" }}
-            <div class="as-data-badge-unit">km/u</div>
-          </div>
+      <div class="as-badge">
+        <div class="as-badge-label">Gemiddelde</div>
+        <div class="as-badge-value">
+          {{ currentActivity.medianTime | number: "1.0-2" }}
+          <div class="as-badge-unit">sec</div>
+        </div>
+        <div class="as-badge-value">
+          {{ currentActivity.averageSpeed | number: "1.0-2" }}
+          <div class="as-badge-unit">km/u</div>
+        </div>
+      </div>
+
+      <div class="as-badge">
+        <div class="as-badge-label">Totaal</div>
+
+        <div class="as-badge-value">
+          {{ totalTrainingTime[0] }}
+          <div class="as-badge-unit">{{ totalTrainingTime[1] }}</div>
+        </div>
+        <div class="as-badge-value">
+          {{ currentActivity.lapCount }}
+          <span class="as-badge-unit">rondes</span>
         </div>
 
-        <div class="as-data-badge">
-          <div class="as-data-badge-label">Gemiddelde</div>
-          <div class="as-data-badge-value">
-            {{ currentActivity.medianTime | number: "1.0-2" }}
-            <div class="as-data-badge-unit">sec</div>
-          </div>
-          <div class="as-data-badge-value">
-            {{ currentActivity.averageSpeed | number: "1.0-2" }}
-            <div class="as-data-badge-unit">km/u</div>
-          </div>
-        </div>
-
-        <div class="as-data-badge">
-          <div class="as-data-badge-label">Totaal</div>
-
-          <div class="as-data-badge-value">
-            {{ totalTrainingTime[0] }}
-            <div class="as-data-badge-unit">{{ totalTrainingTime[1] }}</div>
-          </div>
-          <div class="as-data-badge-value">
-            {{ currentActivity.lapCount }}
-            <span class="as-data-badge-unit">rondes</span>
-          </div>
-
-          <div class="as-data-badge-value">
-            {{ totalDistance | number: "1.0-2" }}
-            <span class="as-data-badge-unit">km</span>
-          </div>
+        <div class="as-badge-value">
+          {{ totalDistance | number: "1.0-2" }}
+          <span class="as-badge-unit">km</span>
         </div>
       </div>
     </div>
-
-    <button
-      [ngClass]="{
-        'as-navigation-button': true,
-        'as-navigation-button-disabled': isMostRecent,
-      }"
-      [disabled]="isMostRecent"
-      (click)="onNext()"
-    >
-      <ng-icon name="letsArrowRight" />
-    </button>
   </div>
+
+  <button
+    [ngClass]="{
+      'as-button': true,
+      'as-button__disabled': isMostRecent,
+    }"
+    [disabled]="isMostRecent"
+    (click)="onNext()"
+  >
+    <ng-icon name="letsArrowRight" />
+  </button>
 </div>
 
 <ng-template #dataBadgeTemplate let-label let-value let-unit>
-  <div class="as-data-badge">
-    <div class="as-data-badge-label">{{ label }}</div>
-    <div class="as-data-badge-value">
-      {{ value }} <span class="as-data-badge-unit">{{ unit }}</span>
+  <div class="as-badge">
+    <div class="as-badge-label">{{ label }}</div>
+    <div class="as-badge-value">
+      {{ value }} <span class="as-badge-unit">{{ unit }}</span>
     </div>
   </div>
 </ng-template>

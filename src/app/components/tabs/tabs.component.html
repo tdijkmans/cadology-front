@@ -1,16 +1,21 @@
 <div class="tab-container">
-  <ng-container *ngIf="t.activeTabId$ | async as activeTabId">
+  <ng-container *ngIf="ui.getActiveTabId$(groupId) | async as activeTabId">
     <button
       *ngFor="let tab of tabs; let i = index"
       class="tab"
-      [class.active]="tabs && tabs[i].id === activeTabId"
+      [class.active]="tabs[i].id === activeTabId"
       (click)="setSelectedTab(tab.id)"
     >
-      {{ tab.label }}
-      <cad-circle-badge
-        [count]="tab.value"
-        [class.active]="tabs && tabs[i].id === activeTabId"
-      ></cad-circle-badge>
+      <ng-container *ngIf="tab.label"> {{ tab.label }} </ng-container>
+      <ng-icon *ngIf="tab.icon" [name]="tab.icon" size="1.2rem" />
+
+      <ng-container *ngIf="tab.value">
+        <cad-circle-badge
+          *ngIf="tab.value > 0"
+          [count]="tab.value"
+          [active]="tabs[i].id === activeTabId"
+        />
+      </ng-container>
     </button>
   </ng-container>
 </div>

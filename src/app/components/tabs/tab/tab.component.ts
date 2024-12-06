@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { TabsService } from '../service/tabs.service';
+import { UiService } from '@services/uiservice/ui.service';
 
 @Component({
   selector: 'cad-tab',
@@ -11,6 +11,7 @@ import { TabsService } from '../service/tabs.service';
 })
 export class TabComponent {
   @Input({ required: true }) tabId = '';
+  @Input({ required: true }) groupId = '';
 
-  constructor(public t: TabsService) {}
+  constructor(public t: UiService) {}
 }

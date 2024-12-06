@@ -7,18 +7,12 @@ import { DistchartComponent } from '@components/distchart/distchart.component';
 import { HistochartComponent } from '@components/histochart/histochart.component';
 import { NotesComponent } from '@components/notes/notes.component';
 import { PageComponent } from '@components/page/page.component';
-import { NgIconComponent, provideIcons } from '@ng-icons/core';
-import {
-  letsClock,
-  letsNotebook,
-  letsRoadAlt,
-  letsSpeed,
-  letsStat,
-} from '@ng-icons/lets-icons/regular';
+import { TabComponent } from '@components/tabs/tab/tab.component';
+import { TabsComponent } from '@components/tabs/tabs.component';
+import { Tab } from '@components/tabs/tabs.inteface';
 import { DataService } from '@services/dataservice/data.service';
-import { BehaviorSubject } from 'rxjs';
+import { CardComponent } from '../../components/card/card.component';
 import { DistchartSeasonComponent } from '../../components/distchart-season/distchart-season.component';
-import type { ChartTabVariant, SeasonTabVariant } from './home.interface';
 
 @Component({
   selector: 'cad-home',
@@ -30,21 +24,14 @@ import type { ChartTabVariant, SeasonTabVariant } from './home.interface';
     HistochartComponent,
     DistchartComponent,
     DistchartSeasonComponent,
-    NgIconComponent,
     PageComponent,
     NotesComponent,
+    TabsComponent,
+    TabComponent,
+    CardComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
-  viewProviders: [
-    provideIcons({
-      letsClock,
-      letsSpeed,
-      letsRoadAlt,
-      letsStat,
-      letsNotebook,
-    }),
-  ],
 })
 export class HomeComponent {
   private destroyRef = inject(DestroyRef);
@@ -52,8 +39,14 @@ export class HomeComponent {
   chipInput = '';
   isLoading = true;
 
-  chartTab = new BehaviorSubject<ChartTabVariant>('lapTime');
-  seasonTab = new BehaviorSubject<SeasonTabVariant>('progress');
+  tabs: Tab[] = [
+    { id: 'lapTime', icon: 'letsClock' },
+    { id: 'speed', icon: 'letsSpeed' },
+    { id: 'distance', icon: 'letsRoadAlt' },
+    { id: 'season', icon: 'letsStat' },
+    { id: 'myNotes', icon: 'letsNotebook' },
+    { id: 'distSeason', icon: 'letsChartAlt' },
+  ];
 
   constructor(public d: DataService) {
     this.d.currentData$
@@ -61,13 +54,5 @@ export class HomeComponent {
       .subscribe(() => {
         this.isLoading = false;
       });
-  }
-
-  setTab(tab: ChartTabVariant) {
-    this.chartTab.next(tab);
-  }
-
-  setSeasonTab(tab: SeasonTabVariant) {
-    this.seasonTab.next(tab);
   }
 }

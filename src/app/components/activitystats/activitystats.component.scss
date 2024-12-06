@@ -1,6 +1,40 @@
 @import "../../../variables.scss";
 
-.as-data-badge {
+.as-card {
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: $border-radius-none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+
+  &:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  }
+
+  &-header {
+    padding: $spacing-sm;
+    font-size: $heading-font-size;
+    text-align: center;
+
+    @media (min-width: $breakpoint-mobile) {
+      font-size: $heading-font-size-mob;
+    }
+  }
+
+  &-body {
+    font-size: $body-font-size-mob;
+
+    @media (min-width: $breakpoint-mobile) {
+      padding: $spacing-md;
+      font-size: $body-font-size;
+    }
+  }
+}
+
+.as-badge {
   color: $dark-color;
   font-weight: bold;
   padding: $spacing-sm $spacing-sm;
@@ -14,6 +48,47 @@
     padding: $spacing-sm $spacing-md;
     max-width: 100%;
   }
+
+  &-value {
+    font-size: $key-font-size-mob;
+    color: $dark-color;
+    font-weight: $font-weight-bold;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    margin-bottom: $spacing-xs;
+
+    @media (min-width: $breakpoint-mobile) {
+      font-size: $key-font-size;
+      flex-direction: row;
+      gap: $spacing-xs;
+    }
+  }
+
+  &-label {
+    margin-top: $spacing-xs;
+    font-size: $body-font-size-mob;
+    color: $accent-color;
+    font-family: $font-family;
+    font-weight: normal;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    @media (min-width: $breakpoint-mobile) {
+      font-size: $body-font-size;
+    }
+  }
+
+  &-unit {
+    font-size: $body-font-size-mob;
+    color: $simple-gray;
+    font-family: $font-family;
+    font-weight: lighter;
+
+    @media (min-width: $breakpoint-mobile) {
+      font-size: $body-font-size;
+    }
+  }
 }
 
 .as-date {
@@ -23,47 +98,6 @@
 
   @media (min-width: $breakpoint-mobile) {
     font-size: $heading-font-size;
-  }
-}
-
-.as-data-badge-value {
-  font-size: $key-font-size-mob;
-  color: $dark-color;
-  font-weight: $font-weight-bold;
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-  margin-bottom: $spacing-xs;
-
-  @media (min-width: $breakpoint-mobile) {
-    font-size: $key-font-size;
-    flex-direction: row;
-    gap: $spacing-xs;
-  }
-}
-
-.as-data-badge-label {
-  margin-top: $spacing-xs;
-  font-size: $body-font-size-mob;
-  color: $accent-color;
-  font-family: $font-family;
-  font-weight: normal;
-  text-overflow: ellipsis;
-  overflow: hidden;
-
-  @media (min-width: $breakpoint-mobile) {
-    font-size: $body-font-size;
-  }
-}
-
-.as-data-badge-unit {
-  font-size: $body-font-size-mob;
-  color: $simple-gray;
-  font-family: $font-family;
-  font-weight: lighter;
-
-  @media (min-width: $breakpoint-mobile) {
-    font-size: $body-font-size;
   }
 }
 
@@ -80,12 +114,7 @@
   }
 }
 
-.as-navigation-card {
-  display: flex;
-  justify-content: space-between;
-}
-
-.as-navigation-button {
+.as-button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -94,7 +123,7 @@
   border-radius: $border-radius-none;
   cursor: pointer;
 
-  &-disabled {
+  &__disabled {
     background-color: $simple-gray;
     cursor: not-allowed;
   }
