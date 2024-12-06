@@ -1,4 +1,12 @@
-import { Component, Input, type OnChanges } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  Input,
+  type OnChanges,
+  ViewChild,
+  inject,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import {
   letsArrowLeft,
@@ -8,7 +16,13 @@ import {
   letsSortUp,
   letsTrophy,
 } from '@ng-icons/lets-icons/regular';
-import { type Color, NgxChartsModule } from '@swimlane/ngx-charts';
+import { UiService } from '@services/uiservice/ui.service';
+import {
+  BarVerticalComponent,
+  type Color,
+  NgxChartsModule,
+} from '@swimlane/ngx-charts';
+import { distinctUntilChanged } from 'rxjs';
 import { theme } from '../../../_variables';
 import type { Lap } from '../../services/dataservice/data.interface';
 import { ChartcontainerComponent } from '../chart/chartcontainer/chartcontainer.component';
@@ -40,12 +54,16 @@ import type { CappedLap } from './barchart.interface';
       letsLightningAlt,
     }),
   ],
+  // providers: [UiService]
 })
 export class BarchartComponent implements OnChanges {
+  private destroyRef = inject(DestroyRef);
   @Input({ required: true }) laps: Lap[] = [];
   @Input({ required: true }) type: 'speed' | 'lapTime' = 'lapTime';
   @Input({ required: true }) yScaleMax = 0;
   @Input({ required: true }) yScaleMin = 0;
+
+  @ViewChild('barChart') barChart!: BarVerticalComponent;
 
   currentIndex = 0; // Index of the selected bar
   lapData: CappedLap[] = [];
@@ -56,16 +74,27 @@ export class BarchartComponent implements OnChanges {
   scheme = { domain: [theme.secondarycolor] } as Color;
   progressiveStreak = [] as CappedLap[];
 
+  constructor(public ui: UiService) {}
+
+  ngOnInit() {
+    this.ui
+      .getActiveTabId$('home')
+      ?.pipe(takeUntilDestroyed(this.destroyRef), distinctUntilChanged())
+      .subscribe((t) => {
+        this.barChart?.update();
+      });
+  }
+
   ngOnChanges(): void {
+    if (!this.laps?.length) {
+      return;
+    }
     this.initializeData();
     this.progressiveStreak = this.identifyProgressiveStreak();
     this.selectFastesLap();
   }
 
   initializeData(progressiveDelta = 0) {
-    if (!this.laps?.length) {
-      return;
-    }
     const laps = this.laps;
     const twoDecimal = (v: number) => Math.round(v * 100) / 100;
 
@@ -95,6 +124,7 @@ export class BarchartComponent implements OnChanges {
   }
 
   selectFastesLap() {
+    console.log(' hoi');
     const fastestLap = this.lapData.reduce((prev, current) =>
       prev.speed > current.speed ? prev : current,
     );

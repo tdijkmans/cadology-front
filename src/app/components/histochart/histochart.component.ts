@@ -35,6 +35,9 @@ export class HistochartComponent implements OnChanges {
   constructor(private s: StatisticsService) {}
 
   ngOnChanges() {
+    if (!this.currentActivity?.laps) {
+      return;
+    }
     this.initializeData();
   }
 
