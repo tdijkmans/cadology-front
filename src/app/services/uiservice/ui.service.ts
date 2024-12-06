@@ -15,6 +15,7 @@ export class UiService {
   // Methods to control the drawer
   openDrawer() {
     this.drawerOpen.next(true);
+    this.closeModal();
   }
 
   closeDrawer() {
@@ -23,11 +24,13 @@ export class UiService {
 
   toggleDrawer() {
     this.drawerOpen.next(!this.drawerOpen.value);
+    this.closeModal();
   }
 
   // Methods to control the modal
   openModal() {
     this.modalOpen.next(true);
+    this.closeDrawer();
   }
 
   closeModal() {
@@ -36,6 +39,7 @@ export class UiService {
 
   toggleModal() {
     this.modalOpen.next(!this.modalOpen.value);
+    this.closeDrawer();
   }
 
   // Methods to control the tabs

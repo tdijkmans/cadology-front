@@ -15,10 +15,13 @@
 
 .notes-note {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: normal;
   gap: $spacing-xs;
   padding: $spacing-sm;
   background-color: $subtle-color;
+  color: $dark-color;
 }
 
 .notes-input {

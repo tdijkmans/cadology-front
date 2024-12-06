@@ -16,7 +16,15 @@
     <ng-icon name="letsNotebook" size="1.2rem"></ng-icon>
     <div>Geen notities</div>
   </div>
+
   <div class="notes-notes">
-    <div *ngFor="let note of notes" class="notes-note">{{ note }}</div>
+    <button
+      *ngFor="let note of notes"
+      class="notes-note"
+      (click)="removeNote(note)"
+    >
+      {{ note }}
+      <ng-icon name="letsCloseSquare" size="16" color="--primay-color" />
+    </button>
   </div>
 </div>

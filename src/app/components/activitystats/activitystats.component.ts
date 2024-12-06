@@ -60,6 +60,6 @@ export class ActivitystatsComponent {
         new Date(a.startTime).getTime() - new Date(b.startTime).getTime(),
     )[0];
     this.isMostRecent = currentMostRecent.activityId === activityId;
-    this.isOldest = currentOldest.activityId === activityId;
+    this.isOldest = currentOldest?.activityId === activityId;
   }
 }

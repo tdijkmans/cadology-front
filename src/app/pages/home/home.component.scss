@@ -1,5 +1,24 @@
 @import "../../../variables.scss";
 
+.app-void {
+  &-button {
+    background-color: transparent;
+    font-weight: normal;
+    color: white;
+  }
+
+  &-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    text-align: center;
+    background: #72c6ef;
+    background: linear-gradient(30deg, #aedef6, #bee2ff);
+  }
+}
+
 .stats-container {
   display: flex;
   flex-direction: column;

@@ -1,4 +1,17 @@
-<cad-page [isLoading]="isLoading">
+<div *ngIf="(d.chipCode$ | async) === null" class="app-void-content">
+  <span class="text-secondary mx-1">
+    <span>🥶</span>
+    <button
+      class="app-void-button"
+      (click)="ui.openDrawer()"
+      (keyup)="ui.openDrawer()"
+    >
+      Vul je transponder code in.
+    </button>
+  </span>
+</div>
+
+<cad-page [isLoading]="(d.status$ | async) === 'loading'">
   <ng-container *ngIf="d.currentData$ | async as d">
     <cad-activitystats
       class="stats-container"
@@ -51,12 +64,6 @@
         </cad-card>
       </cad-tab>
 
-      <cad-tab [tabId]="'myNotes'" [groupId]="'home'">
-        <cad-card>
-          <cad-notes [currentActivity]="d.currentActivity" />
-        </cad-card>
-      </cad-tab>
-
       <cad-tab [tabId]="'distSeason'" [groupId]="'home'">
         <cad-card>
           <cad-distchart-season
@@ -68,5 +75,15 @@
         </cad-card>
       </cad-tab>
     </cad-tabs>
+
+    <div class="py-1">
+      <cad-tabs [tabs]="tabsTwo" [groupId]="'home2'">
+        <cad-tab [tabId]="'myNotes'" [groupId]="'home2'">
+          <cad-card>
+            <cad-notes [currentActivity]="d.currentActivity" />
+          </cad-card>
+        </cad-tab>
+      </cad-tabs>
+    </div>
   </ng-container>
 </cad-page>

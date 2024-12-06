@@ -41,15 +41,18 @@ export class DistchartSeasonComponent implements OnChanges {
   }
 
   initializeData() {
+    if (this.curActivities?.length <= 0) {
+      return;
+    }
     const cur = this.s.getCumulatingSeasonDistance(this.curActivities);
     const prev = this.s.getCumulatingSeasonDistance(this.prevActivities);
 
-    this.totalDistanceCur = cur[cur.length - 1].cumulativeDistance;
+    this.totalDistanceCur = cur[cur.length - 1]?.cumulativeDistance;
     this.totalTrainingHrCur =
       cur[cur.length - 1].cumulativeTrainingMinutes / 60;
-    this.totalDistancePrev = prev[prev.length - 1].cumulativeDistance;
+    this.totalDistancePrev = prev[prev.length - 1]?.cumulativeDistance;
     this.totalTrainingHrPrev =
-      prev[prev.length - 1].cumulativeTrainingMinutes / 60;
+      prev[prev.length - 1]?.cumulativeTrainingMinutes / 60;
 
     // one year in milliseconds (365 days) to normalize the x-axis
     const seasonDelta = 31536000000;
