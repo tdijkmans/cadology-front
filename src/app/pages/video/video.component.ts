@@ -15,6 +15,7 @@ import {
 } from '@swimlane/ngx-charts';
 import * as posenet from '@tensorflow-models/posenet';
 import * as tf from '@tensorflow/tfjs';
+import { PageComponent } from '../../components/page/page.component';
 
 const parts: Record<posenet.Keypoint['part'], string> = {
   leftAnkle: 'green',
@@ -51,6 +52,7 @@ const rightKneeColor = parts['rightKnee'];
     AngleGaugeComponent,
     ChartCommonModule,
     LineChartModule,
+    PageComponent,
   ],
   templateUrl: './video.component.html',
   styleUrl: './video.component.scss',

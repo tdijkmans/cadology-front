@@ -5,12 +5,13 @@ import {
   OnDestroy,
   ViewChild,
 } from '@angular/core';
+import { PageComponent } from '@components/page/page.component';
 import { SceneService } from '@services/scene/scene.service';
 
 @Component({
   selector: 'cad-canvas',
   standalone: true,
-  imports: [],
+  imports: [PageComponent],
   templateUrl: './canvas.component.html',
   styleUrls: ['./canvas.component.scss'],
   providers: [SceneService],
@@ -20,6 +21,7 @@ export class CanvasComponent implements AfterViewInit, OnDestroy {
   canvasRef!: ElementRef<HTMLCanvasElement>;
 
   isRunning = false;
+  isLoading = true;
 
   constructor(private sceneService: SceneService) {}
 
@@ -27,6 +29,7 @@ export class CanvasComponent implements AfterViewInit, OnDestroy {
     const canvas = this.canvasRef.nativeElement;
     this.sceneService.loadGltfModel('./Xbot.glb', canvas).subscribe();
     this.animate();
+    this.isLoading = false;
   }
 
   ngOnDestroy(): void {
