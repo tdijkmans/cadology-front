@@ -40,7 +40,10 @@ export class HomeComponent {
     { id: 'distance', icon: 'letsRoadAlt' },
     { id: 'season', icon: 'letsStat' },
     { id: 'distSeason', icon: 'letsChartAlt' },
-    { id: 'myNotes', icon: 'letsNotebook' },
+  ];
+
+  tabsTwo: Tab[] = [
+    { id: 'myNotes', icon: 'letsNotebook', label: 'Schaatsjournaal' },
   ];
 
   constructor(
