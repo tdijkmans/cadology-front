@@ -45,6 +45,7 @@ export class HomeComponent {
     { id: 'distance', icon: 'letsRoadAlt' },
     { id: 'season', icon: 'letsStat' },
     { id: 'myNotes', icon: 'letsNotebook' },
+    { id: 'distSeason', icon: 'letsChartAlt' },
   ];
 
   constructor(public d: DataService) {

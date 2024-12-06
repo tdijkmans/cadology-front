@@ -1,6 +1,6 @@
 @import "../../../variables.scss";
 
-.overlay {
+.d-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -12,7 +12,7 @@
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-.menu {
+.d-menu {
   position: fixed;
   top: 0;
   right: 0;
@@ -31,17 +31,15 @@
   &--open {
     transform: translateX(0);
   }
-}
 
-.menu {
   &-item {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     margin-bottom: $spacing-lg;
     color: $secondary-color;
     background-color: white;
     padding: 0;
+    gap: $spacing-xs;
   }
 
   &-nav {
@@ -57,4 +55,18 @@
       color: $primary-color;
     }
   }
+}
+
+.d-back-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: $spacing-lg;
+  color: $secondary-color;
+  background-color: white;
+  padding: 0;
+  gap: $spacing-xs;
+}
+
+.d-button {
+  width: 100%;
 }

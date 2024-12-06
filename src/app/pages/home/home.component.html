@@ -56,15 +56,17 @@
           <cad-notes [currentActivity]="d.currentActivity" />
         </cad-card>
       </cad-tab>
-    </cad-tabs>
 
-    <cad-card>
-      <cad-distchart-season
-        *ngIf="d.currentActivity.laps"
-        [curActivities]="d.curActivities"
-        [prevActivities]="d.prevActivities"
-        [currentActivity]="d.currentActivity"
-      />
-    </cad-card>
+      <cad-tab [tabId]="'distSeason'" [groupId]="'home'">
+        <cad-card>
+          <cad-distchart-season
+            *ngIf="d.currentActivity.laps"
+            [curActivities]="d.curActivities"
+            [prevActivities]="d.prevActivities"
+            [currentActivity]="d.currentActivity"
+          />
+        </cad-card>
+      </cad-tab>
+    </cad-tabs>
   </ng-container>
 </cad-page>

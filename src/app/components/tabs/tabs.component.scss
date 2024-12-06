@@ -3,7 +3,7 @@
 .tab-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: space-around;
   border-bottom: 1px solid $simple-gray;
 }
 

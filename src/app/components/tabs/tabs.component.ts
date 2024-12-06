@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CircleBadgeComponent } from '@components/circle-badge/circle-badge.component';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import {
+  letsChartAlt,
   letsClock,
   letsNotebook,
   letsRoadAlt,
@@ -19,7 +20,14 @@ import { Tab } from './tabs.inteface';
   templateUrl: './tabs.component.html',
   styleUrl: './tabs.component.scss',
   viewProviders: [
-    provideIcons({ letsClock, letsSpeed, letsRoadAlt, letsStat, letsNotebook }),
+    provideIcons({
+      letsClock,
+      letsSpeed,
+      letsRoadAlt,
+      letsStat,
+      letsNotebook,
+      letsChartAlt,
+    }),
   ],
 })
 export class TabsComponent implements OnInit {

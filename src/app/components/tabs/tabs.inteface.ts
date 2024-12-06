@@ -3,7 +3,8 @@ type Icon =
   | 'letsSpeed'
   | 'letsRoadAlt'
   | 'letsStat'
-  | 'letsNotebook';
+  | 'letsNotebook'
+  | 'letsChartAlt';
 
 interface Tab {
   label?: string;

@@ -3,7 +3,7 @@ import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
-import { letsArrowRight } from '@ng-icons/lets-icons/regular';
+import { letsCloseSquare } from '@ng-icons/lets-icons/regular';
 import { DataService } from '@services/dataservice/data.service';
 import { UiService } from '@services/uiservice/ui.service';
 
@@ -13,7 +13,7 @@ import { UiService } from '@services/uiservice/ui.service';
   imports: [CommonModule, FormsModule, NgIconComponent],
   templateUrl: './drawer.component.html',
   styleUrl: './drawer.component.scss',
-  viewProviders: [provideIcons({ letsArrowRight })],
+  viewProviders: [provideIcons({ letsCloseSquare })],
 })
 export class DrawerComponent {
   private destroyRef = inject(DestroyRef);
