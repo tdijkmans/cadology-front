@@ -5,6 +5,11 @@ type Icon =
   | 'letsStat'
   | 'letsNotebook';
 
-type Tab = { label?: string; value?: number; id: string; icon?: Icon };
+interface Tab {
+  label?: string;
+  value?: number;
+  id: string;
+  icon?: Icon;
+}
 
 export type { Tab };

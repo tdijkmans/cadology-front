@@ -1,6 +1,8 @@
 <div
   [ngClass]="{ 'modal-open': ui.modalOpen$ | async, modal: true }"
   (click)="ui.toggleModal()"
+  (keypress)="ui.toggleModal()"
+  tabindex="0"
 >
   <div
     class="modal-content"
