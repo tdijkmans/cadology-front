@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, inject } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component } from '@angular/core';
 import { ActivitystatsComponent } from '@components/activitystats/activitystats.component';
 import { BarchartComponent } from '@components/barchart/barchart.component';
 import { DistchartComponent } from '@components/distchart/distchart.component';
@@ -11,6 +10,7 @@ import { TabComponent } from '@components/tabs/tab/tab.component';
 import { TabsComponent } from '@components/tabs/tabs.component';
 import { Tab } from '@components/tabs/tabs.inteface';
 import { DataService } from '@services/dataservice/data.service';
+import { UiService } from '@services/uiservice/ui.service';
 import { CardComponent } from '../../components/card/card.component';
 import { DistchartSeasonComponent } from '../../components/distchart-season/distchart-season.component';
 
@@ -34,11 +34,6 @@ import { DistchartSeasonComponent } from '../../components/distchart-season/dist
   styleUrl: './home.component.scss',
 })
 export class HomeComponent {
-  private destroyRef = inject(DestroyRef);
-  title = '';
-  chipInput = '';
-  isLoading = true;
-
   tabs: Tab[] = [
     { id: 'lapTime', icon: 'letsClock' },
     { id: 'speed', icon: 'letsSpeed' },
@@ -48,11 +43,8 @@ export class HomeComponent {
     { id: 'distSeason', icon: 'letsChartAlt' },
   ];
 
-  constructor(public d: DataService) {
-    this.d.currentData$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => {
-        this.isLoading = false;
-      });
-  }
+  constructor(
+    public d: DataService,
+    public ui: UiService,
+  ) {}
 }

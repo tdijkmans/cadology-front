@@ -1,14 +1,4 @@
 <cad-menu />
 <cad-drawer />
 <cad-modal />
-
-<div *ngIf="(chipCode$ | async) === null" class="app-content-void">
-  <span class="text-secondary mx-1">
-    <span>🥶</span>
-    <p>Vul je transponder code in.</p>
-  </span>
-</div>
-
-<div *ngIf="(chipCode$ | async) !== null">
-  <router-outlet />
-</div>
+<router-outlet />

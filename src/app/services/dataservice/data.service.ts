@@ -16,6 +16,8 @@ import type { Activity, Data, SeasonsResponse } from './data.interface';
 export class DataService {
   constructor(private http: HttpClient) {}
 
+  private chipCode = new BehaviorSubject<string | null>(null);
+
   private data = new BehaviorSubject<Data>({
     currentActivity: {} as Activity,
     activities: [],
@@ -26,6 +28,8 @@ export class DataService {
   private status = new BehaviorSubject<'loading' | 'loaded' | 'error'>(
     'loading',
   );
+
+  public chipCode$ = this.chipCode.asObservable();
 
   public status$ = this.status.asObservable();
 
@@ -48,6 +52,10 @@ export class DataService {
       return { currentActivity, curActivities, prevActivities };
     }),
   );
+
+  public setChipCode(chipCode: string) {
+    this.chipCode.next(chipCode);
+  }
 
   public setCurrentActivity(activity: Activity) {
     if (!activity) {
@@ -103,6 +111,7 @@ export class DataService {
   public init = (chipCode: string) => {
     this.status.next('loading');
     this.setItem('chipCode', chipCode);
+    this.setChipCode(chipCode);
 
     return this.fetchCurrentSeasonActivities({ chipCode }).pipe(
       mergeMap((currentActivities) => {

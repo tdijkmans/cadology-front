@@ -39,5 +39,6 @@ export class DrawerComponent {
     this.errorMessage = '';
     // Initialize with the chipCode from the form
     this.d.init(chipCode).pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+    this.ui.closeDrawer();
   }
 }

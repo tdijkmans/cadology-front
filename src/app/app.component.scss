@@ -1,7 +1,13 @@
 @import "../variables.scss";
 
-.app-content {
-  &-void {
+.app-void {
+  &-button {
+    background-color: transparent;
+    font-weight: normal;
+    color: white;
+  }
+
+  &-content {
     display: flex;
     justify-content: center;
     align-items: center;

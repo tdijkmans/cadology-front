@@ -1,4 +1,17 @@
-<cad-page [isLoading]="isLoading">
+<div *ngIf="(d.chipCode$ | async) === null" class="app-void-content">
+  <span class="text-secondary mx-1">
+    <span>🥶</span>
+    <button
+      class="app-void-button"
+      (click)="ui.openDrawer()"
+      (keyup)="ui.openDrawer()"
+    >
+      Vul je transponder code in.
+    </button>
+  </span>
+</div>
+
+<cad-page [isLoading]="(d.status$ | async) === 'loading'">
   <ng-container *ngIf="d.currentData$ | async as d">
     <cad-activitystats
       class="stats-container"
