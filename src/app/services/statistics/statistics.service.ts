@@ -1,11 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Activity, Lap } from '@services/dataservice/data.interface';
-
-interface Bin {
-  bin: number;
-  count: number;
-  normalizedCount: number;
-}
+import { Bin } from './statistics.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -102,5 +97,25 @@ export class StatisticsService {
 
   public distanceFromLapCount(lapCount: number) {
     return this.TRACK_LENGTH * lapCount;
+  }
+
+  public calculateAchievements(activities: Activity[]) {
+    if (activities.length === 0) return;
+
+    const fastestId = activities.reduce((prev, curr) =>
+      curr.bestLap.speed > prev.bestLap.speed ? curr : prev,
+    ).activityId;
+
+    // To ignore tracks of length lower than 400m we use speed to identify the fastest lap
+    //  250 meter track is thus ignored
+    const fastestLapId = activities.reduce((prev, curr) =>
+      curr.bestLap.speed < prev.bestLap.speed ? curr : prev,
+    ).activityId;
+
+    const mostLapsId = activities.reduce((prev, curr) =>
+      curr.lapCount > prev.lapCount ? curr : prev,
+    ).activityId;
+
+    return { fastestId, fastestLapId, mostLapsId };
   }
 }

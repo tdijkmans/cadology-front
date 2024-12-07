@@ -8,6 +8,7 @@ import { UiService } from '@services/uiservice/ui.service';
 import { Observable } from 'rxjs';
 import type { Activity } from '../../services/dataservice/data.interface';
 import { CardComponent } from '../card/card.component';
+import { StatisticsService } from '@services/statistics/statistics.service';
 
 interface ActivityStatus {
   isCurrent: boolean;
@@ -29,45 +30,31 @@ export class ActivitieslistComponent implements OnChanges {
 
   @Input({ required: true }) activities: Activity[] = [];
 
-  fastestId: number | null = null;
-  fastestLapId: number | null = null;
-  mostLapsId: number | null = null;
+  fastestId?: number;
+  fastestLapId?: number;
+  mostLapsId?: number;
 
   activityStatuses: ActivityStatus[] = [];
 
   constructor(
     public d: DataService,
     public ui: UiService,
+    public s: StatisticsService,
   ) {
     this.currentActivity$ = this.d.currentActivity$;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['activities']) {
-      this.calculateAchievements(this.activities);
+      const achievements = this.s.calculateAchievements(this.activities);
+      this.fastestLapId = achievements?.fastestLapId;
+      this.fastestId = achievements?.fastestId;
+      this.mostLapsId = achievements?.mostLapsId;
     }
   }
 
   public handleActivityClick(activity: Activity): void {
     this.d.setCurrentActivity(activity);
     this.ui.closeModal();
-  }
-
-  private calculateAchievements(activities: Activity[]): void {
-    if (activities.length === 0) return;
-
-    this.fastestId = activities.reduce((prev, curr) =>
-      curr.bestLap.speed > prev.bestLap.speed ? curr : prev,
-    ).activityId;
-
-    // To ignore tracks of length lower than 400m we use speed to identify the fastest lap
-    //  250 meter track is thus ignored
-    this.fastestLapId = activities.reduce((prev, curr) =>
-      curr.bestLap.speed < prev.bestLap.speed ? curr : prev,
-    ).activityId;
-
-    this.mostLapsId = activities.reduce((prev, curr) =>
-      curr.lapCount > prev.lapCount ? curr : prev,
-    ).activityId;
   }
 }

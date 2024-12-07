@@ -24,6 +24,16 @@
     }
   }
 
+  &-subheader {
+    padding: $spacing-sm;
+    font-size: $body-font-size-mob;
+    text-align: center;
+
+    @media (min-width: $breakpoint-mobile) {
+      font-size: $body-font-size-mob;
+    }
+  }
+
   &-body {
     font-size: $body-font-size-mob;
 
@@ -63,6 +73,11 @@
       flex-direction: row;
       gap: $spacing-xs;
     }
+  }
+
+  .highlight {
+    background-color: $secondary-color;
+    color: #ffffff;
   }
 
   &-label {

@@ -20,13 +20,13 @@
     <div class="as-card-body as-stats">
       <div class="as-badge">
         <div class="as-badge-label">Snelste</div>
-        <div class="as-badge-value">
+        <div class="as-badge-value" [class.highlight]="isFastestLap">
           {{ currentActivity.bestLap.duration | number: "1.0-2" }}
-          <div class="as-badge-unit">sec</div>
+          <div class="as-badge-unit" [class.highlight]="isFastestLap">sec</div>
         </div>
-        <div class="as-badge-value">
+        <div class="as-badge-value" [class.highlight]="isFastest">
           {{ currentActivity.bestLap.speed | number: "1.0-2" }}
-          <div class="as-badge-unit">km/u</div>
+          <div class="as-badge-unit" [class.highlight]="isFastest">km/u</div>
         </div>
       </div>
 
@@ -49,9 +49,11 @@
           {{ totalTrainingTime[0] }}
           <div class="as-badge-unit">{{ totalTrainingTime[1] }}</div>
         </div>
-        <div class="as-badge-value">
+        <div class="as-badge-value" [class.highlight]="isLongest">
           {{ currentActivity.lapCount }}
-          <span class="as-badge-unit">rondes</span>
+          <span class="as-badge-unit" [class.highlight]="isLongest"
+            >rondes</span
+          >
         </div>
 
         <div class="as-badge-value">
