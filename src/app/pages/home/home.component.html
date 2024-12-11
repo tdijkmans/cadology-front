@@ -87,7 +87,7 @@
         <cad-tab [tabId]="'usefulLinks'" [groupId]="'home2'">
           <cad-card>
             <ul class="px-1 py-1 home-checklist">
-              <ng-container *ngFor="let i of i.data$ | async">
+              <ng-container *ngFor="let i of i.checklist$ | async">
                 <li class="home-checkitem">
                   {{ i.name }}
                 </li>
