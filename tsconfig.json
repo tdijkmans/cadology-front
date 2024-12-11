@@ -23,7 +23,8 @@
       "@services/*": ["./src/app/services/*"],
       "@components/*": ["./src/app/components/*"],
       "@models/*": ["./src/app/models/*"],
-      "@pages/*": ["./src/app/pages/*"]
+      "@pages/*": ["./src/app/pages/*"],
+      "@root/*": ["./src/*"]
     },
     "lib": ["ES2022", "dom"]
   },

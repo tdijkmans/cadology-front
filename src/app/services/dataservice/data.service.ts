@@ -1,21 +1,22 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { PersistenceService } from '@services/persistence/persistence.service';
 import {
   BehaviorSubject,
+  Observable,
   catchError,
   distinctUntilChanged,
   map,
   mergeMap,
   of,
   tap,
+  throwError,
 } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import type { Activity, Data, SeasonsResponse } from './data.interface';
+import type { Activity, Data, SeasonsResponse, Status } from './data.interface';
 
 @Injectable({ providedIn: 'root' })
 export class DataService {
-  constructor(private http: HttpClient) {}
-
   private chipCode = new BehaviorSubject<string | null>(null);
 
   private data = new BehaviorSubject<Data>({
@@ -25,11 +26,14 @@ export class DataService {
 
   private data$ = this.data.asObservable();
 
-  private status = new BehaviorSubject<'loading' | 'loaded' | 'error'>(
-    'loading',
-  );
+  private status = new BehaviorSubject<Status>('loading');
 
   public chipCode$ = this.chipCode.asObservable();
+
+  constructor(
+    private http: HttpClient,
+    private p: PersistenceService,
+  ) {}
 
   public status$ = this.status.asObservable();
 
@@ -54,7 +58,9 @@ export class DataService {
   );
 
   public setChipCode(chipCode: string) {
+    this.p.setItem('chipCode', chipCode);
     this.chipCode.next(chipCode);
+    return this.chipCode$ as Observable<string>;
   }
 
   public setCurrentActivity(activity: Activity) {
@@ -108,43 +114,58 @@ export class DataService {
     );
   }
 
-  public init = (chipCode: string) => {
+  public init = (chipCode?: string) => {
     this.status.next('loading');
-    this.setItem('chipCode', chipCode);
-    this.setChipCode(chipCode);
 
-    return this.fetchCurrentSeasonActivities({ chipCode }).pipe(
+    const localChipCode = this.p.getChipCode();
+    const chipCodeToUse = chipCode || localChipCode;
+
+    if (!chipCodeToUse) {
+      this.status.next('error');
+      throw new Error('No chipCode provided');
+    }
+
+    return this.setChipCode(chipCodeToUse).pipe(
+      mergeMap(() =>
+        this.fetchCurrentSeasonActivities({ chipCode: chipCodeToUse }),
+      ),
       mergeMap((currentActivities) => {
-        this.setCurrentActivity(currentActivities.data[0]);
-        this.setAllActivities(currentActivities.data);
-        return this.fetchPreviousSeasonActivities({ chipCode }).pipe(
-          tap((previousActivities) => {
-            // Combine current and previous activities
-            const allActivities = [
-              ...currentActivities.data,
-              ...(previousActivities.data ?? []),
-            ];
+        const currentData = currentActivities.data ?? [];
+        this.setCurrentActivity(currentData[0]);
+        this.setAllActivities(currentData);
+
+        return this.fetchPreviousSeasonActivities({
+          chipCode: chipCodeToUse,
+        }).pipe(
+          map((previousActivities) => {
+            const previousData = previousActivities.data ?? [];
+            const allActivities = [...currentData, ...previousData];
+
+            // Sort by startTime, falling back to default ordering
             const sortedActivities = allActivities.sort((a, b) => {
-              if (a?.startTime && b?.startTime) {
-                return (
-                  new Date(b.startTime).getTime() -
-                  new Date(a.startTime).getTime()
-                );
-              }
-              return 0;
+              return (
+                (new Date(b?.startTime).getTime() || 0) -
+                (new Date(a?.startTime).getTime() || 0)
+              );
             });
 
             this.setAllActivities(sortedActivities);
-            this.status.next('loaded');
+            return sortedActivities;
           }),
         );
+      }),
+      tap(() => this.status.next('loaded')),
+      catchError((err) => {
+        console.error('Error initializing activities:', err);
+        this.status.next('error');
+        return throwError(() => new Error('Initialization failed'));
       }),
     );
   };
 
   private fetchCurrentSeasonActivities({ chipCode }: { chipCode: string }) {
-    const cacheKey = `SkateActvitity-CurrentSeason-${chipCode}`;
-    const cachedData = this.getItem<SeasonsResponse>(cacheKey);
+    const cacheKey = 'CurrentSeason';
+    const cachedData = this.p.getItem<SeasonsResponse>(cacheKey);
 
     if (cachedData) {
       return of(cachedData);
@@ -153,15 +174,15 @@ export class DataService {
     const url = `${environment.apiUrl}/current/${chipCode}`;
     return this.http.get<SeasonsResponse>(url).pipe(
       tap((res) => {
-        this.setItem(cacheKey, res);
+        this.p.setItem(cacheKey, res);
       }),
       catchError(() => of({ data: [] })),
     );
   }
 
   private fetchPreviousSeasonActivities({ chipCode }: { chipCode: string }) {
-    const cacheKey = `SkateActvitity-PreviousSeason-${chipCode}`;
-    const cachedData = this.getItem<SeasonsResponse>(cacheKey);
+    const cacheKey = 'PreviousSeason';
+    const cachedData = this.p.getItem<SeasonsResponse>(cacheKey);
 
     if (cachedData) {
       return of(cachedData);
@@ -170,85 +191,9 @@ export class DataService {
     const url = `${environment.apiUrl}/previous/${chipCode}`;
     return this.http.get<SeasonsResponse>(url).pipe(
       tap((res) => {
-        this.setItem(cacheKey, res, 60 * 24 * 7 * 365); // 1 year
+        this.p.setItem(cacheKey, res, '1year');
       }),
       catchError(() => of({ data: [] })),
     );
-  }
-
-  // LocalStorage methods
-
-  private setItem<T>(key: string, value: T, expirationMin = 15): void {
-    // Convert expiration time from minutes to milliseconds (default: 15 minutes)
-    const expiration = expirationMin * 60 * 1000;
-
-    if (key === 'chipCode') {
-      // Store chipCode without expiration
-      localStorage.setItem(key, JSON.stringify(value));
-    } else {
-      const expirationDate = Date.now() + expiration;
-      const dataWithExpiration = { value, expiration: expirationDate };
-      try {
-        localStorage.setItem(key, JSON.stringify(dataWithExpiration));
-      } catch (error) {
-        console.error(
-          `Error setting localStorage item with key "${key}":`,
-          error,
-        );
-      }
-    }
-  }
-
-  getItem<T>(key: string): T | null {
-    try {
-      const serializedValue = localStorage.getItem(key);
-      if (!serializedValue) return null;
-
-      if (key === 'chipCode') {
-        // Return chipCode without checking expiration
-        return JSON.parse(serializedValue);
-      }
-
-      const dataWithExpiration = JSON.parse(serializedValue);
-      if (
-        dataWithExpiration.expiration &&
-        Date.now() > dataWithExpiration.expiration
-      ) {
-        // If expired, remove the item and return null
-        this.removeItem(key);
-        return null;
-      }
-
-      return dataWithExpiration.value as T;
-    } catch (error) {
-      console.error(
-        `Error getting localStorage item with key "${key}":`,
-        error,
-      );
-      return null;
-    }
-  }
-
-  private removeItem(key: string): void {
-    try {
-      localStorage.removeItem(key);
-    } catch (error) {
-      console.error(
-        `Error removing localStorage item with key "${key}":`,
-        error,
-      );
-    }
-  }
-
-  clearLocalStorage(): void {
-    try {
-      const chipCode = localStorage.getItem('chipCode');
-      localStorage.clear();
-      if (chipCode) {
-        localStorage.setItem('chipCode', chipCode);
-      }
-    } catch (error) {
-      console.error('Error clearing localStorage:', error);
-    }
   }
 }
