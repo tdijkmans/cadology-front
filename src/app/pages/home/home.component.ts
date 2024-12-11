@@ -10,8 +10,10 @@ import { TabComponent } from '@components/tabs/tab/tab.component';
 import { TabsComponent } from '@components/tabs/tabs.component';
 import { Tab } from '@components/tabs/tabs.inteface';
 import { DataService } from '@services/dataservice/data.service';
+import { InstructionService } from '@services/instruction/instruction.service';
 import { UiService } from '@services/uiservice/ui.service';
 import { CardComponent } from '../../components/card/card.component';
+import { ChecklistComponent } from '../../components/checklist/checklist.component';
 import { DistchartSeasonComponent } from '../../components/distchart-season/distchart-season.component';
 
 @Component({
@@ -29,6 +31,7 @@ import { DistchartSeasonComponent } from '../../components/distchart-season/dist
     TabsComponent,
     TabComponent,
     CardComponent,
+    ChecklistComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -44,10 +47,12 @@ export class HomeComponent {
 
   tabsTwo: Tab[] = [
     { id: 'myNotes', icon: 'letsNotebook', label: 'Schaatsjournaal' },
+    { id: 'usefulLinks', icon: 'letsStat', label: 'Handige links' },
   ];
 
   constructor(
     public d: DataService,
     public ui: UiService,
+    public i: InstructionService,
   ) {}
 }

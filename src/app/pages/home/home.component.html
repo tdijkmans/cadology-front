@@ -80,7 +80,19 @@
       <cad-tabs [tabs]="tabsTwo" [groupId]="'home2'">
         <cad-tab [tabId]="'myNotes'" [groupId]="'home2'">
           <cad-card>
+            <cad-checklist [currentActivity]="d.currentActivity" />
             <cad-notes [currentActivity]="d.currentActivity" />
+          </cad-card>
+        </cad-tab>
+        <cad-tab [tabId]="'usefulLinks'" [groupId]="'home2'">
+          <cad-card>
+            <ul class="px-1 py-1 home-checklist">
+              <ng-container *ngFor="let i of i.data$ | async">
+                <li class="home-checkitem">
+                  {{ i.name }}
+                </li>
+              </ng-container>
+            </ul>
           </cad-card>
         </cad-tab>
       </cad-tabs>

@@ -1,0 +1,33 @@
+@import "../../../variables.scss";
+
+.checklist {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  margin: $spacing-md;
+}
+
+.checklist-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.stars {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.stars input {
+  display: none;
+}
+
+.stars label {
+  font-size: 1.5rem;
+  color: #ccc;
+  cursor: pointer;
+}
+
+.stars label.active-star {
+  color: $tertiary-color;
+}

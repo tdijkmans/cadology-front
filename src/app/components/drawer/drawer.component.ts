@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { letsCloseSquare } from '@ng-icons/lets-icons/regular';
 import { DataService } from '@services/dataservice/data.service';
+import { PersistenceService } from '@services/persistence/persistence.service';
 import { UiService } from '@services/uiservice/ui.service';
 
 @Component({
@@ -23,12 +24,15 @@ export class DrawerComponent {
   constructor(
     public ui: UiService,
     private d: DataService,
+    private p: PersistenceService,
   ) {
-    this.chipInput = this.d.getItem<string>('chipCode') || '';
+    this.d.chipCode$.subscribe((chipCode) => {
+      this.chipInput = chipCode || '';
+    });
   }
 
   clearCache() {
-    this.d.clearLocalStorage();
+    this.p.clearLocalStorage();
   }
 
   onClick(chipCode: string) {

@@ -40,4 +40,14 @@ interface CurrentData {
   prevActivities: Activity[];
 }
 
-export type { Activity, CurrentData, Data, Lap, Season, SeasonsResponse };
+type Status = 'loading' | 'loaded' | 'error';
+
+export type {
+  Activity,
+  CurrentData,
+  Data,
+  Lap,
+  Season,
+  SeasonsResponse,
+  Status,
+};
