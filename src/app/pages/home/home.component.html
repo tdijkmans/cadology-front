@@ -65,6 +65,12 @@
 
     <div class="py-1">
       <cad-tabs [tabs]="tabsTwo" [groupId]="'home2'">
+        <cad-tab [tabId]="'allChecks'" [groupId]="'home2'">
+          <cad-card>
+            <cad-checkliststats />
+          </cad-card>
+        </cad-tab>
+
         <cad-tab [tabId]="'freeNotes'" [groupId]="'home2'">
           <cad-card>
             <cad-notes [currentActivity]="d.currentActivity" />
