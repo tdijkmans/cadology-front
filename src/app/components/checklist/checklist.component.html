@@ -1,39 +1,44 @@
-<cad-chartheader>
-  <ng-icon name="letsCalendar" size="24" />
-  <p>
-    {{ currentActivity?.endTime | date: "dd MMMM yyyy" }} van
-    {{ currentActivity?.startTime | date: "HH:mm" }} tot
-    {{ currentActivity?.endTime | date: "HH:mm" }}
-  </p>
-</cad-chartheader>
+<ng-container *ngIf="currentActivity">
+  <cad-chartheader>
+    <ng-icon name="letsCalendar" size="24" />
+    <p>
+      {{ currentActivity.endTime | date: "dd MMMM yyyy" }} van
+      {{ currentActivity.startTime | date: "HH:mm" }} tot
+      {{ currentActivity.endTime | date: "HH:mm" }}
+    </p>
+  </cad-chartheader>
 
-<div class="checklist" *ngIf="i.checklist$ | async as checklist">
-  <form [formGroup]="form" (ngSubmit)="submit()">
-    <div formArrayName="checkList">
-      <ng-container *ngFor="let control of checkList.controls; let i = index">
-        <div class="checklist-item" *ngIf="checklist[i] as item">
-          <label for="rating-{{ i }}"> {{ item.name }} </label>
-          <div class="stars">
-            <ng-container
-              *ngFor="let star of [1, 2, 3, 4, 5]; let starIndex = index"
-            >
-              <input
-                type="radio"
-                [id]="'star-' + i + '-' + starIndex"
-                [value]="star"
-                [formControlName]="i.toString()"
-              />
-              <label
-                [for]="'star-' + i + '-' + starIndex"
-                [ngClass]="{ 'active-star': control.value >= star }"
+  <div class="checklist" *ngIf="checklist">
+    <form [formGroup]="formGroup">
+      <div [formArrayName]="'myChecklist'">
+        <ng-container *ngFor="let control of form.controls; let i = index">
+          <div class="checklist-item" *ngIf="checklist[i] as item">
+            <label for="rating-{{ i }}"> {{ item.name }} </label>
+            <div class="stars">
+              <ng-container
+                *ngFor="let star of [1, 2, 3, 4, 5]; let starIndex = index"
               >
-                ★
-              </label>
-            </ng-container>
+                <input
+                  type="radio"
+                  [id]="'star-' + i + '-' + starIndex"
+                  [value]="star"
+                  [formControlName]="i.toString()"
+                  (click)="
+                    handleRatingChange(i, star, currentActivity.activityId)
+                  "
+                />
+                <label
+                  [for]="'star-' + i + '-' + starIndex"
+                  [ngClass]="{ 'active-star': control.value >= star }"
+                >
+                  ★
+                </label>
+              </ng-container>
+            </div>
           </div>
-        </div>
-      </ng-container>
-    </div>
-    <button type="submit" [style]="{ display: 'none' }">Submit</button>
-  </form>
-</div>
+        </ng-container>
+      </div>
+      <button type="submit" [style]="{ display: 'none' }">Submit</button>
+    </form>
+  </div>
+</ng-container>

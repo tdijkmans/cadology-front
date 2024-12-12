@@ -47,7 +47,7 @@ export class HomeComponent {
 
   tabsTwo: Tab[] = [
     { id: 'myNotes', icon: 'letsNotebook', label: 'Schaatsjournaal' },
-    { id: 'usefulLinks', icon: 'letsStat', label: 'Handige links' },
+    { id: 'freeNotes', icon: 'letsNotebook', label: 'Notities' },
   ];
 
   constructor(
