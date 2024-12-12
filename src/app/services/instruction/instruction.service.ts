@@ -56,8 +56,12 @@ export class InstructionService {
     return data ? new Map<number, Check[]>(JSON.parse(data)) : new Map();
   }
 
-  public getCheckStatistics(store: CheckStore) {
-    const checks = Array.from(store.values()).flat();
+  public getCheckStatistics(store: CheckStore, filterZeroes = true) {
+    const allChecks = Array.from(store.values())
+      .flat()
+      .filter((check) => check.value > 0);
+    const filteredChecks = allChecks.filter((check) => check.value > 0);
+    const checks = filterZeroes ? filteredChecks : allChecks;
 
     const averageScorePerCheckId = checks.reduce(
       (acc, check) => {
@@ -100,6 +104,6 @@ export class InstructionService {
       },
     );
 
-    return stats;
+    return stats.sort((a, b) => b.count - a.count);
   }
 }
