@@ -45,8 +45,6 @@ export class InstructionService {
       .flat()
       .filter((check) => check.value > 0);
 
-    console.log(checks);
-
     const averageScorePerCheckId = checks.reduce(
       (acc, check) => {
         acc[check.checkId] = (acc[check.checkId] || 0) + check.value;
@@ -54,8 +52,6 @@ export class InstructionService {
       },
       {} as Record<number, number>,
     );
-
-    console.log(averageScorePerCheckId);
 
     const checkCountPerCheckId = checks.reduce(
       (acc, check) => {
@@ -69,7 +65,6 @@ export class InstructionService {
       averageScorePerCheckId,
     ).reduce(
       (acc, item) => {
-        console.log(item);
         const [checkIdSt, score] = item;
         const checkId = Number(checkIdSt);
         const instructionName = this.checklist.find(
@@ -78,7 +73,6 @@ export class InstructionService {
         const normalizedScore = score / checkCountPerCheckId[checkId];
 
         acc[checkId] = normalizedScore;
-        console.log(instructionName, score / checkCountPerCheckId[checkId]);
         return acc;
       },
       {} as Record<string, number>,
