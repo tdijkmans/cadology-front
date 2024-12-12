@@ -25,9 +25,25 @@ export class InstructionService {
     });
   }
 
-  public updateCheckList(activityId: number, checks: Check[]) {
+  public updateCheckList(activityId: number, newCheck: Check) {
     const checksList = this.checksStore.getValue();
-    this.checksStore.next(checksList.set(activityId, checks));
+    const checksToInit = this.checklist.map(({ checkId }) => ({
+      checkId,
+      value: 0,
+    }));
+    const currentChecks = checksList.get(activityId) || checksToInit;
+
+    const checkIndex = currentChecks.findIndex(
+      (check) => check.checkId === newCheck.checkId,
+    );
+    if (checkIndex === -1) {
+      currentChecks.push(newCheck);
+    } else {
+      currentChecks[checkIndex] = newCheck;
+    }
+
+    checksList.set(activityId, currentChecks);
+    this.checksStore.next(checksList);
   }
 
   private saveToLocalStorage(store: CheckStore) {

@@ -24,7 +24,11 @@
                   [value]="star"
                   [formControlName]="i.toString()"
                   (click)="
-                    handleRatingChange(i, star, currentActivity.activityId)
+                    handleRatingChange(
+                      item.checkId,
+                      star,
+                      currentActivity.activityId
+                    )
                   "
                 />
                 <label

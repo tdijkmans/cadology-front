@@ -73,15 +73,10 @@ export class ChecklistComponent implements OnInit {
   }
 
   handleRatingChange(
-    index: number,
+    checkId: number,
     newValue: number,
     activityId: Activity['activityId'],
   ) {
-    const nextValues = this.form.value.map((curValue, checkId) =>
-      checkId === index
-        ? { checkId, value: newValue }
-        : { checkId, value: curValue },
-    );
-    this.i.updateCheckList(activityId, nextValues);
+    this.i.updateCheckList(activityId, { checkId, value: newValue });
   }
 }
