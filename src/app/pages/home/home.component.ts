@@ -46,9 +46,9 @@ export class HomeComponent {
   ] as const;
 
   tabsTwo: Tab[] = [
-    { id: 'allChecks', icon: 'letsNotebook' },
     { id: 'season', icon: 'letsStat' },
     { id: 'distSeason', icon: 'letsChartAlt' },
+    { id: 'allChecks', icon: 'letsNotebook' },
   ] as const;
 
   constructor(
