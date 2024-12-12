@@ -6,6 +6,7 @@ import {
   letsChartAlt,
   letsClock,
   letsNotebook,
+  letsPen,
   letsRoadAlt,
   letsSpeed,
   letsStat,
@@ -27,6 +28,7 @@ import { Tab } from './tabs.inteface';
       letsStat,
       letsNotebook,
       letsChartAlt,
+      letsPen,
     }),
   ],
 })

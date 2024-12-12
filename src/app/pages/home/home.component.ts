@@ -38,16 +38,16 @@ import { DistchartSeasonComponent } from '../../components/distchart-season/dist
 })
 export class HomeComponent {
   tabs: Tab[] = [
+    { id: 'myNotes', icon: 'letsNotebook' },
     { id: 'lapTime', icon: 'letsClock' },
     { id: 'speed', icon: 'letsSpeed' },
     { id: 'distance', icon: 'letsRoadAlt' },
-    { id: 'season', icon: 'letsStat' },
-    { id: 'distSeason', icon: 'letsChartAlt' },
   ];
 
   tabsTwo: Tab[] = [
-    { id: 'myNotes', icon: 'letsNotebook', label: 'Schaatsjournaal' },
-    { id: 'freeNotes', icon: 'letsNotebook', label: 'Notities' },
+    { id: 'freeNotes', icon: 'letsPen', label: 'Notities' },
+    { id: 'season', icon: 'letsStat' },
+    { id: 'distSeason', icon: 'letsChartAlt' },
   ];
 
   constructor(

@@ -54,38 +54,39 @@
         </cad-card>
       </cad-tab>
 
-      <cad-tab [tabId]="'season'" [groupId]="'home'">
+      <cad-tab [tabId]="'myNotes'" [groupId]="'home'">
         <cad-card>
-          <cad-histochart
-            [curActivities]="d.curActivities"
-            [prevActivities]="d.prevActivities"
-            [currentActivity]="d.currentActivity"
-          />
-        </cad-card>
-      </cad-tab>
-
-      <cad-tab [tabId]="'distSeason'" [groupId]="'home'">
-        <cad-card>
-          <cad-distchart-season
-            *ngIf="d.currentActivity.laps"
-            [curActivities]="d.curActivities"
-            [prevActivities]="d.prevActivities"
-            [currentActivity]="d.currentActivity"
-          />
+          <cad-checklist [currentActivity]="d.currentActivity" />
         </cad-card>
       </cad-tab>
     </cad-tabs>
 
     <div class="py-1">
       <cad-tabs [tabs]="tabsTwo" [groupId]="'home2'">
-        <cad-tab [tabId]="'myNotes'" [groupId]="'home2'">
-          <cad-card>
-            <cad-checklist [currentActivity]="d.currentActivity" />
-          </cad-card>
-        </cad-tab>
         <cad-tab [tabId]="'freeNotes'" [groupId]="'home2'">
           <cad-card>
             <cad-notes [currentActivity]="d.currentActivity" />
+          </cad-card>
+        </cad-tab>
+
+        <cad-tab [tabId]="'season'" [groupId]="'home2'">
+          <cad-card>
+            <cad-histochart
+              [curActivities]="d.curActivities"
+              [prevActivities]="d.prevActivities"
+              [currentActivity]="d.currentActivity"
+            />
+          </cad-card>
+        </cad-tab>
+
+        <cad-tab [tabId]="'distSeason'" [groupId]="'home2'">
+          <cad-card>
+            <cad-distchart-season
+              *ngIf="d.currentActivity.laps"
+              [curActivities]="d.curActivities"
+              [prevActivities]="d.prevActivities"
+              [currentActivity]="d.currentActivity"
+            />
           </cad-card>
         </cad-tab>
       </cad-tabs>

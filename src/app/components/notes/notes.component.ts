@@ -5,7 +5,7 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import {
   letsAddRing,
   letsCloseSquare,
-  letsNotebook,
+  letsPen,
 } from '@ng-icons/lets-icons/regular';
 import type { Activity } from '@services/dataservice/data.interface';
 
@@ -15,7 +15,7 @@ import type { Activity } from '@services/dataservice/data.interface';
   imports: [CommonModule, FormsModule, NgIconComponent],
   templateUrl: './notes.component.html',
   styleUrl: './notes.component.scss',
-  viewProviders: [provideIcons({ letsAddRing, letsNotebook, letsCloseSquare })],
+  viewProviders: [provideIcons({ letsAddRing, letsPen, letsCloseSquare })],
 })
 export class NotesComponent implements OnInit {
   @Input({ required: true }) currentActivity: Activity | null = null;

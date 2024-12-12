@@ -7,13 +7,13 @@
       title="note"
       placeholder="Voeg een notitie toe"
     />
-    <button (click)="addNote()">
+    <button (click)="addNote()" class="notes-add">
       <ng-icon name="letsAddRing" size="1.2rem"></ng-icon>
     </button>
   </div>
 
   <div *ngIf="notes.length === 0" class="notes-empty">
-    <ng-icon name="letsNotebook" size="1.2rem"></ng-icon>
+    <ng-icon name="letsPen" size="1.2rem"></ng-icon>
     <div>Geen notities</div>
   </div>
 
