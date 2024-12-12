@@ -2,13 +2,20 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { checkList } from './instructions';
 
+type Check = {
+  checkId: number;
+  value: number;
+};
+
+type CheckStore = Map<number, Check[]>;
+
 @Injectable({
   providedIn: 'root',
 })
 export class InstructionService {
   private localStorageKey = 'cad-checklist';
 
-  private checksStore = new BehaviorSubject<Map<number, number[]>>(
+  private checksStore = new BehaviorSubject<CheckStore>(
     this.loadFromLocalStorage(),
   );
   public checksStore$ = this.checksStore.asObservable();
@@ -20,18 +27,18 @@ export class InstructionService {
     });
   }
 
-  public updateCheckList(activityId: number, checks: number[]) {
+  public updateCheckList(activityId: number, checks: Check[]) {
     const checksList = this.checksStore.getValue();
     this.checksStore.next(checksList.set(activityId, checks));
   }
 
-  private saveToLocalStorage(store: Map<number, number[]>) {
+  private saveToLocalStorage(store: CheckStore) {
     const serializedStore = JSON.stringify(Array.from(store.entries()));
     localStorage.setItem(this.localStorageKey, serializedStore);
   }
 
-  private loadFromLocalStorage(): Map<number, number[]> {
+  private loadFromLocalStorage(): CheckStore {
     const data = localStorage.getItem(this.localStorageKey);
-    return data ? new Map<number, number[]>(JSON.parse(data)) : new Map();
+    return data ? new Map<number, Check[]>(JSON.parse(data)) : new Map();
   }
 }

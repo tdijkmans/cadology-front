@@ -1,30 +1,32 @@
-<div class="notes">
-  <div class="notes-input">
-    <input
-      class="my-0"
-      type="text"
-      [(ngModel)]="note"
-      title="note"
-      placeholder="Voeg een notitie toe"
-    />
-    <button (click)="addNote()" class="notes-add">
-      <ng-icon name="letsAddRing" size="1.2rem"></ng-icon>
-    </button>
-  </div>
+<div class="mx-2 my-2">
+  <div class="notes">
+    <div class="notes-input">
+      <input
+        class="my-0"
+        type="text"
+        [(ngModel)]="note"
+        title="note"
+        placeholder="Voeg een notitie toe"
+      />
+      <button (click)="addNote()" class="notes-add">
+        <ng-icon name="letsAddRing" size="1.2rem" />
+      </button>
+    </div>
 
-  <div *ngIf="notes.length === 0" class="notes-empty">
-    <ng-icon name="letsPen" size="1.2rem"></ng-icon>
-    <div>Geen notities</div>
-  </div>
+    <div *ngIf="notes.length === 0" class="notes-empty">
+      <ng-icon name="letsPen" size="1.2rem" />
+      <div>Geen notities</div>
+    </div>
 
-  <div class="notes-notes">
-    <button
-      *ngFor="let note of notes"
-      class="notes-note"
-      (click)="removeNote(note)"
-    >
-      {{ note }}
-      <ng-icon name="letsCloseSquare" size="16" color="--primay-color" />
-    </button>
+    <div class="notes-notes">
+      <button
+        *ngFor="let note of notes"
+        class="notes-note"
+        (click)="removeNote(note)"
+      >
+        {{ note }}
+        <ng-icon name="letsCloseSquare" size="16" color="--primay-color" />
+      </button>
+    </div>
   </div>
 </div>

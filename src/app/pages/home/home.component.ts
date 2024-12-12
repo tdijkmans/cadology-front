@@ -45,10 +45,11 @@ export class HomeComponent {
   ];
 
   tabsTwo: Tab[] = [
-    { id: 'freeNotes', icon: 'letsPen', label: 'Notities' },
     { id: 'season', icon: 'letsStat' },
     { id: 'distSeason', icon: 'letsChartAlt' },
   ];
+
+  tabsThree: Tab[] = [{ id: 'freeNotes', icon: 'letsPen', label: 'Notities' }];
 
   constructor(
     public d: DataService,

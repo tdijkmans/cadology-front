@@ -63,7 +63,7 @@ export class ChecklistComponent implements OnInit {
         tap(([activity, checksStore]) => {
           const checks = checksStore.get(activity.activityId);
           if (checks) {
-            this.form.setValue(checks);
+            this.form.setValue(checks.map((check) => check.value));
           } else {
             this.form.reset();
           }
@@ -77,8 +77,10 @@ export class ChecklistComponent implements OnInit {
     newValue: number,
     activityId: Activity['activityId'],
   ) {
-    const nextValues = this.form.value.map((curValue, i) =>
-      i === index ? newValue : curValue,
+    const nextValues = this.form.value.map((curValue, checkId) =>
+      checkId === index
+        ? { checkId, value: newValue }
+        : { checkId, value: curValue },
     );
     this.i.updateCheckList(activityId, nextValues);
   }
