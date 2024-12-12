@@ -1,8 +1,12 @@
+type CheckId = number;
+
 type Check = {
-  checkId: number;
+  checkId: CheckId;
   value: number;
 };
 
-type CheckStore = Map<number, Check[]>;
+type ActivityId = number;
 
-export type { Check, CheckStore };
+type CheckStore = Map<ActivityId, Check[]>;
+
+export type { ActivityId, Check, CheckId, CheckStore };

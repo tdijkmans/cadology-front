@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map } from 'rxjs';
-import { Check, CheckStore } from './instruction.interface';
+import { Check, CheckId, CheckStore } from './instruction.interface';
 import { checkList } from './instructions';
 
 @Injectable({
@@ -57,16 +57,14 @@ export class InstructionService {
   }
 
   public getCheckStatistics(store: CheckStore) {
-    const checks = Array.from(store.values())
-      .flat()
-      .filter((check) => check.value > 0);
+    const checks = Array.from(store.values()).flat();
 
     const averageScorePerCheckId = checks.reduce(
       (acc, check) => {
         acc[check.checkId] = (acc[check.checkId] || 0) + check.value;
         return acc;
       },
-      {} as Record<number, number>,
+      {} as Record<CheckId, number>,
     );
 
     const checkCountPerCheckId = checks.reduce(
@@ -74,7 +72,7 @@ export class InstructionService {
         acc[check.checkId] = (acc[check.checkId] || 0) + 1;
         return acc;
       },
-      {} as Record<number, number>,
+      {} as Record<CheckId, number>,
     );
 
     const averageScorePerCheckIdNormalized = Object.entries(
@@ -83,17 +81,25 @@ export class InstructionService {
       (acc, item) => {
         const [checkIdSt, score] = item;
         const checkId = Number(checkIdSt);
-        const instructionName = this.checklist.find(
-          (check) => check.checkId === checkId,
-        )?.name;
+
         const normalizedScore = score / checkCountPerCheckId[checkId];
 
         acc[checkId] = normalizedScore;
         return acc;
       },
-      {} as Record<string, number>,
+      {} as Record<CheckId, number>,
     );
 
-    return averageScorePerCheckIdNormalized;
+    const stats = Object.entries(averageScorePerCheckIdNormalized).map(
+      ([checkId, score]) => {
+        const instructionName = this.checklist.find(
+          (check) => check.checkId === Number(checkId),
+        )?.name;
+        const count = checkCountPerCheckId[Number(checkId)];
+        return { instructionName, score, count, checkId: Number(checkId) };
+      },
+    );
+
+    return stats;
   }
 }

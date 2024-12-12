@@ -40,13 +40,13 @@ export class ChecklistComponent implements OnInit {
   constructor(
     public d: DataService,
     public i: InstructionService,
-    private formBuilder: FormBuilder,
+    private fb: FormBuilder,
   ) {
     const formControls = i.checklist.map(
       () => new FormControl(0, { nonNullable: true }),
     );
-    const form = this.formBuilder.array(formControls);
-    const formGroup = this.formBuilder.group({ myChecklist: form });
+    const form = this.fb.array(formControls);
+    const formGroup = this.fb.group({ myChecklist: form });
     this.formGroup = formGroup;
     this.checklist = i.checklist;
   }

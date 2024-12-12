@@ -18,6 +18,8 @@ export class CheckliststatsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.i.checkStatistics$.subscribe((stats) => {});
+    this.i.checkStatistics$.subscribe((stats) => {
+      console.log('stats', stats);
+    });
   }
 }
