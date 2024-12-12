@@ -5,9 +5,9 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import {
   letsAddRing,
   letsCloseSquare,
-  letsNotebook,
+  letsPen,
 } from '@ng-icons/lets-icons/regular';
-import { Activity } from '@services/dataservice/data.interface';
+import type { Activity } from '@services/dataservice/data.interface';
 
 @Component({
   selector: 'cad-notes',
@@ -15,7 +15,7 @@ import { Activity } from '@services/dataservice/data.interface';
   imports: [CommonModule, FormsModule, NgIconComponent],
   templateUrl: './notes.component.html',
   styleUrl: './notes.component.scss',
-  viewProviders: [provideIcons({ letsAddRing, letsNotebook, letsCloseSquare })],
+  viewProviders: [provideIcons({ letsAddRing, letsPen, letsCloseSquare })],
 })
 export class NotesComponent implements OnInit {
   @Input({ required: true }) currentActivity: Activity | null = null;
@@ -23,20 +23,20 @@ export class NotesComponent implements OnInit {
   notes: string[] = [];
   note = '';
 
-  ngOnInit() {
+  public ngOnInit() {
     const notes = localStorage.getItem('notes');
     if (notes) {
       this.notes = JSON.parse(notes);
     }
   }
 
-  addNote() {
+  public addNote() {
     this.notes.push(this.note);
     this.note = '';
     localStorage.setItem('notes', JSON.stringify(this.notes));
   }
 
-  removeNote(note: string) {
+  public removeNote(note: string) {
     this.notes = this.notes.filter((n) => note !== n);
     localStorage.setItem('notes', JSON.stringify(this.notes));
   }

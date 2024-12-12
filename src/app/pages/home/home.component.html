@@ -18,84 +18,91 @@
       *ngIf="d.currentActivity.laps && d.currentActivity.activityId"
     />
 
-    <cad-tabs [tabs]="tabs" [groupId]="'home'">
-      <cad-tab [tabId]="'lapTime'" [groupId]="'home'">
-        <cad-card class="mx-2 my-2">
-          <cad-barchart
-            [laps]="d.currentActivity.laps"
-            [type]="'lapTime'"
-            [yScaleMax]="100"
-            [yScaleMin]="25"
-          />
-        </cad-card>
-      </cad-tab>
-      <cad-tab
-        [tabId]="'speed'"
-        *ngIf="d.currentActivity.laps"
-        [groupId]="'home'"
-      >
-        <cad-card>
-          <cad-barchart
-            [laps]="d.currentActivity.laps"
-            [type]="'speed'"
-            [yScaleMax]="40"
-            [yScaleMin]="5"
-          />
-        </cad-card>
-      </cad-tab>
-
-      <cad-tab
-        [tabId]="'distance'"
-        *ngIf="d.currentActivity.laps"
-        [groupId]="'home'"
-      >
-        <cad-card>
-          <cad-distchart [currentActivity]="d.currentActivity" />
-        </cad-card>
-      </cad-tab>
-
-      <cad-tab [tabId]="'season'" [groupId]="'home'">
-        <cad-card>
-          <cad-histochart
-            [curActivities]="d.curActivities"
-            [prevActivities]="d.prevActivities"
-            [currentActivity]="d.currentActivity"
-          />
-        </cad-card>
-      </cad-tab>
-
-      <cad-tab [tabId]="'distSeason'" [groupId]="'home'">
-        <cad-card>
-          <cad-distchart-season
-            *ngIf="d.currentActivity.laps"
-            [curActivities]="d.curActivities"
-            [prevActivities]="d.prevActivities"
-            [currentActivity]="d.currentActivity"
-          />
-        </cad-card>
-      </cad-tab>
-    </cad-tabs>
-
     <div class="py-1">
-      <cad-tabs [tabs]="tabsTwo" [groupId]="'home2'">
-        <cad-tab [tabId]="'myNotes'" [groupId]="'home2'">
-          <cad-card>
-            <cad-checklist [currentActivity]="d.currentActivity" />
-            <cad-notes [currentActivity]="d.currentActivity" />
+      <cad-tabs [tabs]="tabs" [groupId]="'home'">
+        <cad-tab [tabId]="'lapTime'" [groupId]="'home'">
+          <cad-card class="mx-2 my-2">
+            <cad-barchart
+              [laps]="d.currentActivity.laps"
+              [type]="'lapTime'"
+              [yScaleMax]="100"
+              [yScaleMin]="25"
+            />
           </cad-card>
         </cad-tab>
-        <cad-tab [tabId]="'usefulLinks'" [groupId]="'home2'">
+        <cad-tab
+          [tabId]="'speed'"
+          *ngIf="d.currentActivity.laps"
+          [groupId]="'home'"
+        >
           <cad-card>
-            <ul class="px-1 py-1 home-checklist">
-              <ng-container *ngFor="let i of i.checklist$ | async">
-                <li class="home-checkitem">
-                  {{ i.name }}
-                </li>
-              </ng-container>
-            </ul>
+            <cad-barchart
+              [laps]="d.currentActivity.laps"
+              [type]="'speed'"
+              [yScaleMax]="40"
+              [yScaleMin]="5"
+            />
+          </cad-card>
+        </cad-tab>
+
+        <cad-tab
+          [tabId]="'distance'"
+          *ngIf="d.currentActivity.laps"
+          [groupId]="'home'"
+        >
+          <cad-card>
+            <cad-distchart [currentActivity]="d.currentActivity" />
+          </cad-card>
+        </cad-tab>
+
+        <cad-tab [tabId]="'myNotes'" [groupId]="'home'">
+          <cad-card>
+            <cad-checklist [currentActivity]="d.currentActivity" />
           </cad-card>
         </cad-tab>
       </cad-tabs>
+    </div>
+
+    <div class="py-1">
+      <cad-tabs [tabs]="tabsTwo" [groupId]="'home2'">
+        <cad-tab [tabId]="'allChecks'" [groupId]="'home2'">
+          <cad-card>
+            <cad-checkliststats />
+          </cad-card>
+        </cad-tab>
+
+        <cad-tab [tabId]="'freeNotes'" [groupId]="'home2'">
+          <cad-card>
+            <cad-notes [currentActivity]="d.currentActivity" />
+          </cad-card>
+        </cad-tab>
+
+        <cad-tab [tabId]="'season'" [groupId]="'home2'">
+          <cad-card>
+            <cad-histochart
+              [curActivities]="d.curActivities"
+              [prevActivities]="d.prevActivities"
+              [currentActivity]="d.currentActivity"
+            />
+          </cad-card>
+        </cad-tab>
+
+        <cad-tab [tabId]="'distSeason'" [groupId]="'home2'">
+          <cad-card>
+            <cad-distchart-season
+              *ngIf="d.currentActivity.laps"
+              [curActivities]="d.curActivities"
+              [prevActivities]="d.prevActivities"
+              [currentActivity]="d.currentActivity"
+            />
+          </cad-card>
+        </cad-tab>
+      </cad-tabs>
+    </div>
+    <div class="pb-2">
+      <cad-card>
+        <cad-notes [currentActivity]="d.currentActivity" />
+      </cad-card>
     </div>
   </ng-container>
 </cad-page>

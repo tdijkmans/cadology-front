@@ -21,6 +21,26 @@
     }
   }
 
+  .card-title {
+    font-size: $heading-font-size-mob;
+    font-weight: bold;
+    color: $accent-color;
+
+    @media screen and (min-width: $breakpoint-mobile) {
+      font-size: $heading-font-size;
+    }
+  }
+
+  .card-subtitle {
+    font-size: $heading-font-size-mob;
+    font-weight: normal;
+    color: $dark-color;
+
+    @media screen and (min-width: $breakpoint-mobile) {
+      font-size: $heading-font-size;
+    }
+  }
+
   .card-body {
     font-size: $body-font-size-mob;
 

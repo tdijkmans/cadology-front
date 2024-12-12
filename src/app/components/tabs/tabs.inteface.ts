@@ -4,7 +4,8 @@ type Icon =
   | 'letsRoadAlt'
   | 'letsStat'
   | 'letsNotebook'
-  | 'letsChartAlt';
+  | 'letsChartAlt'
+  | 'letsPen';
 
 interface Tab {
   label?: string;

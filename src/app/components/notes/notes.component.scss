@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   gap: $spacing-md;
-  margin: $spacing-md;
+  margin-top: $spacing-md;
 }
 
 .notes-notes {
@@ -24,7 +24,8 @@
   color: $dark-color;
 }
 
-.notes-input {
+.notes-input,
+.notes-add {
   display: flex;
 }
 

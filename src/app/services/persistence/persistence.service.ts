@@ -16,29 +16,6 @@ export interface LogEntry {
   providedIn: 'root',
 })
 export class PersistenceService {
-  public logActivity(logEntry: LogEntry): void {
-    const currentLog = this.getItem<LogEntry[]>('journalLog') || [];
-
-    const existingLogEntry = currentLog.find(
-      (entry) => entry.activityId === logEntry.activityId,
-    );
-
-    if (existingLogEntry) {
-      currentLog[currentLog.indexOf(existingLogEntry)] = logEntry;
-    } else {
-      currentLog.push(logEntry);
-    }
-
-    this.setItem('journalLog', currentLog);
-
-    console.log('Activity logged:', logEntry);
-  }
-
-  public getJournalLogEntry(activityId: number): LogEntry | null {
-    const log = this.getItem<LogEntry[]>('journalLog') || [];
-    return log.find((entry) => entry.activityId === activityId) || null;
-  }
-
   public getChipCode() {
     return this.getItem<string>('chipCode');
   }
