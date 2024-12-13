@@ -21,13 +21,19 @@
     <div class="py-1">
       <cad-tabs [tabs]="tabs" [groupId]="'home'">
         <cad-tab [tabId]="'lapTime'" [groupId]="'home'">
-          <cad-card class="mx-2 my-2">
-            <cad-barchart
+          <cad-card>
+            <cad-combochart
               [laps]="d.currentActivity.laps"
               [type]="'lapTime'"
               [yScaleMax]="100"
               [yScaleMin]="25"
             />
+            <!-- <cad-barchart
+              [laps]="d.currentActivity.laps"
+              [type]="'lapTime'"
+              [yScaleMax]="100"
+              [yScaleMin]="25"
+            /> -->
           </cad-card>
         </cad-tab>
         <cad-tab

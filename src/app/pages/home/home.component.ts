@@ -14,6 +14,7 @@ import { DataService } from '@services/dataservice/data.service';
 import { UiService } from '@services/uiservice/ui.service';
 import { CardComponent } from '../../components/card/card.component';
 import { ChecklistComponent } from '../../components/checklist/checklist.component';
+import { CombochartComponent } from '../../components/combochart/combochart.component';
 import { DistchartSeasonComponent } from '../../components/distchart-season/distchart-season.component';
 
 @Component({
@@ -33,14 +34,15 @@ import { DistchartSeasonComponent } from '../../components/distchart-season/dist
     CardComponent,
     ChecklistComponent,
     CheckliststatsComponent,
+    CombochartComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent {
   tabs: Tab[] = [
-    { id: 'myNotes', icon: 'letsNotebook' },
     { id: 'lapTime', icon: 'letsClock' },
+    { id: 'myNotes', icon: 'letsNotebook' },
     { id: 'speed', icon: 'letsSpeed' },
     { id: 'distance', icon: 'letsRoadAlt' },
   ] as const;
