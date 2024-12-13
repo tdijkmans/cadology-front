@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivitystatsComponent } from '@components/activitystats/activitystats.component';
-import { BarchartComponent } from '@components/barchart/barchart.component';
 import { CheckliststatsComponent } from '@components/checkliststats/checkliststats.component';
 import { DistchartComponent } from '@components/distchart/distchart.component';
 import { HistochartComponent } from '@components/histochart/histochart.component';
@@ -23,7 +22,6 @@ import { DistchartSeasonComponent } from '../../components/distchart-season/dist
   imports: [
     CommonModule,
     ActivitystatsComponent,
-    BarchartComponent,
     HistochartComponent,
     DistchartComponent,
     DistchartSeasonComponent,

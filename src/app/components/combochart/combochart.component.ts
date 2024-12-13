@@ -17,6 +17,7 @@ import {
   letsSortUp,
   letsTrophy,
 } from '@ng-icons/lets-icons/regular';
+import { StatisticsService } from '@services/statistics/statistics.service';
 import { UiService } from '@services/uiservice/ui.service';
 import {
   BarVerticalComponent,
@@ -24,7 +25,8 @@ import {
   LineChartModule,
   NgxChartsModule,
 } from '@swimlane/ngx-charts';
-import { distinctUntilChanged } from 'rxjs';
+import * as shape from 'd3-shape';
+import { distinctUntilChanged, tap } from 'rxjs';
 import { theme } from '../../../_variables';
 import type { Lap } from '../../services/dataservice/data.interface';
 import { ChartcontainerComponent } from '../chart/chartcontainer/chartcontainer.component';
@@ -64,6 +66,10 @@ export class CombochartComponent implements OnChanges {
   @Input({ required: true }) yScaleMax = 0;
   @Input({ required: true }) yScaleMin = 0;
 
+  rollingLapData = [{ name: '', series: [{ name: 0, value: 0 }] }];
+  schemeTwo = { domain: [theme.accentcolor] } as Color;
+  curve = shape.curveMonotoneX;
+
   @ViewChild('barChart') barChart!: BarVerticalComponent;
 
   currentIndex = 0; // Index of the selected bar
@@ -75,53 +81,45 @@ export class CombochartComponent implements OnChanges {
   scheme = { domain: [theme.secondarycolor] } as Color;
   progressiveStreak = [] as CappedLap[];
 
-  constructor(public ui: UiService) {}
+  constructor(
+    public ui: UiService,
+    public s: StatisticsService,
+  ) {}
 
   ngOnInit() {
     this.ui
       .getActiveTabId$('home')
-      ?.pipe(takeUntilDestroyed(this.destroyRef), distinctUntilChanged())
-      .subscribe((t) => {
-        this.barChart?.update();
-      });
+      ?.pipe(
+        takeUntilDestroyed(this.destroyRef),
+        distinctUntilChanged(),
+        tap(() => this.barChart?.update()),
+      )
+      .subscribe();
   }
 
   ngOnChanges(): void {
     if (!this.laps?.length) {
       return;
     }
-    this.initializeData();
-    this.progressiveStreak = this.identifyProgressiveStreak();
+
+    const lapData = this.s.prepareLapData(this.laps, this.yScaleMax, this.type);
+    this.lapData = lapData;
+    this.progressiveStreak = this.s.identifyProgressiveStreak(lapData);
     this.selectFastesLap();
+    this.mapRollingAvg(lapData);
   }
 
-  initializeData(progressiveDelta = 0) {
-    const laps = this.laps;
-    const twoDecimal = (v: number) => Math.round(v * 100) / 100;
-
-    // Process data, storing both capped and original values
-    const lapData = laps.map((l, index) => {
-      const speed = twoDecimal(l.speed);
-      const lapTime = l.duration;
-      const originalValue = this.type === 'speed' ? speed : lapTime;
-      const isCapped = originalValue > this.yScaleMax;
-      const isProgressive =
-        index > 0 &&
-        laps[index].speed + progressiveDelta > laps[index - 1].speed;
-
-      return {
-        isProgressive,
-        name: `${index + 1}`,
-        value: Math.min(originalValue, this.yScaleMax), // Capped value for display
-        originalValue, // Uncapped value for display
-        isCapped,
-        seq: index,
-        speed,
-        lapTime,
-      };
-    });
-
-    this.lapData = lapData;
+  mapRollingAvg(laps: CappedLap[]) {
+    this.rollingLapData = [
+      {
+        name: 'Totale afstand',
+        series: laps.map((d, i) => ({
+          name: i,
+          value:
+            this.type === 'speed' ? d.rollingAvgSpeed : d.rollingAvgLapTime,
+        })),
+      },
+    ];
   }
 
   selectFastesLap() {
@@ -134,38 +132,6 @@ export class CombochartComponent implements OnChanges {
 
   selectFirstOfLongestStreak() {
     this.onSelect(this.progressiveStreak[0]);
-  }
-
-  identifyProgressiveStreak() {
-    const { longestStreak } = this.lapData.reduce<{
-      currentStreak: { value: number; laps: CappedLap[] };
-      longestStreak: { value: number; laps: CappedLap[] };
-    }>(
-      (acc, lap) => {
-        if (lap.isProgressive) {
-          acc.currentStreak.laps.push(lap);
-          acc.currentStreak.value += 1;
-
-          if (acc.currentStreak.value > acc.longestStreak.value) {
-            acc.longestStreak = { ...acc.currentStreak };
-          }
-        } else {
-          acc.currentStreak = { value: 0, laps: [] };
-        }
-        return acc;
-      },
-      {
-        currentStreak: { value: 0, laps: [] },
-        longestStreak: { value: 0, laps: [] },
-      },
-    );
-
-    // Prepend the first lap of the longest streak to the lapIds array for display
-    const firstStreakLapId = longestStreak.laps[0].seq - 1;
-    const firstStreakLap =
-      this.lapData.find((l) => l.seq === firstStreakLapId) || ({} as CappedLap);
-
-    return [firstStreakLap, longestStreak.laps].flat();
   }
 
   onSelect(lap: CappedLap): void {

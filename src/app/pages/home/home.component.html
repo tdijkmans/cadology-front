@@ -28,12 +28,6 @@
               [yScaleMax]="100"
               [yScaleMin]="25"
             />
-            <!-- <cad-barchart
-              [laps]="d.currentActivity.laps"
-              [type]="'lapTime'"
-              [yScaleMax]="100"
-              [yScaleMin]="25"
-            /> -->
           </cad-card>
         </cad-tab>
         <cad-tab
@@ -42,7 +36,7 @@
           [groupId]="'home'"
         >
           <cad-card>
-            <cad-barchart
+            <cad-combochart
               [laps]="d.currentActivity.laps"
               [type]="'speed'"
               [yScaleMax]="40"
