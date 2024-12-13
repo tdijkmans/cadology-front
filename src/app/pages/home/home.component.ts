@@ -44,12 +44,13 @@ export class HomeComponent {
     { id: 'lapTime', icon: 'letsClock' },
     { id: 'myNotes', icon: 'letsNotebook' },
     { id: 'speed', icon: 'letsSpeed' },
+    { id: 'myNotes', icon: 'letsNotebook' },
     { id: 'distance', icon: 'letsRoadAlt' },
   ] as const;
 
   tabsTwo: Tab[] = [
     { id: 'season', icon: 'letsStat' },
-    { id: 'distSeason', icon: 'letsChartAlt' },
+    { id: 'distSeason', icon: 'letsRoadAlt' },
     { id: 'allChecks', icon: 'letsNotebook' },
   ] as const;
 
