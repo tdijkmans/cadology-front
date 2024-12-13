@@ -39,15 +39,15 @@ import { DistchartSeasonComponent } from '../../components/distchart-season/dist
 })
 export class HomeComponent {
   tabs: Tab[] = [
-    { id: 'myNotes', icon: 'letsNotebook' },
     { id: 'lapTime', icon: 'letsClock' },
     { id: 'speed', icon: 'letsSpeed' },
+    { id: 'myNotes', icon: 'letsNotebook' },
     { id: 'distance', icon: 'letsRoadAlt' },
   ] as const;
 
   tabsTwo: Tab[] = [
     { id: 'season', icon: 'letsStat' },
-    { id: 'distSeason', icon: 'letsChartAlt' },
+    { id: 'distSeason', icon: 'letsRoadAlt' },
     { id: 'allChecks', icon: 'letsNotebook' },
   ] as const;
 

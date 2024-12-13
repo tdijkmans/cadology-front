@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { CappedLap } from '@components/barchart/barchart.interface';
 import { Activity, Lap } from '@services/dataservice/data.interface';
 
 interface Bin {
@@ -11,7 +12,7 @@ interface Bin {
   providedIn: 'root',
 })
 export class StatisticsService {
-  TRACK_LENGTH = 0.38418 as const;
+  readonly TRACK_LENGTH = 0.38418 as const;
 
   public getBinnedData(
     data: number[],
@@ -102,5 +103,70 @@ export class StatisticsService {
 
   public distanceFromLapCount(lapCount: number) {
     return this.TRACK_LENGTH * lapCount;
+  }
+
+  prepareLapData(
+    laps: Lap[],
+    yScaleMax: number,
+    type: 'speed' | 'lapTime',
+    progressiveDelta = 0,
+  ) {
+    const twoDecimal = (v: number) => Math.round(v * 100) / 100;
+
+    // Process data, storing both capped and original values
+    const lapData = laps.map((l, index) => {
+      const speed = twoDecimal(l.speed);
+      const lapTime = l.duration;
+      const originalValue = type === 'speed' ? speed : lapTime;
+      const isCapped = originalValue > yScaleMax;
+      const isProgressive =
+        index > 0 &&
+        laps[index].speed + progressiveDelta > laps[index - 1].speed;
+
+      return {
+        isProgressive,
+        name: `${index + 1}`,
+        value: Math.min(originalValue, yScaleMax), // Capped value for display
+        originalValue, // Uncapped value for display
+        isCapped,
+        seq: index,
+        speed,
+        lapTime,
+      };
+    });
+
+    return lapData;
+  }
+
+  public identifyProgressiveStreak(laps: CappedLap[]) {
+    const { longestStreak } = laps.reduce<{
+      currentStreak: { value: number; laps: CappedLap[] };
+      longestStreak: { value: number; laps: CappedLap[] };
+    }>(
+      (acc, lap) => {
+        if (lap.isProgressive) {
+          acc.currentStreak.laps.push(lap);
+          acc.currentStreak.value += 1;
+
+          if (acc.currentStreak.value > acc.longestStreak.value) {
+            acc.longestStreak = { ...acc.currentStreak };
+          }
+        } else {
+          acc.currentStreak = { value: 0, laps: [] };
+        }
+        return acc;
+      },
+      {
+        currentStreak: { value: 0, laps: [] },
+        longestStreak: { value: 0, laps: [] },
+      },
+    );
+
+    // Prepend the first lap of the longest streak to the lapIds array for display
+    const firstStreakLapId = longestStreak.laps[0].seq - 1;
+    const firstStreakLap =
+      laps.find((l) => l.seq === firstStreakLapId) || ({} as CappedLap);
+
+    return [firstStreakLap, longestStreak.laps].flat();
   }
 }
