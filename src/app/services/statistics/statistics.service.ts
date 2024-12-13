@@ -105,18 +105,28 @@ export class StatisticsService {
     return this.TRACK_LENGTH * lapCount;
   }
 
-  prepareLapData(
+  public prepareLapData(
     laps: Lap[],
     yScaleMax: number,
     type: 'speed' | 'lapTime',
     progressiveDelta = 0,
-  ) {
+  ): CappedLap[] {
     const twoDecimal = (v: number) => Math.round(v * 100) / 100;
+
+    let rollingSumSpeed = 0;
+    let rollingSumLapTime = 0;
 
     // Process data, storing both capped and original values
     const lapData = laps.map((l, index) => {
       const speed = twoDecimal(l.speed);
       const lapTime = l.duration;
+
+      rollingSumSpeed += speed;
+      rollingSumLapTime += lapTime;
+
+      const rollingAvgSpeed = twoDecimal(rollingSumSpeed / (index + 1));
+      const rollingAvgLapTime = twoDecimal(rollingSumLapTime / (index + 1));
+
       const originalValue = type === 'speed' ? speed : lapTime;
       const isCapped = originalValue > yScaleMax;
       const isProgressive =
@@ -124,14 +134,16 @@ export class StatisticsService {
         laps[index].speed + progressiveDelta > laps[index - 1].speed;
 
       return {
-        isProgressive,
-        name: `${index + 1}`,
-        value: Math.min(originalValue, yScaleMax), // Capped value for display
-        originalValue, // Uncapped value for display
         isCapped,
+        isProgressive,
+        lapTime,
+        name: `${index + 1}`,
+        originalValue, // Uncapped value for display
+        rollingAvgLapTime,
+        rollingAvgSpeed,
         seq: index,
         speed,
-        lapTime,
+        value: Math.min(originalValue, yScaleMax), // Capped value for display
       };
     });
 

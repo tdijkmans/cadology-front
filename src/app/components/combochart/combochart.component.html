@@ -1,0 +1,76 @@
+<cad-chartheader>
+  <p>
+    {{ selectedLap?.originalValue | number: "1.0-2" }}
+    {{ type === "speed" ? "km/u" : "sec" }}
+  </p>
+  <ng-icon
+    *ngIf="selectedLap?.seq === fastestLap?.seq"
+    name="letsTrophy"
+    size="24"
+  />
+
+  <ng-container *ngIf="selectedLap?.seq === progressiveStreak?.[0]?.seq">
+    <p>{{ progressiveStreak.length }} progressieve ronden</p>
+    <ng-icon name="letsLightningAlt" size="24" />
+  </ng-container>
+</cad-chartheader>
+
+<cad-chartcontainer>
+  <div class="combo-chart-container">
+    <div class="combo-chart" *ngIf="sortBy === 'sequential'">
+      <ngx-charts-line-chart
+        #distChart
+        [scheme]="schemeTwo"
+        [showXAxisLabel]="false"
+        [showYAxisLabel]="false"
+        [showGridLines]="false"
+        [xAxis]="true"
+        [yAxis]="true"
+        [yScaleMax]="yScaleMax"
+        [yScaleMin]="yScaleMin"
+        [xAxisLabel]="''"
+        [results]="rollingLapData"
+        [legend]="false"
+        [legendTitle]="''"
+        [tooltipDisabled]="true"
+        [gradient]="false"
+        [style]="{ fill: 'none' }"
+      />
+    </div>
+    <div class="combo-chart">
+      <ngx-charts-bar-vertical
+        #barChart
+        [scheme]="scheme"
+        [results]="lapData"
+        [xAxis]="true"
+        [yAxis]="true"
+        [yScaleMax]="yScaleMax"
+        [yScaleMin]="yScaleMin"
+        [customColors]="colors"
+        [barPadding]="1"
+        (select)="onSelect($event)"
+        [tooltipDisabled]="true"
+        [roundEdges]="false"
+      />
+    </div>
+  </div>
+</cad-chartcontainer>
+
+<cad-chartnavigation>
+  <button class="btn btn-subtle" (click)="selectPrevBar()">
+    <ng-icon name="letsArrowLeft" size="24" />
+  </button>
+  <button class="btn btn-subtle" (click)="selectFastesLap()">
+    <ng-icon name="letsTrophy" size="24" />
+  </button>
+  <button class="btn btn-subtle" (click)="selectFirstOfLongestStreak()">
+    <ng-icon name="letsLightningAlt" size="24" />
+  </button>
+  <button class="btn btn-subtle" (click)="toggleSort()">
+    <ng-icon *ngIf="sortBy === 'duration'" name="letsSortUp" size="24" />
+    <ng-icon *ngIf="sortBy === 'sequential'" name="letsSortDown" size="24" />
+  </button>
+  <button class="btn btn-subtle" (click)="selectNextBar()">
+    <ng-icon name="letsArrowRight" size="24" />
+  </button>
+</cad-chartnavigation>

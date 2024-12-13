@@ -7,4 +7,6 @@ export interface CappedLap {
   speed: number;
   lapTime: number;
   isProgressive: boolean;
+  rollingAvgSpeed: number;
+  rollingAvgLapTime: number;
 }

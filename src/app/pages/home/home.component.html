@@ -22,7 +22,7 @@
       <cad-tabs [tabs]="tabs" [groupId]="'home'">
         <cad-tab [tabId]="'lapTime'" [groupId]="'home'">
           <cad-card>
-            <cad-barchart
+            <cad-combochart
               [laps]="d.currentActivity.laps"
               [type]="'lapTime'"
               [yScaleMax]="100"
@@ -36,7 +36,7 @@
           [groupId]="'home'"
         >
           <cad-card>
-            <cad-barchart
+            <cad-combochart
               [laps]="d.currentActivity.laps"
               [type]="'speed'"
               [yScaleMax]="40"
