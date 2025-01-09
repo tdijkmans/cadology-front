@@ -1,23 +1,21 @@
-const bodyParts = [
-  'hoofd',
-  'schouders',
-  'armen',
-  'heupen',
-  'bovenbenen',
-  'onderbenen',
-  'voeten',
-  'enkels',
-  'tenen',
-  'knieën',
-  'ellebogen',
-];
-
-type Lichaamsdeel = (typeof bodyParts)[number];
+type Lichaamsdeel =
+  | 'hoofd'
+  | 'schouders'
+  | 'armen'
+  | 'heupen'
+  | 'bovenbenen'
+  | 'onderbenen'
+  | 'voeten'
+  | 'enkels'
+  | 'tenen'
+  | 'knieën'
+  | 'rug'
+  | 'ellebogen';
 type Baandeel = 'rechte stuk' | 'bocht';
 type Bewegingsfase = 'afzet' | 'bijhaal' | 'inzet' | 'armzwaai';
 type Name = string;
 
-export type CheckListItem = {
+export interface CheckListItem {
   name: Name;
   baandeel: Baandeel[];
   bewegingsfase: Bewegingsfase[];
@@ -26,7 +24,7 @@ export type CheckListItem = {
   lichaamsdelen: Lichaamsdeel[];
   checkId: number;
   ezelsbruggetje: string;
-};
+}
 
 const checkList: CheckListItem[] = [
   {

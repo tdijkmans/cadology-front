@@ -1,9 +1,9 @@
 type CheckId = number;
 
-type Check = {
+interface Check {
   checkId: CheckId;
   value: number;
-};
+}
 
 type ActivityId = number;
 

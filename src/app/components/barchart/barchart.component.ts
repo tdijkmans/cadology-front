@@ -3,6 +3,7 @@ import {
   DestroyRef,
   Input,
   type OnChanges,
+  OnInit,
   ViewChild,
   inject,
 } from '@angular/core';
@@ -57,7 +58,7 @@ import type { CappedLap } from './barchart.interface';
   ],
   // providers: [UiService]
 })
-export class BarchartComponent implements OnChanges {
+export class BarchartComponent implements OnChanges, OnInit {
   private destroyRef = inject(DestroyRef);
   @Input({ required: true }) laps: Lap[] = [];
   @Input({ required: true }) type: 'speed' | 'lapTime' = 'lapTime';
