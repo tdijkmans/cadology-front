@@ -33,7 +33,9 @@ export class ActivitystatsComponent {
     public s: StatisticsService,
   ) {
     this.d.currentData$.subscribe((data) => {
-      this.identifyBoundaries(data);
+      const [isMostRecent, isOldest] = this.identifyBoundaries(data);
+      this.isMostRecent = isMostRecent;
+      this.isOldest = isOldest;
     });
   }
 
@@ -59,7 +61,8 @@ export class ActivitystatsComponent {
       (a, b) =>
         new Date(a.startTime).getTime() - new Date(b.startTime).getTime(),
     )[0];
-    this.isMostRecent = currentMostRecent.activityId === activityId;
-    this.isOldest = currentOldest?.activityId === activityId;
+    const isMostRecent = currentMostRecent.activityId === activityId;
+    const isOldest = currentOldest?.activityId === activityId;
+    return [isMostRecent, isOldest];
   }
 }

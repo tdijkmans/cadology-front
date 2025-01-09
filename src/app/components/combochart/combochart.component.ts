@@ -3,6 +3,7 @@ import {
   DestroyRef,
   Input,
   type OnChanges,
+  OnInit,
   ViewChild,
   inject,
 } from '@angular/core';
@@ -59,7 +60,7 @@ import { ChartnavigationComponent } from '../chart/chartnavigation/chartnavigati
   templateUrl: './combochart.component.html',
   styleUrl: './combochart.component.scss',
 })
-export class CombochartComponent implements OnChanges {
+export class CombochartComponent implements OnChanges, OnInit {
   private destroyRef = inject(DestroyRef);
   @Input({ required: true }) laps: Lap[] = [];
   @Input({ required: true }) type: 'speed' | 'lapTime' = 'lapTime';

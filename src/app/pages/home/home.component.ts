@@ -8,7 +8,7 @@ import { NotesComponent } from '@components/notes/notes.component';
 import { PageComponent } from '@components/page/page.component';
 import { TabComponent } from '@components/tabs/tab/tab.component';
 import { TabsComponent } from '@components/tabs/tabs.component';
-import { Tab } from '@components/tabs/tabs.inteface';
+import type { Tab } from '@components/tabs/tabs.inteface';
 import { DataService } from '@services/dataservice/data.service';
 import { UiService } from '@services/uiservice/ui.service';
 import { CardComponent } from '../../components/card/card.component';
@@ -40,10 +40,9 @@ import { DistchartSeasonComponent } from '../../components/distchart-season/dist
 export class HomeComponent {
   tabs: Tab[] = [
     { id: 'lapTime', icon: 'letsClock' },
-    { id: 'myNotes', icon: 'letsNotebook' },
     { id: 'speed', icon: 'letsSpeed' },
-    { id: 'myNotes', icon: 'letsNotebook' },
     { id: 'distance', icon: 'letsRoadAlt' },
+    { id: 'myNotes', icon: 'letsNotebook' },
   ] as const;
 
   tabsTwo: Tab[] = [
