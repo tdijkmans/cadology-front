@@ -18,7 +18,6 @@ import { ModalComponent } from './components/modal/modal.component';
 
 @Component({
   selector: 'cad-root',
-  standalone: true,
   imports: [
     AppMenuComponent,
     RouterOutlet,

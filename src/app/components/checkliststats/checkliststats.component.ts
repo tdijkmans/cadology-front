@@ -4,7 +4,6 @@ import { InstructionService } from '@services/instruction/instruction.service';
 
 @Component({
   selector: 'cad-checkliststats',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './checkliststats.component.html',
   styleUrl: './checkliststats.component.scss',

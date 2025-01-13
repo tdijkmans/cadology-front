@@ -4,7 +4,6 @@ import { UiService } from '@services/uiservice/ui.service';
 
 @Component({
   selector: 'cad-tab',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './tab.component.html',
   styleUrl: './tab.component.scss',

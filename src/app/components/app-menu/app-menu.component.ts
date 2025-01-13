@@ -6,7 +6,6 @@ import { UiService } from '@services/uiservice/ui.service';
 
 @Component({
   selector: 'cad-menu',
-  standalone: true,
   imports: [
     FormsModule,
     CommonModule,

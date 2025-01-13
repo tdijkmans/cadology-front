@@ -10,7 +10,6 @@ import { ChartheaderComponent } from '../chart/chartheader/chartheader.component
 
 @Component({
   selector: 'cad-distchart-season',
-  standalone: true,
   imports: [
     LineChartModule,
     CommonModule,

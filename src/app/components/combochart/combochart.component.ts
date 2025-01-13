@@ -36,7 +36,6 @@ import { ChartnavigationComponent } from '../chart/chartnavigation/chartnavigati
 
 @Component({
   selector: 'cad-combochart',
-  standalone: true,
   imports: [
     NgxChartsModule,
     NgIconComponent,

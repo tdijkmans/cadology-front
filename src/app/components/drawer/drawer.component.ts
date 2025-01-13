@@ -10,7 +10,6 @@ import { UiService } from '@services/uiservice/ui.service';
 
 @Component({
   selector: 'cad-drawer',
-  standalone: true,
   imports: [CommonModule, FormsModule, NgIconComponent],
   templateUrl: './drawer.component.html',
   styleUrl: './drawer.component.scss',

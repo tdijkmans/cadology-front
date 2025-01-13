@@ -34,7 +34,6 @@ import type { CappedLap } from './barchart.interface';
 
 @Component({
   selector: 'cad-barchart',
-  standalone: true,
   imports: [
     NgxChartsModule,
     NgIconComponent,
@@ -56,7 +55,6 @@ import type { CappedLap } from './barchart.interface';
       letsLightningAlt,
     }),
   ],
-  // providers: [UiService]
 })
 export class BarchartComponent implements OnChanges, OnInit {
   private destroyRef = inject(DestroyRef);

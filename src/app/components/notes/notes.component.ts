@@ -11,7 +11,6 @@ import type { Activity } from '@services/dataservice/data.interface';
 
 @Component({
   selector: 'cad-notes',
-  standalone: true,
   imports: [CommonModule, FormsModule, NgIconComponent],
   templateUrl: './notes.component.html',
   styleUrl: './notes.component.scss',

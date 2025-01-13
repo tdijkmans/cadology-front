@@ -12,7 +12,6 @@ import { CardComponent } from '../card/card.component';
 
 @Component({
   selector: 'cad-activitystats',
-  standalone: true,
   imports: [CommonModule, NgIconComponent, CardComponent],
   providers: [StatisticsService],
   templateUrl: './activitystats.component.html',

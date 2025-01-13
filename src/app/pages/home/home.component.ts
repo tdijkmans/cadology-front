@@ -18,7 +18,6 @@ import { DistchartSeasonComponent } from '../../components/distchart-season/dist
 
 @Component({
   selector: 'cad-home',
-  standalone: true,
   imports: [
     CommonModule,
     ActivitystatsComponent,
