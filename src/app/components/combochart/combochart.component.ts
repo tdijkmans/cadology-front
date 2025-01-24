@@ -1,8 +1,11 @@
 import {
+  AfterViewInit,
   Component,
   DestroyRef,
+  ElementRef,
   Input,
   type OnChanges,
+  OnDestroy,
   OnInit,
   ViewChild,
   inject,
@@ -23,6 +26,7 @@ import { UiService } from '@services/uiservice/ui.service';
 import {
   BarVerticalComponent,
   type Color,
+  LineChartComponent,
   LineChartModule,
   NgxChartsModule,
 } from '@swimlane/ngx-charts';
@@ -59,18 +63,22 @@ import { ChartnavigationComponent } from '../chart/chartnavigation/chartnavigati
   templateUrl: './combochart.component.html',
   styleUrl: './combochart.component.scss',
 })
-export class CombochartComponent implements OnChanges, OnInit {
+export class CombochartComponent
+  implements OnChanges, OnInit, OnDestroy, AfterViewInit
+{
   private destroyRef = inject(DestroyRef);
+
   @Input({ required: true }) laps: Lap[] = [];
   @Input({ required: true }) type: 'speed' | 'lapTime' = 'lapTime';
   @Input({ required: true }) yScaleMax = 0;
   @Input({ required: true }) yScaleMin = 0;
 
+  @ViewChild('barChart') barChart!: BarVerticalComponent;
+  @ViewChild('lineChart') lineChart!: LineChartComponent;
+
   rollingLapData = [{ name: '', series: [{ name: 0, value: 0 }] }];
   schemeTwo = { domain: [theme.accentcolor] } as Color;
   curve = shape.curveMonotoneX;
-
-  @ViewChild('barChart') barChart!: BarVerticalComponent;
 
   currentIndex = 0; // Index of the selected bar
   lapData: CappedLap[] = [];
@@ -81,9 +89,16 @@ export class CombochartComponent implements OnChanges, OnInit {
   scheme = { domain: [theme.secondarycolor] } as Color;
   progressiveStreak = [] as CappedLap[];
 
+  private resizeObserver = new ResizeObserver(() => {
+    if (this.lineChart) {
+      this.lineChart.update();
+    }
+  });
+
   constructor(
     public ui: UiService,
     public s: StatisticsService,
+    private el: ElementRef,
   ) {}
 
   ngOnInit() {
@@ -97,7 +112,7 @@ export class CombochartComponent implements OnChanges, OnInit {
       .subscribe();
   }
 
-  ngOnChanges(): void {
+  ngOnChanges() {
     if (!this.laps?.length) {
       return;
     }
@@ -105,8 +120,18 @@ export class CombochartComponent implements OnChanges, OnInit {
     const lapData = this.s.prepareLapData(this.laps, this.yScaleMax, this.type);
     this.lapData = lapData;
     this.progressiveStreak = this.s.identifyProgressiveStreak(lapData);
-    this.selectFastesLap();
+    this.selectFastestLap();
     this.mapRollingAvg(lapData);
+  }
+
+  ngAfterViewInit() {
+    this.resizeObserver.observe(
+      this.el.nativeElement.querySelector('.combo-chart'),
+    );
+  }
+
+  ngOnDestroy() {
+    this.resizeObserver.disconnect();
   }
 
   mapRollingAvg(laps: CappedLap[]) {
@@ -122,7 +147,7 @@ export class CombochartComponent implements OnChanges, OnInit {
     ];
   }
 
-  selectFastesLap() {
+  selectFastestLap() {
     const fastestLap = this.lapData.reduce((prev, current) =>
       prev.speed > current.speed ? prev : current,
     );
@@ -166,7 +191,7 @@ export class CombochartComponent implements OnChanges, OnInit {
   }
 
   selectNextBar() {
-    this.currentIndex = (this.currentIndex + 1) % this.lapData.length;
+    this.currentIndex = (this.currentIndex + 1) % this.lapData.length; // Loop back to the start
     this.selectedLap = this.lapData[this.currentIndex];
     this.colors = this.updateColors();
   }

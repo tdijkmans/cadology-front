@@ -96,10 +96,10 @@ export class BarchartComponent implements OnChanges, OnInit {
     }
     this.lapData = this.s.prepareLapData(this.laps, this.yScaleMax, this.type);
     this.progressiveStreak = this.s.identifyProgressiveStreak(this.lapData);
-    this.selectFastesLap();
+    this.selectFastestLap();
   }
 
-  selectFastesLap() {
+  selectFastestLap() {
     const fastestLap = this.lapData.reduce((prev, current) =>
       prev.speed > current.speed ? prev : current,
     );
