@@ -34,7 +34,6 @@ import type { CappedLap } from './barchart.interface';
 
 @Component({
   selector: 'cad-barchart',
-  standalone: true,
   imports: [
     NgxChartsModule,
     NgIconComponent,
@@ -56,7 +55,6 @@ import type { CappedLap } from './barchart.interface';
       letsLightningAlt,
     }),
   ],
-  // providers: [UiService]
 })
 export class BarchartComponent implements OnChanges, OnInit {
   private destroyRef = inject(DestroyRef);
@@ -98,10 +96,10 @@ export class BarchartComponent implements OnChanges, OnInit {
     }
     this.lapData = this.s.prepareLapData(this.laps, this.yScaleMax, this.type);
     this.progressiveStreak = this.s.identifyProgressiveStreak(this.lapData);
-    this.selectFastesLap();
+    this.selectFastestLap();
   }
 
-  selectFastesLap() {
+  selectFastestLap() {
     const fastestLap = this.lapData.reduce((prev, current) =>
       prev.speed > current.speed ? prev : current,
     );

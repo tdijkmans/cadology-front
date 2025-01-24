@@ -5,7 +5,6 @@ import { letsTrophy } from '@ng-icons/lets-icons/regular';
 
 @Component({
   selector: 'cad-databadge',
-  standalone: true,
   imports: [CommonModule, NgIconComponent],
   templateUrl: './databadge.component.html',
   styleUrl: './databadge.component.scss',

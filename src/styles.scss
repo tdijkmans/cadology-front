@@ -1,4 +1,5 @@
-@import "variables";
+@use "sass:color";
+@import "variables.scss";
 /* You can add global styles to this file, and also import other style files */
 
 // Colors
@@ -111,11 +112,11 @@ button,
   cursor: pointer;
 
   &:hover {
-    background-color: lighten($primary-color, 10%);
+    background-color: color.adjust($primary-color, $lightness: -10%);
   }
 
   &:active {
-    background-color: darken($primary-color, 10%);
+    background-color: color.adjust($primary-color, $lightness: -20%);
   }
 
   @media (min-width: $breakpoint-mobile) {
@@ -127,7 +128,7 @@ button,
   background-color: $secondary-color;
 
   &:hover {
-    background-color: lighten($secondary-color, 10%);
+    background-color: color.adjust($secondary-color, $lightness: -10%);
   }
 }
 
@@ -147,15 +148,15 @@ button,
   color: $secondary-color;
 
   &:hover {
-    background-color: darken($subtle-color, 10%);
+    background-color: color.adjust($subtle-color, $lightness: -10%);
   }
 
   &:active {
-    background-color: lighten($secondary-color, 30%);
+    background-color: color.adjust($subtle-color, $lightness: -30%);
   }
 
   &:focus {
-    background-color: darken($subtle-color, 20%);
+    background-color: color.adjust($subtle-color, $lightness: -20%);
   }
 
   &:disabled {

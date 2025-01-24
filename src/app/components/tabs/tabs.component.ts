@@ -16,7 +16,6 @@ import { Tab } from './tabs.inteface';
 
 @Component({
   selector: 'cad-tabs',
-  standalone: true,
   imports: [CommonModule, CircleBadgeComponent, NgIconComponent],
   templateUrl: './tabs.component.html',
   styleUrl: './tabs.component.scss',

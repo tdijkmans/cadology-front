@@ -3,7 +3,6 @@ import { Color, NgxChartsModule } from '@swimlane/ngx-charts';
 
 @Component({
   selector: 'cad-angle-gauge',
-  standalone: true,
   imports: [NgxChartsModule],
   templateUrl: './angle-gauge.component.html',
   styleUrl: './angle-gauge.component.scss',

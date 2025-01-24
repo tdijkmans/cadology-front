@@ -19,7 +19,6 @@ import { ChartheaderComponent } from '../chart/chartheader/chartheader.component
 
 @Component({
   selector: 'cad-checklist',
-  standalone: true,
   imports: [
     CommonModule,
     FormsModule,

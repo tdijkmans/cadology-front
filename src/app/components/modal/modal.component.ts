@@ -9,7 +9,6 @@ import { TabsComponent } from '../tabs/tabs.component';
 
 @Component({
   selector: 'cad-modal',
-  standalone: true,
   imports: [CommonModule, ActivitieslistComponent, TabsComponent, TabComponent],
   templateUrl: './modal.component.html',
   styleUrl: './modal.component.scss',

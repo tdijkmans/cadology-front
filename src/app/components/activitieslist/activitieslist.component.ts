@@ -18,7 +18,6 @@ interface ActivityStatus {
 
 @Component({
   selector: 'cad-activitieslist',
-  standalone: true,
   imports: [CommonModule, DatabadgeComponent, CardComponent],
   templateUrl: './activitieslist.component.html',
   styleUrl: './activitieslist.component.scss',

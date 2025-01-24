@@ -1,3 +1,4 @@
+@use "sass:color";
 @import "../../../variables.scss";
 
 .page {
@@ -36,16 +37,19 @@
 @keyframes rect {
   0% {
     transform: translateX(-95px);
-    fill: lighten($secondary-color, 10%);
+    // fill: lighten($secondary-color, 10%);
+    fill: color.adjust($secondary-color, $lightness: -10%);
   }
 
   50% {
     transform: translateX(95px);
-    fill: lighten($secondary-color, 20%);
+    // fill: lighten($secondary-color, 20%);
+    fill: color.adjust($secondary-color, $lightness: -20%);
   }
 
   100% {
     transform: translateX(-95px);
-    fill: lighten($secondary-color, 10%);
+    // fill: lighten($secondary-color, 10%);
+    fill: color.adjust($secondary-color, $lightness: -10%);
   }
 }

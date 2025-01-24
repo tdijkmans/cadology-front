@@ -10,7 +10,6 @@ import { theme } from '../../../_variables';
 
 @Component({
   selector: 'cad-distchart',
-  standalone: true,
   imports: [
     LineChartModule,
     CommonModule,

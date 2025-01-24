@@ -3,7 +3,6 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'cad-circle-badge',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './circle-badge.component.html',
   styleUrl: './circle-badge.component.scss',

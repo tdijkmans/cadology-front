@@ -11,7 +11,6 @@ import type { Result } from './histochart.interface';
 
 @Component({
   selector: 'cad-histochart',
-  standalone: true,
   imports: [
     LineChartModule,
     CommonModule,
