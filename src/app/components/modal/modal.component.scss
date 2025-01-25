@@ -40,3 +40,19 @@
     overflow-y: auto;
   }
 }
+
+.modal-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.modal-button {
+  padding: 16px;
+  color: $secondary-color;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
