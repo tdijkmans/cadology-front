@@ -9,4 +9,4 @@ export const theme = {
   successcolor: '#00c853',
   warningcolor: '#ffab00',
   errorcolor: '#d32f2f',
-};
+} as const;

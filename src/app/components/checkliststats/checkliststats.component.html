@@ -6,12 +6,11 @@
     <ng-container *ngFor="let stat of checklistStats">
       <div>
         <div class="checklist-stats-item">
-          <div class="checklist-stats__name">{{ stat.instructionName }}</div>
+          <div class="checklist-stats__name">
+            {{ stat.instructionName }}
+          </div>
 
           <div class="checklist-stats-score">
-            <div class="checklist-stats__count">
-              {{ stat.score | number: "1.0-1" }} ({{ stat.count }}x)
-            </div>
             <div class="stars">
               <ng-container
                 *ngFor="let star of [1, 2, 3, 4, 5]; let starIndex = index"
@@ -24,6 +23,13 @@
                 </label>
               </ng-container>
             </div>
+          </div>
+
+          <div class="checklist-stats-count">
+            <div>
+              {{ stat.score | number: "1.0-1" }}
+            </div>
+            <div>{{ stat.count }}×</div>
           </div>
         </div>
       </div>

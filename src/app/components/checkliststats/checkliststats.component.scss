@@ -7,20 +7,45 @@
 }
 
 .checklist-stats-item {
-  display: flex;
+  display: grid;
   justify-content: space-between;
+  gap: 10px;
+  grid-template-columns: 2fr 1fr 4rem;
 }
 
 .checklist-stats-score {
   display: flex;
   gap: 10px;
-  align-items: center;
+  align-items: flex-start;
+}
+
+.checklist-stats-count {
+  display: flex;
+  justify-content: center;
+
+  div {
+    border-radius: 50%;
+    background-color: $secondary-color;
+    color: white;
+    font-size: 0.8rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+  }
+
+  div:nth-child(2) {
+    background-color: white;
+    color: #ccc;
+  }
 }
 
 .stars {
   display: flex;
   gap: 0.5rem;
-  font-size: 1.5rem;
+  // font-size: 1.5rem;
   color: #ccc;
 }
 
