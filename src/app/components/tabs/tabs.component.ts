@@ -11,7 +11,7 @@ import {
   letsSpeed,
   letsStat,
 } from '@ng-icons/lets-icons/regular';
-import { UiService } from '@services/uiservice/ui.service';
+import { UiService } from '@services/index';
 import { Tab } from './tabs.inteface';
 
 @Component({

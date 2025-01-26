@@ -2,12 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { letsArrowLeft, letsArrowRight } from '@ng-icons/lets-icons/regular';
-import type {
+
+import {
   Activity,
   CurrentData,
-} from '@services/dataservice/data.interface';
-import { DataService } from '@services/dataservice/data.service';
-import { StatisticsService } from '@services/statistics/statistics.service';
+  DataService,
+  StatisticsService,
+} from '@services/index';
 import { CardComponent } from '../card/card.component';
 
 @Component({
