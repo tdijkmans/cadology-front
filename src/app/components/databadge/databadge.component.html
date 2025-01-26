@@ -7,4 +7,5 @@
 >
   <ng-icon *ngIf="hasTrophy" name="letsTrophy" size="16" />
   <p>{{ value }} {{ unit }}</p>
+  <div class="badge__fill" [ngStyle]="{ width: percentage + '%' }"></div>
 </div>

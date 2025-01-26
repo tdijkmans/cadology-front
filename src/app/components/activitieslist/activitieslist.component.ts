@@ -68,20 +68,4 @@ export class ActivitieslistComponent implements OnChanges {
       curr.lapCount > prev.lapCount ? curr : prev,
     ).activityId;
   }
-
-  private sortActivities(
-    activities: Activity[],
-    sortBy: 'date' | 'lapCount' | 'speed',
-  ): Activity[] {
-    return activities.sort((a, b) => {
-      switch (this.sortBy) {
-        case 'date':
-          return a.startTime.getTime() - b.startTime.getTime();
-        case 'lapCount':
-          return b.lapCount - a.lapCount;
-        case 'speed':
-          return b.bestLap.speed - a.bestLap.speed;
-      }
-    });
-  }
 }
