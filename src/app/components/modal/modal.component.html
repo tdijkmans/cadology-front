@@ -12,29 +12,36 @@
   >
     <cad-tabs [tabs]="tabs" [groupId]="'modal'">
       <div class="modal-row">
-        <ng-container *ngFor="let option of sortOptions">
+        <ng-container *ngIf="sortStatus$ | async as status">
           <button
-            class="btn btn-subtle mt-1"
-            (click)="toggleSort(option.value)"
+            class="btn btn-subtle"
+            (click)="toggleSortDirection()"
             type="button"
           >
-            {{ option.label }}
-          </button>
-        </ng-container>
-        <ng-container *ngIf="sortStatus$ | async as status">
-          <ng-icon
-            *ngIf="status.sortDirection === 'asc'"
-            name="letsSortUp"
-            size="24"
-            [color]="theme.secondarycolor"
-          />
+            <ng-icon
+              *ngIf="status.sortDirection === 'asc'"
+              name="letsSortUp"
+              size="24"
+              [color]="theme.secondarycolor"
+            />
 
-          <ng-icon
-            *ngIf="status.sortDirection === 'desc'"
-            name="letsSortDown"
-            size="24"
-            [color]="theme.secondarycolor"
-          />
+            <ng-icon
+              *ngIf="status.sortDirection === 'desc'"
+              name="letsSortDown"
+              size="24"
+              [color]="theme.secondarycolor"
+            />
+          </button>
+          <ng-container *ngFor="let option of sortOptions">
+            <button
+              class="btn btn-subtle modal-sort"
+              (click)="sortBy(option.value)"
+              type="button"
+              [ngClass]="{ active: status.sortBy === option.value }"
+            >
+              {{ option.label }}
+            </button>
+          </ng-container>
         </ng-container>
       </div>
       <ng-container *ngIf="sortedActivities$ | async as activities">
