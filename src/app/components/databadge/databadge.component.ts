@@ -16,5 +16,5 @@ export class DatabadgeComponent {
   @Input({ required: true }) isCurrent = false;
   @Input({ required: true }) unit: 'km/u' | 'sec' | 'ronden' = 'km/u';
 
-  @Input() percentage: null | number = null;
+  @Input() percentage = 0;
 }
