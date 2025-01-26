@@ -10,9 +10,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { NgIconComponent } from '@ng-icons/core';
-import { Activity } from '@services/dataservice/data.interface';
-import { DataService } from '@services/dataservice/data.service';
-import { InstructionService } from '@services/instruction/instruction.service';
+import { Activity, DataService, InstructionService } from '@services/index';
 import { CheckListItem } from '@services/instruction/instructions';
 import { combineLatest, filter, tap } from 'rxjs';
 import { ChartheaderComponent } from '../chart/chartheader/chartheader.component';

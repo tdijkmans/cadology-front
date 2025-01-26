@@ -7,7 +7,7 @@ import {
   letsCloseSquare,
   letsPen,
 } from '@ng-icons/lets-icons/regular';
-import type { Activity } from '@services/dataservice/data.interface';
+import { Activity } from '@services/index';
 
 @Component({
   selector: 'cad-notes',

@@ -17,8 +17,7 @@ import {
   letsSortUp,
   letsTrophy,
 } from '@ng-icons/lets-icons/regular';
-import { StatisticsService } from '@services/statistics/statistics.service';
-import { UiService } from '@services/uiservice/ui.service';
+import { StatisticsService, UiService } from '@services/index';
 import {
   BarVerticalComponent,
   type Color,

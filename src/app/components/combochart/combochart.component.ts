@@ -21,8 +21,7 @@ import {
   letsSortUp,
   letsTrophy,
 } from '@ng-icons/lets-icons/regular';
-import { StatisticsService } from '@services/statistics/statistics.service';
-import { UiService } from '@services/uiservice/ui.service';
+import { Lap, StatisticsService, UiService } from '@services/index';
 import {
   BarVerticalComponent,
   type Color,
@@ -33,7 +32,6 @@ import {
 import * as shape from 'd3-shape';
 import { distinctUntilChanged, tap } from 'rxjs';
 import { theme } from '../../../_variables';
-import type { Lap } from '../../services/dataservice/data.interface';
 import { ChartcontainerComponent } from '../chart/chartcontainer/chartcontainer.component';
 import { ChartheaderComponent } from '../chart/chartheader/chartheader.component';
 import { ChartnavigationComponent } from '../chart/chartnavigation/chartnavigation.component';

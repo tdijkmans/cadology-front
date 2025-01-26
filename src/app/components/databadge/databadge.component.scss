@@ -13,6 +13,9 @@
   background-color: white;
   color: $secondary-color;
   border-color: $secondary-color;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
 
   &--current {
     color: white;
@@ -23,5 +26,14 @@
   &--best {
     background-color: $secondary-color;
     color: white;
+  }
+
+  &__fill {
+    background-color: $secondary-color;
+    height: 5px;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    position: absolute;
   }
 }

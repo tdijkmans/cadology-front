@@ -4,9 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { letsCloseSquare } from '@ng-icons/lets-icons/regular';
-import { DataService } from '@services/dataservice/data.service';
-import { PersistenceService } from '@services/persistence/persistence.service';
-import { UiService } from '@services/uiservice/ui.service';
+import { DataService, PersistenceService, UiService } from '@services/index';
 
 @Component({
   selector: 'cad-drawer',

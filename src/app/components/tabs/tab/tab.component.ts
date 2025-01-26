@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { UiService } from '@services/uiservice/ui.service';
+import { UiService } from '@services/index';
 
 @Component({
   selector: 'cad-tab',

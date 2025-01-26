@@ -49,7 +49,7 @@ type SortDirection = 'asc' | 'desc';
 })
 export class ModalComponent implements OnInit {
   public tabs = [] as TabsComponent['tabs'];
-  public sortOptions: { label: string; value: SortBy }[] = [
+  public sortOptions = [
     { label: 'Datum', value: 'startTime' },
     { label: 'Aantal ronden', value: 'lapCount' },
     { label: 'Snelheid', value: 'speed' },
@@ -106,9 +106,16 @@ export class ModalComponent implements OnInit {
     });
   }
 
-  public toggleSort(sortBy: SortBy) {
+  public sortBy(sortBy: SortBy) {
     this.sortStatus.next({
-      sortBy,
+      ...this.sortStatus.value,
+      sortBy: sortBy,
+    });
+  }
+
+  public toggleSortDirection() {
+    this.sortStatus.next({
+      ...this.sortStatus.value,
       sortDirection:
         this.sortStatus.value.sortDirection === 'asc' ? 'desc' : 'asc',
     });

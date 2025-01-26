@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { InstructionService } from '@services/instruction/instruction.service';
+import { InstructionService } from '@services/index';
 
 @Component({
   selector: 'cad-checkliststats',

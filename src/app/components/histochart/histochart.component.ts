@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, type OnChanges } from '@angular/core';
-import type { Activity } from '@services/dataservice/data.interface';
-import { StatisticsService } from '@services/statistics/statistics.service';
+import { Activity, StatisticsService } from '@services/index';
 import { type Color, LineChartModule } from '@swimlane/ngx-charts';
 import * as shape from 'd3-shape';
 import { theme } from '../../../_variables';
